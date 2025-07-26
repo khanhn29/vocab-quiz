@@ -344,22 +344,21 @@
         </div>
     </div>
 
+    
     <script>
-        // Dữ liệu từ vựng
-        const vocabulary = [
-            { "vi": "giảng đường, phòng học", "han": "강의실" },
-            { "vi": "phòng học", "han": "교실" },
-            { "vi": "phòng Lab", "han": "랩실" },
-            { "vi": "giảng đường lớn, hội trường", "han": "강당" },
-            { "vi": "phòng sinh hoạt câu lạc bộ", "han": "동아리방" },
-            { "vi": "nhà ăn học sinh", "han": "학생 식당" },
-            { "vi": "phòng vệ sinh", "han": "화장실" },
-            { "vi": "nhà thi đấu thể thao/ nhà thể chất", "han": "체육관" },
-            { "vi": "phòng hội thảo", "han": "세미나실" },
-            { "vi": "phòng nghỉ", "han": "휴게실" },
-            { "vi": "sân vận động", "han": "운동장" },
-            { "vi": "hiệu sách", "han": "서점" }
-        ];
+        const params = new URLSearchParams(window.location.search);
+        const vocabFile = params.get("vocab");
+        if (vocabFile) {
+            const script = document.createElement("script");
+            script.src = `data/${vocabFile}.js`;
+            script.onload = () => init();
+            document.head.appendChild(script);
+        } else {
+            alert("Thiếu tham số từ vựng");
+        }
+    </script>
+    <script>
+    // vocabulary sẽ được nạp từ file JS ngoài
 
         let currentQuestion = null;
         let correctAnswer = null;
@@ -731,7 +730,6 @@
         }
 
         // Khởi tạo khi trang load
-        window.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
