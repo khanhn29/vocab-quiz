@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Học từ vựng tiếng Hàn</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-bar {
+            background: #f0f0f0;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .question-counter {
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .vietnamese-word {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 25px;
+            padding: 20px 15px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+            position: relative;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .sound-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+            z-index: 10;
+        }
+
+        .sound-btn:active {
+            transform: scale(0.9);
+            background: linear-gradient(135deg, #218838, #1fa187);
+        }
+
+        .sound-btn.playing {
+            animation: soundPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes soundPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .auto-play-info {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 8px;
+            font-style: italic;
+            display: none;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            position: relative;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 18px 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .option:active:not(.disabled) {
+            transform: scale(0.98);
+            border-color: #007bff;
+            background: #f8f9ff;
+        }
+
+        .option-number {
+            position: absolute;
+            top: 8px;
+            left: 12px;
+            background: #666;
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .option.correct {
+            border-color: #28a745 !important;
+            background: #d4edda !important;
+            color: #155724 !important;
+            animation: correctPulse 0.6s ease-out;
+        }
+
+        .option.correct .option-number {
+            background: #28a745 !important;
+        }
+
+        .option.incorrect {
+            border-color: #dc3545 !important;
+            background: #f8d7da !important;
+            color: #721c24 !important;
+            animation: incorrectShake 0.6s ease-out;
+        }
+
+        .option.incorrect .option-number {
+            background: #dc3545 !important;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .option.disabled {
+            cursor: not-allowed !important;
+            opacity: 0.8;
+        }
+
+        .feedback {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            min-height: 25px;
+        }
+
+        .feedback.success {
+            color: #28a745;
+        }
+
+        .feedback.error {
+            color: #dc3545;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px 24px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .next-btn:active:not(:disabled) {
+            transform: scale(0.98);
+            background: linear-gradient(135deg, #0056b3, #004085);
+        }
+
+        .next-btn:disabled {
+            background: linear-gradient(135deg, #6c757d, #5a6268);
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.6;
+        }
+
+        .dont-know-btn {
+            background: transparent;
+            color: #666;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .dont-know-btn:active {
+            background: #f8f9fa;
+            transform: scale(0.98);
+        }
+
+        .check-mark, .x-mark {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 1.1rem;
+        }
+
+        .check-mark {
+            color: #28a745;
+        }
+
+        .x-mark {
+            color: #dc3545;
+        }
+
+        .completion-screen {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .completion-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .completion-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+
+        .completion-subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 380px) {
+            .container {
+                padding: 15px;
+                margin: 5px;
+            }
+
+            .vietnamese-word {
+                font-size: 1.8rem;
+                padding: 15px 10px;
+                margin-bottom: 20px;
+            }
+
+            .option {
+                padding: 15px 12px;
+                font-size: 1rem;
+                min-height: 55px;
+            }
+
+            .sound-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Landscape mode adjustments */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .container {
+                max-width: 600px;
+                padding: 15px;
+            }
+
+            .vietnamese-word {
+                font-size: 1.8rem;
+                margin-bottom: 15px;
+                padding: 15px;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+
+            .option {
+                min-height: 50px;
+                padding: 12px 10px;
+                font-size: 1rem;
+            }
+
+            .controls {
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .next-btn, .dont-know-btn {
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <div class="question-counter" id="questionCounter">Câu 1 / 30</div>
+        <div class="vietnamese-word" id="vietnameseWord"></div>
+        
+        <div class="options-grid" id="optionsGrid">
+            <div class="option" id="option0">
+                <span class="option-number">1</span>
+                <span class="option-text"></span>
+            </div>
+            <div class="option" id="option1">
+                <span class="option-number">2</span>
+                <span class="option-text"></span>
+            </div>
+            <div class="option" id="option2">
+                <span class="option-number">3</span>
+                <span class="option-text"></span>
+            </div>
+            <div class="option" id="option3">
+                <span class="option-number">4</span>
+                <span class="option-text"></span>
+            </div>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+
+        <div class="controls">
+            <button class="next-btn" id="nextBtn" disabled>Tiếp theo</button>
+            <button class="dont-know-btn" id="dontKnowBtn">Không biết?</button>
+        </div>
+    </div>
+
+    <script>
+        // Dữ liệu từ vựng
+        const vocabulary = [
+            { "vi": "bệnh viện", "han": "병원" },
+            { "vi": "thư viện", "han": "도서관" },
+            { "vi": "có", "han": "있다" },
+            { "vi": "tiệm thuốc", "han": "약국" },
+            { "vi": "bàn học", "han": "책상" },
+            { "vi": "văn phòng", "han": "사무실" },
+            { "vi": "trường học", "han": "학교" },
+            { "vi": "nhà hàng", "han": "식당" },
+            { "vi": "siêu thị", "han": "슈퍼마켓" },
+            { "vi": "nhà ga", "han": "역" },
+            { "vi": "sân bay", "han": "공항" },
+            { "vi": "khách sạn", "han": "호텔" },
+            { "vi": "ngân hàng", "han": "은행" },
+            { "vi": "công viên", "han": "공원" },
+            { "vi": "rạp chiếu phim", "han": "영화관" }
+        ];
+
+        let currentQuestion = null;
+        let correctAnswer = null;
+        let hasAnswered = false;
+        let currentAnswers = [];
+        let questionQueue = [];
+        let currentQuestionIndex = 0;
+        let totalQuestions = 0;
+        let speechSupported = false;
+        let initialTotalQuestions = 0;
+
+        // Khởi tạo
+        function init() {
+            console.log('Khởi tạo ứng dụng...');
+            checkSpeechSupport();
+            setupQuestionQueue();
+            loadNewQuestion();
+            setupEventListeners();
+        }
+
+        // Kiểm tra hỗ trợ phát âm
+        function checkSpeechSupport() {
+            speechSupported = 'speechSynthesis' in window;
+            console.log('Hỗ trợ phát âm:', speechSupported);
+        }
+
+        // Tạo hàng đợi câu hỏi
+        function setupQuestionQueue() {
+            questionQueue = [];
+            
+            // Thêm mỗi từ vào queue 2 lần
+            vocabulary.forEach(word => {
+                questionQueue.push(word, word);
+            });
+            
+            // Trộn ngẫu nhiên
+            questionQueue = shuffleArray(questionQueue);
+            totalQuestions = questionQueue.length;
+            initialTotalQuestions = totalQuestions;
+            currentQuestionIndex = 0;
+            
+            console.log('Tổng số câu hỏi:', totalQuestions);
+            updateProgress();
+        }
+
+        // Thiết lập event listeners
+        function setupEventListeners() {
+            // Next button
+            document.getElementById('nextBtn').addEventListener('click', loadNewQuestion);
+            
+            // Don't know button
+            document.getElementById('dontKnowBtn').addEventListener('click', showAnswer);
+            
+            // Option buttons
+            for (let i = 0; i < 4; i++) {
+                document.getElementById('option' + i).addEventListener('click', function() {
+                    selectAnswer(i, currentAnswers[i]);
+                });
+            }
+            
+            // Prevent zoom on double tap
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+        }
+
+        // Cập nhật thanh tiến độ
+        function updateProgress() {
+            const completed = currentQuestionIndex;
+            const progressPercent = (completed / initialTotalQuestions) * 100;
+            document.getElementById('progressFill').style.width = progressPercent + '%';
+            document.getElementById('questionCounter').textContent = 
+                `Câu ${currentQuestionIndex + 1} / ${totalQuestions}`;
+        }
+
+        // Tải câu hỏi mới
+        function loadNewQuestion() {
+            console.log('Tải câu hỏi mới...');
+            
+            // Kiểm tra xem còn câu hỏi không
+            if (currentQuestionIndex >= questionQueue.length) {
+                showCompletionMessage();
+                return;
+            }
+            
+            // Reset trạng thái
+            hasAnswered = false;
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('dontKnowBtn').style.display = 'block';
+            
+            // Reset options
+            for (let i = 0; i < 4; i++) {
+                const option = document.getElementById('option' + i);
+                option.className = 'option';
+                
+                // Xóa các icon cũ
+                const existingIcons = option.querySelectorAll('.check-mark, .x-mark');
+                existingIcons.forEach(icon => icon.remove());
+            }
+            
+            // Lấy từ từ queue
+            currentQuestion = questionQueue[currentQuestionIndex];
+            correctAnswer = currentQuestion.han;
+            
+            console.log('Câu hỏi:', currentQuestion.vi, '- Đáp án:', correctAnswer);
+            
+            // Hiển thị từ tiếng Việt
+            document.getElementById('vietnameseWord').textContent = currentQuestion.vi;
+            
+            // Cập nhật progress
+            updateProgress();
+            
+            // Tạo đáp án
+            const wrongAnswers = getRandomWrongAnswers(correctAnswer, 3);
+            currentAnswers = shuffleArray([correctAnswer, ...wrongAnswers]);
+            
+            // Hiển thị đáp án
+            for (let i = 0; i < 4; i++) {
+                document.getElementById('option' + i).querySelector('.option-text').textContent = currentAnswers[i];
+            }
+        }
+
+        // Lấy đáp án sai ngẫu nhiên
+        function getRandomWrongAnswers(correctAnswer, count) {
+            const wrongAnswers = vocabulary
+                .filter(item => item.han !== correctAnswer)
+                .map(item => item.han);
+            
+            return shuffleArray(wrongAnswers).slice(0, count);
+        }
+
+        // Phát âm từ tiếng Hàn
+        function playKoreanWord() {
+            if (!speechSupported || !currentQuestion) {
+                console.log('Không thể phát âm');
+                return;
+            }
+            
+            // Dừng phát âm hiện tại nếu có
+            speechSynthesis.cancel();
+            
+            const soundBtn = document.querySelector('.sound-btn');
+            if (soundBtn) {
+                soundBtn.classList.add('playing');
+            }
+            
+            const utterance = new SpeechSynthesisUtterance(correctAnswer);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.8;
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
+            
+            utterance.onend = function() {
+                if (soundBtn) {
+                    soundBtn.classList.remove('playing');
+                }
+            };
+            
+            utterance.onerror = function(event) {
+                console.error('Lỗi phát âm:', event.error);
+                if (soundBtn) {
+                    soundBtn.classList.remove('playing');
+                }
+            };
+            
+            speechSynthesis.speak(utterance);
+        }
+
+        // Hiển thị nút phát âm
+        function showSoundButton() {
+            if (!speechSupported) return;
+            
+            const vietnameseElement = document.getElementById('vietnameseWord');
+            const currentText = vietnameseElement.textContent;
+            
+            vietnameseElement.innerHTML = `
+                <button class="sound-btn" onclick="playKoreanWord()" title="Phát âm: ${correctAnswer}">🔊</button>
+                ${currentText}
+                <div class="auto-play-info">Nhấn 🔊 để nghe phát âm</div>
+            `;
+        }
+
+        // Hiển thị thông báo hoàn thành
+        function showCompletionMessage() {
+            const container = document.querySelector('.container');
+            container.innerHTML = `
+                <div class="completion-screen">
+                    <div class="completion-icon">🎉</div>
+                    <div class="completion-title">Xuất sắc!</div>
+                    <div class="completion-subtitle">Bạn đã học xong tất cả từ vựng tiếng Hàn</div>
+                    <button class="next-btn" onclick="location.reload()" style="margin-top: 20px;">
+                        Học lại từ đầu
+                    </button>
+                </div>
+            `;
+        }
+
+        // Trộn mảng
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // Xử lý khi chọn đáp án
+        function selectAnswer(optionIndex, selectedAnswer) {
+            if (hasAnswered) return;
+            
+            hasAnswered = true;
+            
+            // Disable all options
+            for (let i = 0; i < 4; i++) {
+                document.getElementById('option' + i).classList.add('disabled');
+            }
+            
+            // Tìm và highlight đáp án đúng
+            for (let i = 0; i < 4; i++) {
+                if (currentAnswers[i] === correctAnswer) {
+                    const correctOption = document.getElementById('option' + i);
+                    correctOption.classList.add('correct');
+                    
+                    const checkMark = document.createElement('span');
+                    checkMark.className = 'check-mark';
+                    checkMark.textContent = '✅';
+                    correctOption.appendChild(checkMark);
+                    break;
+                }
+            }
+            
+            const feedbackElement = document.getElementById('feedback');
+            
+            if (selectedAnswer === correctAnswer) {
+                feedbackElement.textContent = 'Tuyệt vời! 🎉';
+                feedbackElement.className = 'feedback success';
+                currentQuestionIndex++;
+            } else {
+                const selectedOption = document.getElementById('option' + optionIndex);
+                selectedOption.classList.add('incorrect');
+                
+                const xMark = document.createElement('span');
+                xMark.className = 'x-mark';
+                xMark.textContent = '❌';
+                selectedOption.appendChild(xMark);
+                
+                feedbackElement.textContent = 'Chưa đúng, thử lại nhé! 😊';
+                feedbackElement.className = 'feedback error';
+                
+                // Thêm từ này vào cuối queue để hỏi lại
+                questionQueue.push(currentQuestion);
+                totalQuestions++;
+                currentQuestionIndex++;
+            }
+            
+            showSoundButton();
+            document.getElementById('nextBtn').disabled = false;
+            document.getElementById('dontKnowBtn').style.display = 'none';
+        }
+
+        // Hiển thị đáp án
+        function showAnswer() {
+            if (hasAnswered) return;
+            
+            hasAnswered = true;
+            
+            // Disable all options
+            for (let i = 0; i < 4; i++) {
+                document.getElementById('option' + i).classList.add('disabled');
+            }
+            
+            // Highlight đáp án đúng
+            for (let i = 0; i < 4; i++) {
+                if (currentAnswers[i] === correctAnswer) {
+                    const correctOption = document.getElementById('option' + i);
+                    correctOption.classList.add('correct');
+                    
+                    const checkMark = document.createElement('span');
+                    checkMark.className = 'check-mark';
+                    checkMark.textContent = '✅';
+                    correctOption.appendChild(checkMark);
+                    break;
+                }
+            }
+            
+            const feedbackElement = document.getElementById('feedback');
+            feedbackElement.textContent = 'Đáp án đúng được tô sáng! 💡';
+            feedbackElement.className = 'feedback';
+            feedbackElement.style.color = '#007bff';
+            
+            showSoundButton();
+            
+            // Thêm từ này vào cuối queue để hỏi lại
+            questionQueue.push(currentQuestion);
+            totalQuestions++;
+            currentQuestionIndex++;
+            
+            document.getElementById('nextBtn').disabled = false;
+            document.getElementById('dontKnowBtn').style.display = 'none';
+        }
+
+        // Khởi tạo khi trang load
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
