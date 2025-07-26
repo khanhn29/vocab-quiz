@@ -298,18 +298,47 @@
         }
 
         @media (max-width: 480px) {
+            .container {
+                padding: 16px;
+                margin: 10px;
+            }
+
             .vietnamese-word {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
+                padding: 12px;
+                margin-bottom: 20px; /* Giảm từ 40px xuống 20px */
             }
 
             .options-grid {
                 grid-template-columns: 1fr;
+                gap: 10px; /* Giảm khoảng cách giữa các ô */
+                margin-bottom: 20px; /* Giảm từ 32px xuống 20px */
             }
 
             .option {
+                font-size: 1.1rem;
+                padding: 12px;
+                min-height: 56px; /* Giảm chiều cao */
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 10px; /* Giảm khoảng cách giữa các nút */
+                margin-top: 20px; /* Giảm từ 32px */
+            }
+
+            .question-counter {
                 font-size: 1rem;
+                padding: 8px 16px;
+                margin-bottom: 16px;
+            }
+
+            .auto-play-info {
+                font-size: 0.75rem;
+                margin-top: 6px;
             }
         }
+
     </style>
 </head>
 <body>
@@ -340,7 +369,6 @@
 
         <div class="controls">
             <button class="next-btn" id="nextBtn" disabled>Next</button>
-            <button class="dont-know-btn" id="dontKnowBtn">Don't know?</button>
         </div>
     </div>
 
@@ -373,6 +401,7 @@
         let totalQuestions = 0;
         let audioSupported = true;
         let currentAudioPath = "";
+        let wrongAnswerCount = 0;
 
         // Khởi tạo
         function init() {
@@ -407,7 +436,6 @@
             document.getElementById('nextBtn').addEventListener('click', loadNewQuestion);
             
             // Don't know button
-            document.getElementById('dontKnowBtn').addEventListener('click', showAnswer);
             
             // Option buttons
             for (let i = 0; i < 4; i++) {
@@ -446,7 +474,6 @@
             document.getElementById('feedback').textContent = '';
             document.getElementById('feedback').className = 'feedback';
             document.getElementById('nextBtn').disabled = true;
-            document.getElementById('dontKnowBtn').style.display = 'block';
             
             // Reset options
             for (let i = 0; i < 4; i++) {
@@ -597,7 +624,6 @@
             vietnameseElement.innerHTML = `
                 <button class="sound-btn" onclick="playKoreanWord()" title="Phát âm từ tiếng Hàn: ${correctAnswer}">🔊</button>
                 ${currentText}
-                <div class="auto-play-info">Nhấn nút 🔊 hoặc phím Space để nghe phát âm</div>
             `;
         }
 
@@ -613,7 +639,7 @@
             vietnameseElement.innerHTML = '🎉 Hoàn thành!';
             
             document.getElementById('questionCounter').textContent = 'Bạn đã học xong tất cả từ vựng!';
-            document.getElementById('feedback').textContent = 'Chúc mừng! Bạn đã hoàn thành bài học.';
+            document.getElementById('feedback').innerHTML += `<br><span style="font-size: 0.95rem; color: #6c757d;">Số lượt trả lời sai: <strong>${wrongAnswerCount}</strong></span>`;
             document.getElementById('feedback').className = 'feedback success';
             
             // Ẩn options
@@ -627,7 +653,6 @@
                 location.reload(); // Restart toàn bộ
             };
             
-            document.getElementById('dontKnowBtn').style.display = 'none';
         }
 
         // Trộn mảng
@@ -696,6 +721,7 @@
             } else {
                 // Đáp án sai - thêm lại câu hỏi vào cuối queue
                 console.log('Sai rồi!');
+                wrongAnswerCount++;
                 const selectedOption = document.getElementById('option' + optionIndex);
                 selectedOption.classList.add('incorrect');
                 
@@ -721,7 +747,6 @@
             
             // Enable Next button
             document.getElementById('nextBtn').disabled = false;
-            document.getElementById('dontKnowBtn').style.display = 'none';
         }
 
         // Hiển thị đáp án
@@ -768,7 +793,6 @@
             currentQuestionIndex++;
             
             document.getElementById('nextBtn').disabled = false;
-            document.getElementById('dontKnowBtn').style.display = 'none';
         }
 
         // Khởi tạo khi trang load
