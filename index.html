@@ -5,19 +5,129 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Chọn chủ đề từ vựng</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; background: #f8f9fa; }
-    h1 { text-align: center; }
-    .menu { display: flex; flex-direction: column; gap: 16px; max-width: 400px; margin: auto; margin-top: 40px; }
-    a { text-decoration: none; background: #007bff; color: white; padding: 12px 20px; border-radius: 8px; text-align: center; font-weight: bold; }
-    a:hover { background: #0056b3; }
+    :root {
+      --primary: #4e73df;
+      --primary-dark: #2e59d9;
+      --bg: #f1f3f6;
+      --text: #333;
+      --card-bg: #ffffff;
+      --radius: 12px;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      padding: 24px 16px;
+      text-align: center;
+      background: var(--primary);
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+      color: var(--primary);
+    }
+
+    .card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 16px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    .card:hover {
+      background: #e6ecff;
+      transform: translateY(-2px);
+    }
+
+    .card a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      display: block;
+    }
+
+    .card-title {
+      font-size: 1rem;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 12px;
+      }
+      header {
+        font-size: 1.25rem;
+        padding: 16px;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>Chọn chủ đề từ vựng</h1>
-  <div class="menu">
-    <a class="lesson-link" href="app.html?vocab=sc1b2_1NoiChon">Bài 1: Nơi chốn</a>
-    <a class="lesson-link" href="app.html?vocab=sc1b2_2TrangThietBiTruongHoc">Bài 2: Trang thiết bị trường học</a>
-    <a class="lesson-link" href="app.html?vocab=sc1b2_3DoVatTrongPhongHoc">Bài 3: Đồ vật trong phòng học</a>
+  <header>Tiếng Hàn Hyewon</header>
+
+  <div class="container">
+    <div class="section">
+      <div class="section-title">Bài 1</div>
+      <div class="card-list">
+        <div class="card">
+          <a href="app.html?vocab=sc1b1_1NgheNghiep">
+            <div class="card-title">Phần 1: Nghề nghiệp</div>
+          </a>
+        </div>
+        <div class="card">
+          <a href="app.html?vocab=sc1b1_2TuMoi">
+            <div class="card-title">Phần 2: Từ mới</div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Bài 2</div>
+      <div class="card-list">
+        <div class="card">
+          <a href="app.html?vocab=sc1b2_1NoiChon">
+            <div class="card-title">Phần 1: Nơi chốn</div>
+          </a>
+        </div>
+        <div class="card">
+          <a href="app.html?vocab=sc1b2_2TrangThietBiTruongHoc">
+            <div class="card-title">Phần 2: Trang thiết bị trường học</div>
+          </a>
+        </div>
+        <div class="card">
+          <a href="app.html?vocab=sc1b2_3DoVatTrongPhongHoc">
+            <div class="card-title">Phần 3: Đồ vật trong phòng học</div>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
