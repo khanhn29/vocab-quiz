@@ -344,10 +344,14 @@
         </div>
     </div>
 
+    <!-- Hidden audio element for playing sounds -->
+    <audio id="audioPlayer" preload="none"></audio>
     
     <script>
         const params = new URLSearchParams(window.location.search);
         const vocabFile = params.get("vocab");
+        const audioPath = params.get("audio") || "sc1b1/Nghề nghiệp"; // Default path
+        
         if (vocabFile) {
             const script = document.createElement("script");
             script.src = `data/${vocabFile}.js`;
@@ -358,7 +362,7 @@
         }
     </script>
     <script>
-    // vocabulary sẽ được nạp từ file JS ngoài
+        // vocabulary sẽ được nạp từ file JS ngoài
 
         let currentQuestion = null;
         let correctAnswer = null;
@@ -367,25 +371,16 @@
         let questionQueue = [];
         let currentQuestionIndex = 0;
         let totalQuestions = 0;
-        let speechSupported = false;
+        let audioSupported = true;
+        let currentAudioPath = "";
 
         // Khởi tạo
         function init() {
             console.log('Khởi tạo ứng dụng...');
-            checkSpeechSupport();
+            currentAudioPath = audioPath;
             setupQuestionQueue();
             loadNewQuestion();
             setupEventListeners();
-        }
-
-        // Kiểm tra hỗ trợ phát âm
-        function checkSpeechSupport() {
-            speechSupported = 'speechSynthesis' in window;
-            if (!speechSupported) {
-                console.log('Trình duyệt không hỗ trợ phát âm');
-            } else {
-                console.log('Trình duyệt hỗ trợ phát âm');
-            }
         }
 
         // Tạo hàng đợi câu hỏi (mỗi từ xuất hiện 2 lần)
@@ -497,36 +492,43 @@
             return shuffleArray(wrongAnswers).slice(0, count);
         }
 
-        // Phát âm từ tiếng Hàn
+        // Phát âm từ tiếng Hàn bằng file MP3
         function playKoreanWord(callback) {
-            if (!speechSupported || !currentQuestion) {
-                console.log('Không thể phát âm');
-                if (!speechSupported && !callback) {
-                    alert('Trình duyệt của bạn không hỗ trợ phát âm');
-                }
+            if (!currentQuestion) {
+                console.log('Không có câu hỏi hiện tại');
                 if (callback) callback();
                 return;
             }
             
-            // Dừng phát âm hiện tại nếu có
-            speechSynthesis.cancel();
+            const audioPlayer = document.getElementById('audioPlayer');
+            const audioFileName = `${correctAnswer}.mp3`;
+            const audioUrl = `${currentAudioPath}/${audioFileName}`;
+            
+            console.log('Đang phát file âm thanh:', audioUrl);
             
             const soundBtn = document.querySelector('.sound-btn');
             if (soundBtn) {
                 soundBtn.classList.add('playing');
             }
             
-            const utterance = new SpeechSynthesisUtterance(correctAnswer);
-            utterance.lang = 'ko-KR'; // Tiếng Hàn
-            utterance.rate = 0.8; // Tốc độ chậm hơn để dễ nghe
-            utterance.pitch = 1.0;
-            utterance.volume = 1.0;
+            // Cấu hình audio player
+            audioPlayer.src = audioUrl;
+            audioPlayer.currentTime = 0;
             
-            utterance.onstart = function() {
+            // Event listeners cho audio
+            audioPlayer.onloadstart = function() {
+                console.log('Bắt đầu tải file âm thanh');
+            };
+            
+            audioPlayer.oncanplay = function() {
+                console.log('File âm thanh sẵn sàng phát');
+            };
+            
+            audioPlayer.onplay = function() {
                 console.log('Bắt đầu phát âm:', correctAnswer);
             };
             
-            utterance.onend = function() {
+            audioPlayer.onended = function() {
                 console.log('Kết thúc phát âm');
                 if (soundBtn) {
                     soundBtn.classList.remove('playing');
@@ -534,11 +536,53 @@
                 if (callback) callback();
             };
             
-            utterance.onerror = function(event) {
-                console.error('Lỗi phát âm:', event.error);
+            audioPlayer.onerror = function(event) {
+                console.error('Lỗi phát âm:', event);
+                console.error('Không thể tải file:', audioUrl);
                 if (soundBtn) {
                     soundBtn.classList.remove('playing');
                 }
+                
+                // Fallback to text-to-speech nếu file không tồn tại
+                console.log('Sử dụng text-to-speech làm phương án dự phòng');
+                fallbackToTTS(callback);
+            };
+            
+            // Phát âm thanh
+            audioPlayer.play().catch(error => {
+                console.error('Không thể phát âm thanh:', error);
+                if (soundBtn) {
+                    soundBtn.classList.remove('playing');
+                }
+                
+                // Fallback to text-to-speech
+                fallbackToTTS(callback);
+            });
+        }
+
+        // Phương án dự phòng: sử dụng text-to-speech
+        function fallbackToTTS(callback) {
+            if (!('speechSynthesis' in window)) {
+                console.log('Trình duyệt không hỗ trợ phát âm');
+                if (callback) callback();
+                return;
+            }
+            
+            speechSynthesis.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance(correctAnswer);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.8;
+            utterance.pitch = 1.0;
+            utterance.volume = 1.0;
+            
+            utterance.onend = function() {
+                console.log('Kết thúc phát âm TTS');
+                if (callback) callback();
+            };
+            
+            utterance.onerror = function(event) {
+                console.error('Lỗi phát âm TTS:', event.error);
                 if (callback) callback();
             };
             
@@ -547,8 +591,6 @@
 
         // Hiển thị nút phát âm
         function showSoundButton() {
-            if (!speechSupported) return;
-            
             const vietnameseElement = document.getElementById('vietnameseWord');
             const currentText = vietnameseElement.textContent;
             
