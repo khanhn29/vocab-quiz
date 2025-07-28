@@ -262,6 +262,15 @@
             100% { transform: scale(1); }
         }
 
+        /* Completion message styles */
+        .lesson-name {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin-top: 16px;
+            font-style: italic;
+            text-align: center;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .container {
@@ -402,6 +411,30 @@
         let audioSupported = true;
         let currentAudioPath = "";
         let wrongAnswerCount = 0;
+
+        // Hàm lấy tên bài học từ vocabFile parameter
+        function getLessonName(vocabFile) {
+            const lessonNames = {
+                // Bài 1
+                'sc1b1_1NgheNghiep': 'Bài 1 - Phần 1: Nghề nghiệp',
+                'sc1b1_2TuMoi': 'Bài 1 - Phần 2: Từ mới',
+                'sc1b1_3QuocGia': 'Bài 1 - Phần 3: Quốc gia',
+                
+                // Bài 2
+                'sc1b2_1NoiChon': 'Bài 2 - Phần 1: Nơi chốn',
+                'sc1b2_2TrangThietBiTruongHoc': 'Bài 2 - Phần 2: Trang thiết bị trường học',
+                'sc1b2_3DoVatTrongPhongHoc': 'Bài 2 - Phần 3: Đồ vật trong phòng học',
+                
+                // Bài 3
+                'sc1b3_1DongTu': 'Bài 3 - Phần 1: Động từ',
+                'sc1b3_2TinhTu': 'Bài 3 - Phần 2: Tính từ',
+                'sc1b3_3SinhHoatHangNgay': 'Bài 3 - Phần 3: Sinh hoạt hằng ngày',
+                'sc1b3_4DaiTuNghiVan': 'Bài 3 - Phần 4: Đại từ nghi vấn',
+                'sc1b3_5TuMoi': 'Bài 3 - Phần 5: Từ mới'
+            };
+            
+            return lessonNames[vocabFile] || 'Bài học từ vựng';
+        }
 
         // Khởi tạo
         function init() {
@@ -638,7 +671,14 @@
             const vietnameseElement = document.getElementById('vietnameseWord');
             vietnameseElement.innerHTML = '🎉 Hoàn thành!';
             
-            document.getElementById('questionCounter').textContent = 'Bạn đã học xong tất cả từ vựng!';
+            // Lấy tên bài học từ URL parameter
+            const lessonName = getLessonName(vocabFile);
+            
+            document.getElementById('questionCounter').innerHTML = `
+                Bạn đã học xong!
+                <div class="lesson-name">${lessonName}</div>
+            `;
+            
             document.getElementById('feedback').innerHTML += `<br><span style="font-size: 0.95rem; color: #6c757d;">Số lượt trả lời sai: <strong>${wrongAnswerCount}</strong></span>`;
             document.getElementById('feedback').className = 'feedback success';
             
