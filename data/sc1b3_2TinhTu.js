@@ -1,6 +1,6 @@
 const vocabulary = [
-    { "vi": "to, lớn", "han": "크다" },
-    { "vi": "nhỏ", "han": "작다" },
+    { "vi": "to, lớn, cao", "han": "크다" },
+    { "vi": "nhỏ, bé thấp", "han": "작다" },
     { "vi": "nhiều", "han": "많다" },
     { "vi": "ít", "han": "적다" },
     { "vi": "tốt", "han": "좋다" },

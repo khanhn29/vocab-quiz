@@ -4,7 +4,7 @@ const vocabulary = [
     {"vi": "trung tâm thương mại", "han": "백화점"}, 
     {"vi": "thư viện", "han": "도서관"}, 
     {"vi": "bưu điện", "han": "우체국"}, 
-    {"vi": "hiệu thuốc", "han": "녹십자약국"}, 
+    {"vi": "hiệu thuốc", "han": "약국"}, 
     {"vi": "nhà ăn, nhà hàng", "han": "식당"}, 
     {"vi": "bệnh viện", "han": "병원"}, 
     {"vi": "cửa tiệm, cửa hàng", "han": "가게"}, 

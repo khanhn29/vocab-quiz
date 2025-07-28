@@ -6,5 +6,7 @@ const vocabulary = [
     { "vi": "phim", "han": "영화" },
     { "vi": "âm nhạc", "han": "음악" },
     { "vi": "báo", "han": "신문" },
-    { "vi": "bạn bè", "han": "친구" }
+    { "vi": "bạn bè", "han": "친구" },
+    { "vi": "cơm", "han": "밥" },
+    { "vi": "tiền", "han": "돈" }
 ];
