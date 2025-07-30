@@ -445,13 +445,14 @@
             setupEventListeners();
         }
 
-        // Tạo hàng đợi câu hỏi (mỗi từ xuất hiện 2 lần)
+        // Tạo hàng đợi câu hỏi (mỗi từ xuất hiện 2 lần: VN->KR và KR->VN)
         function setupQuestionQueue() {
             questionQueue = [];
             
-            // Thêm mỗi từ vào queue 2 lần
+            // Thêm mỗi từ vào queue 2 lần: một lần VN->KR, một lần KR->VN
             vocabulary.forEach(word => {
-                questionQueue.push(word, word);
+                questionQueue.push({...word, type: 'vn-kr'}); // Tiếng Việt hỏi, Hàn trả lời
+                questionQueue.push({...word, type: 'kr-vn'}); // Tiếng Hàn hỏi, Việt trả lời
             });
             
             // Trộn ngẫu nhiên
@@ -520,20 +521,44 @@
             
             // Lấy từ từ queue
             currentQuestion = questionQueue[currentQuestionIndex];
-            correctAnswer = currentQuestion.han;
             
-            console.log('Câu hỏi:', currentQuestion.vi, '- Đáp án:', correctAnswer);
+            if (currentQuestion.type === 'vn-kr') {
+                // Câu hỏi tiếng Việt -> đáp án tiếng Hàn
+                correctAnswer = currentQuestion.han;
+                document.getElementById('vietnameseWord').textContent = currentQuestion.vi;
+                
+                // Tạo đáp án tiếng Hàn
+                const wrongAnswers = getRandomWrongAnswers(correctAnswer, 3, 'han');
+                currentAnswers = shuffleArray([correctAnswer, ...wrongAnswers]);
+                
+                console.log('Câu hỏi VN->KR:', currentQuestion.vi, '- Đáp án:', correctAnswer);
+            } else {
+                // Câu hỏi tiếng Hàn -> đáp án tiếng Việt
+                correctAnswer = currentQuestion.vi;
+                
+                // Hiển thị từ tiếng Hàn với nút phát âm
+                const vietnameseElement = document.getElementById('vietnameseWord');
+                vietnameseElement.innerHTML = `
+                    <button class="sound-btn" onclick="playKoreanWord()" title="Phát âm từ tiếng Hàn: ${currentQuestion.han}">🔊</button>
+                    ${currentQuestion.han}
+                `;
+                
+                // Tự động phát âm khi tải câu hỏi tiếng Hàn
+                setTimeout(() => {
+                    playKoreanWord();
+                }, 500);
+                
+                // Tạo đáp án tiếng Việt
+                const wrongAnswers = getRandomWrongAnswers(correctAnswer, 3, 'vi');
+                currentAnswers = shuffleArray([correctAnswer, ...wrongAnswers]);
+                
+                console.log('Câu hỏi KR->VN:', currentQuestion.han, '- Đáp án:', correctAnswer);
+            }
+            
             console.log('Câu thứ:', currentQuestionIndex + 1, '/', totalQuestions);
-            
-            // Hiển thị từ tiếng Việt
-            document.getElementById('vietnameseWord').textContent = currentQuestion.vi;
             
             // Cập nhật counter
             updateQuestionCounter();
-            
-            // Tạo đáp án
-            const wrongAnswers = getRandomWrongAnswers(correctAnswer, 3);
-            currentAnswers = shuffleArray([correctAnswer, ...wrongAnswers]);
             
             console.log('Các đáp án:', currentAnswers);
             
@@ -544,10 +569,20 @@
         }
 
         // Lấy đáp án sai ngẫu nhiên
-        function getRandomWrongAnswers(correctAnswer, count) {
-            const wrongAnswers = vocabulary
-                .filter(item => item.han !== correctAnswer)
-                .map(item => item.han);
+        function getRandomWrongAnswers(correctAnswer, count, language) {
+            let wrongAnswers;
+            
+            if (language === 'han') {
+                // Lấy đáp án sai tiếng Hàn
+                wrongAnswers = vocabulary
+                    .filter(item => item.han !== correctAnswer)
+                    .map(item => item.han);
+            } else {
+                // Lấy đáp án sai tiếng Việt
+                wrongAnswers = vocabulary
+                    .filter(item => item.vi !== correctAnswer)
+                    .map(item => item.vi);
+            }
             
             return shuffleArray(wrongAnswers).slice(0, count);
         }
@@ -561,7 +596,8 @@
             }
             
             const audioPlayer = document.getElementById('audioPlayer');
-            const audioFileName = `${correctAnswer}.mp3`;
+            const koreanWord = currentQuestion.han; // Luôn phát âm từ tiếng Hàn
+            const audioFileName = `${koreanWord}.mp3`;
             const audioUrl = `${currentAudioPath}/${audioFileName}`;
             
             console.log('Đang phát file âm thanh:', audioUrl);
@@ -585,7 +621,7 @@
             };
             
             audioPlayer.onplay = function() {
-                console.log('Bắt đầu phát âm:', correctAnswer);
+                console.log('Bắt đầu phát âm:', koreanWord);
             };
             
             audioPlayer.onended = function() {
@@ -605,7 +641,7 @@
                 
                 // Fallback to text-to-speech nếu file không tồn tại
                 console.log('Sử dụng text-to-speech làm phương án dự phòng');
-                fallbackToTTS(callback);
+                fallbackToTTS(koreanWord, callback);
             };
             
             // Phát âm thanh
@@ -616,12 +652,12 @@
                 }
                 
                 // Fallback to text-to-speech
-                fallbackToTTS(callback);
+                fallbackToTTS(koreanWord, callback);
             });
         }
 
         // Phương án dự phòng: sử dụng text-to-speech
-        function fallbackToTTS(callback) {
+        function fallbackToTTS(koreanWord, callback) {
             if (!('speechSynthesis' in window)) {
                 console.log('Trình duyệt không hỗ trợ phát âm');
                 if (callback) callback();
@@ -630,7 +666,7 @@
             
             speechSynthesis.cancel();
             
-            const utterance = new SpeechSynthesisUtterance(correctAnswer);
+            const utterance = new SpeechSynthesisUtterance(koreanWord);
             utterance.lang = 'ko-KR';
             utterance.rate = 0.8;
             utterance.pitch = 1.0;
@@ -655,7 +691,7 @@
             const currentText = vietnameseElement.textContent;
             
             vietnameseElement.innerHTML = `
-                <button class="sound-btn" onclick="playKoreanWord()" title="Phát âm từ tiếng Hàn: ${correctAnswer}">🔊</button>
+                <button class="sound-btn" onclick="playKoreanWord()" title="Phát âm từ tiếng Hàn: ${currentQuestion.han}">🔊</button>
                 ${currentText}
             `;
         }
@@ -716,6 +752,9 @@
             
             hasAnswered = true;
             
+            // Phát âm từ tiếng Hàn ngay khi chọn đáp án (cho cả đúng và sai)
+            playKoreanWord();
+            
             // Disable all options
             for (let i = 0; i < 4; i++) {
                 document.getElementById('option' + i).classList.add('disabled');
@@ -748,14 +787,12 @@
                 const selectedOption = document.getElementById('option' + optionIndex);
                 selectedOption.classList.add('correct-animation');
                 
-                // Tự động phát âm khi trả lời đúng
-                setTimeout(() => {
-                    // Hiển thị nút sound trước
-                    showSoundButton();
-
-                    // Rồi mới phát âm
-                    playKoreanWord();
-                }, 300);
+                // Hiển thị nút sound nếu chưa có (cho câu hỏi VN->KR)
+                if (currentQuestion.type === 'vn-kr') {
+                    setTimeout(() => {
+                        showSoundButton();
+                    }, 300);
+                }
                 
                 currentQuestionIndex++;
             } else {
@@ -774,8 +811,10 @@
                 feedbackElement.textContent = 'Oops! Try again.';
                 feedbackElement.className = 'feedback error';
                 
-                // Hiển thị nút phát âm ngay lập tức khi sai
-                showSoundButton();
+                // Hiển thị nút phát âm nếu chưa có (cho câu hỏi VN->KR)
+                if (currentQuestion.type === 'vn-kr') {
+                    showSoundButton();
+                }
                 
                 // Thêm từ này vào cuối queue để hỏi lại
                 questionQueue.push(currentQuestion);
