@@ -15,23 +15,18 @@
   <title>Tiếng Hàn Hyewon</title>
   <style>
     :root {
-      --primary: #4e73df;
-      --bg: #f8f9fa;
-      --text: #343a40;
-      --white: #ffffff;
-      --radius: 12px;
-      --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-
-      /* Card Colors */
-      --vocab-bg: #e6f9f0; /* Green */
-      --vocab-text: #1d6c48;
-      --vocab-hover-bg: #d4f4e3;
-      --vocab-icon-bg: #34c759;
-
-      --grammar-bg: #fff4e6; /* Orange */
-      --grammar-text: #b85e00;
-      --grammar-hover-bg: #ffe8cc;
-      --grammar-icon-bg: #ff9500;
+      --primary: #4a69bd;
+      --bg: #f5f7fa;
+      --text: #333;
+      --text-light: #6c757d;
+      --card-bg: #ffffff;
+      --radius: 10px;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 7px 14px rgba(0, 0, 0, 0.07);
+      
+      /* Accent Colors */
+      --vocab-accent: #2ecc71; /* Green */
+      --grammar-accent: #f39c12; /* Orange */
     }
 
     body {
@@ -39,65 +34,68 @@
       margin: 0;
       background-color: var(--bg);
       color: var(--text);
+      line-height: 1.6;
     }
 
     header {
       padding: 24px 16px;
       text-align: center;
-      background: var(--primary);
-      color: var(--white);
-      font-size: 1.8rem;
+      background-color: var(--primary);
+      color: var(--card-bg);
+      font-size: 1.7rem;
       font-weight: 600;
-      letter-spacing: 0.5px;
     }
 
     .container {
-      max-width: 700px;
+      max-width: 650px;
       margin: 0 auto;
-      padding: 24px 16px;
+      padding: 32px 16px;
     }
 
     .section {
-      margin-bottom: 48px;
+      margin-bottom: 40px;
     }
 
     .section-title {
-      font-size: 1.75rem;
+      font-size: 1.6rem;
       font-weight: 600;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       color: var(--primary);
-      border-bottom: 3px solid #e0e0e0;
       padding-bottom: 8px;
+      border-bottom: 2px solid #e9ecef;
     }
 
     .card-list {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 16px;
+      gap: 12px;
     }
 
     .card {
       display: flex;
       align-items: center;
-      padding: 20px;
+      padding: 18px 20px;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+      background-color: var(--card-bg);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
       text-decoration: none;
+      color: var(--text);
+      border-left: 5px solid transparent; /* Accent border */
     }
 
-    .card .number-circle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      color: var(--white);
-      font-weight: bold;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-      margin-right: 16px;
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+    
+    /* Card Accent Styles */
+    .card.vocab {
+      border-left-color: var(--vocab-accent);
+    }
+    
+    .card.grammar {
+      border-left-color: var(--grammar-accent);
     }
 
     .card-content {
@@ -105,65 +103,22 @@
     }
 
     .card-title {
-      font-size: 1.2rem;
-      font-weight: 600;
+      font-size: 1.15rem;
+      font-weight: 500;
       margin: 0;
-    }
-
-    /* Vocabulary Card Styles */
-    .card.vocab {
-      background-color: var(--vocab-bg);
-      color: var(--vocab-text);
-    }
-    
-    .card.vocab .number-circle {
-      background-color: var(--vocab-icon-bg);
-    }
-
-    .card.vocab:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 8px 20px rgba(52, 199, 89, 0.2);
-      background-color: var(--vocab-hover-bg);
-    }
-    
-    /* Grammar Card Styles */
-    .card.grammar {
-      background-color: var(--grammar-bg);
-      color: var(--grammar-text);
-    }
-    
-    .card.grammar .number-circle {
-      background-color: var(--grammar-icon-bg);
-    }
-
-    .card.grammar:hover {
-      transform: rotate(1deg);
-      box-shadow: 0 8px 20px rgba(255, 149, 0, 0.2);
-      background-color: var(--grammar-hover-bg);
     }
 
     @media (max-width: 600px) {
       header {
         font-size: 1.5rem;
-        padding: 20px 16px;
       }
 
       .section-title {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
       }
       
-      .card {
-        padding: 16px;
-      }
-
-      .card .number-circle {
-        width: 36px;
-        height: 36px;
-        font-size: 1rem;
-      }
-
       .card-title {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
       }
     }
   </style>
@@ -174,30 +129,24 @@
   <div class="container">
     <!-- === BÀI 1 === -->
     <div class="section">
-      <h2 class="section-title">Bài 1</h2>
+      <h2 class="section-title">Bài 1: Giới thiệu (소개)</h2>
       <div class="card-list">
-        <!-- Từ vựng -->
         <a href="app.html?vocab=sc1b1_1NgheNghiep&audio=audio/sc1b1/NgheNghiep" class="card vocab">
-          <div class="number-circle">1</div>
           <div class="card-content">
             <h3 class="card-title">📚 Từ vựng: Nghề nghiệp</h3>
           </div>
         </a>
          <a href="app.html?vocab=sc1b1_2TuMoi&audio=audio/sc1b1/QuocGia" class="card vocab">
-          <div class="number-circle">2</div>
           <div class="card-content">
             <h3 class="card-title">📚 Từ vựng: Từ mới</h3>
           </div>
         </a>
          <a href="app.html?vocab=sc1b1_3QuocGia&audio=audio/sc1b1/QuocGia" class="card vocab">
-          <div class="number-circle">3</div>
           <div class="card-content">
             <h3 class="card-title">📚 Từ vựng: Quốc gia</h3>
           </div>
         </a>
-        <!-- Ngữ pháp -->
         <a href="#" class="card grammar">
-          <div class="number-circle">4</div>
           <div class="card-content">
             <h3 class="card-title">📝 Ngữ pháp Bài 1</h3>
           </div>
@@ -207,30 +156,24 @@
 
     <!-- === BÀI 2 === -->
     <div class="section">
-      <h2 class="section-title">Bài 2</h2>
+      <h2 class="section-title">Bài 2: Trường học (학교)</h2>
       <div class="card-list">
-        <!-- Từ vựng -->
         <a href="app.html?vocab=sc1b2_1NoiChon&audio=audio/sc1b2/NoiChon" class="card vocab">
-          <div class="number-circle">1</div>
           <div class="card-content">
             <h3 class="card-title">📚 Từ vựng: Nơi chốn</h3>
           </div>
         </a>
         <a href="app.html?vocab=sc1b2_2TrangThietBiTruongHoc&audio=audio/sc1b2/TrangThietBiTruongHoc" class="card vocab">
-          <div class="number-circle">2</div>
           <div class="card-content">
             <h3 class="card-title">📚 Từ vựng: Trang thiết bị trường học</h3>
           </div>
         </a>
         <a href="app.html?vocab=sc1b2_3DoVatTrongPhongHoc&audio=audio/sc1b2/DoVatTrongPhongHoc" class="card vocab">
-          <div class="number-circle">3</div>
           <div class="card-content">
             <h3 class="card-title">📚 Từ vựng: Đồ vật trong phòng học</h3>
           </div>
         </a>
-        <!-- Ngữ pháp -->
         <a href="#" class="card grammar">
-          <div class="number-circle">4</div>
           <div class="card-content">
             <h3 class="card-title">📝 Ngữ pháp Bài 2</h3>
           </div>
@@ -240,30 +183,24 @@
 
     <!-- === BÀI 3 === -->
     <div class="section">
-      <h2 class="section-title">Bài 3</h2>
+      <h2 class="section-title">Bài 3: Sinh hoạt hằng ngày (일상생활)</h2>
       <div class="card-list">
-        <!-- Từ vựng -->
         <a href="app.html?vocab=sc1b3_1DongTu&audio=audio/sc1b3/DongTu" class="card vocab">
-          <div class="number-circle">1</div>
           <div class="card-content">
             <h3 class="card-title">📚 Từ vựng: Động từ</h3>
           </div>
         </a>
         <a href="app.html?vocab=sc1b3_2TinhTu&audio=audio/sc1b3/TinhTu" class="card vocab">
-          <div class="number-circle">2</div>
           <div class="card-content">
             <h3 class="card-title">📚 Từ vựng: Tính từ</h3>
           </div>
         </a>
         <a href="app.html?vocab=sc1b3_3SinhHoatHangNgay&audio=audio/sc1b3/SinhHoatHangNgay" class="card vocab">
-          <div class="number-circle">3</div>
           <div class="card-content">
             <h3 class="card-title">📚 Từ vựng: Sinh hoạt hằng ngày</h3>
           </div>
         </a>
-        <!-- Ngữ pháp -->
         <a href="#" class="card grammar">
-          <div class="number-circle">4</div>
           <div class="card-content">
             <h3 class="card-title">📝 Ngữ pháp Bài 3</h3>
           </div>
