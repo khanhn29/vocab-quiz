@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bài tập Ngữ pháp - Tiếng Hàn Hyewon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary: #4a69bd;
+      --bg: #f5f7fa;
+      --text: #333;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+    .main-container {
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 32px 16px;
+    }
+    .korean-text, .korean-text .blank, .korean-text .word-btn { font-family: 'Noto Sans KR', sans-serif; }
+    .blank.correct { background-color: #dcfce7; border-color: #22c55e; color: #16a34a; }
+    .blank.incorrect { background-color: #fee2e2; border-color: #ef4444; color: #dc2626; }
+    .word-btn:disabled { background-color: #d1d5db; cursor: not-allowed; opacity: 0.7; }
+    #next-btn { display: none; }
+    
+    /* FIX: Thêm style để đảm bảo ô trống giữ nguyên chiều cao khi rỗng */
+    .blank:empty::after {
+      content: ".";
+      visibility: hidden;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="quiz-container" class="main-container text-center">
+      <h1 id="quiz-title" class="text-2xl sm:text-3xl font-bold text-blue-600 mb-6">Đang tải bài học...</h1>
+      <div id="sentence-container" class="korean-text text-xl sm:text-2xl leading-loose bg-white p-6 rounded-lg border border-dashed border-gray-300 mb-8 min-h-[100px]">
+      </div>
+      <div id="word-bank" class="flex flex-wrap justify-center gap-3 mb-8"></div>
+      <div id="action-buttons" class="flex flex-col sm:flex-row justify-center gap-4">
+          <button id="check-btn" class="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300">
+              Kiểm tra đáp án
+          </button>
+          <button id="next-btn" class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300">
+              Câu tiếp theo
+          </button>
+      </div>
+      <div id="feedback" class="mt-6 text-lg font-semibold min-h-[28px]"></div>
+      <a href="index.html" class="mt-8 inline-block text-gray-500 hover:text-blue-600 transition-colors">
+          &#8592; Quay lại Menu chính
+      </a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- DOM ELEMENTS ---
+        const quizTitle = document.getElementById('quiz-title');
+        const sentenceContainer = document.getElementById('sentence-container');
+        const wordBank = document.getElementById('word-bank');
+        const checkBtn = document.getElementById('check-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const feedbackEl = document.getElementById('feedback');
+
+        // --- APP STATE ---
+        let questionBank = [];
+        let currentQuestion = null;
+        let lessonsManifest = [];
+
+        /**
+         * Reads URL parameters to determine which lesson to load.
+         */
+        async function initializeQuiz() {
+            try {
+                // First, fetch the manifest to get the lesson title
+                const manifestResponse = await fetch('lessons.json');
+                if (!manifestResponse.ok) throw new Error('Could not load lessons.json');
+                lessonsManifest = await manifestResponse.json();
+
+                // Then, get the lesson ID from the URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const lessonId = urlParams.get('lesson');
+
+                if (!lessonId) {
+                    quizTitle.textContent = "Không tìm thấy bài học";
+                    return;
+                }
+
+                const currentLesson = lessonsManifest.find(l => l.id === lessonId);
+                if (!currentLesson) {
+                    quizTitle.textContent = "Bài học không hợp lệ";
+                    return;
+                }
+                
+                quizTitle.textContent = `Ngữ pháp: ${currentLesson.title}`;
+
+                // Fetch the actual question data
+                const lessonResponse = await fetch(currentLesson.file);
+                if (!lessonResponse.ok) throw new Error(`Could not load ${currentLesson.file}`);
+                questionBank = await lessonResponse.json();
+
+                loadRandomQuestion();
+
+            } catch (error) {
+                quizTitle.textContent = "Lỗi tải dữ liệu";
+                sentenceContainer.innerHTML = `<p class="text-red-500 text-base">${error.message}. Hãy chắc chắn bạn đang chạy ứng dụng trên một máy chủ web cục bộ.</p>`;
+                console.error('Fetch error:', error);
+            }
+        }
+
+        function loadRandomQuestion() {
+            feedbackEl.textContent = '';
+            checkBtn.style.display = 'inline-block';
+            nextBtn.style.display = 'none';
+
+            const randomIndex = Math.floor(Math.random() * questionBank.length);
+            currentQuestion = questionBank[randomIndex];
+
+            sentenceContainer.innerHTML = '';
+            const parts = currentQuestion.template.split('__');
+            parts.forEach((part, index) => {
+                sentenceContainer.appendChild(document.createTextNode(part));
+                if (index < parts.length - 1) {
+                    const blank = document.createElement('span');
+                    // *** FIX: Thay đổi class để có kích thước cố định và căn giữa nội dung ***
+                    blank.className = 'blank inline-flex items-center justify-center w-28 h-12 align-middle bg-white border-2 border-gray-300 rounded-md px-2 cursor-pointer transition-all';
+                    blank.addEventListener('click', () => handleBlankClick(blank));
+                    sentenceContainer.appendChild(blank);
+                }
+            });
+            
+            wordBank.innerHTML = '';
+            const shuffledChoices = [...currentQuestion.choices].sort(() => Math.random() - 0.5);
+            shuffledChoices.forEach(word => {
+                const btn = document.createElement('button');
+                btn.textContent = word;
+                btn.className = 'word-btn korean-text bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg transition-colors duration-300';
+                btn.addEventListener('click', () => handleWordSelection(btn));
+                wordBank.appendChild(btn);
+            });
+        }
+
+        function handleWordSelection(wordBtn) {
+            const blanks = sentenceContainer.querySelectorAll('.blank');
+            const targetBlank = Array.from(blanks).find(b => !b.dataset.answer);
+            if (targetBlank) {
+                targetBlank.textContent = wordBtn.textContent;
+                targetBlank.dataset.answer = wordBtn.textContent;
+                wordBtn.disabled = true;
+            }
+        }
+        
+        function handleBlankClick(clickedBlank) {
+            const wordInBlank = clickedBlank.dataset.answer;
+            if (wordInBlank) {
+                const wordBtnToEnable = Array.from(wordBank.querySelectorAll('.word-btn')).find(btn => btn.textContent === wordInBlank);
+                if (wordBtnToEnable) wordBtnToEnable.disabled = false;
+                
+                clickedBlank.textContent = '';
+                clickedBlank.dataset.answer = '';
+                clickedBlank.classList.remove('correct', 'incorrect');
+            }
+        }
+
+        function checkAnswers() {
+            const blanks = sentenceContainer.querySelectorAll('.blank');
+            let allCorrect = true;
+            let fullSentence = currentQuestion.template;
+
+            blanks.forEach((blank, index) => {
+                const userAnswer = blank.dataset.answer;
+                const correctAnswer = currentQuestion.solution[index];
+                fullSentence = fullSentence.replace('__', userAnswer || '...');
+                if (userAnswer === correctAnswer) {
+                    blank.classList.add('correct');
+                } else {
+                    blank.classList.add('incorrect');
+                    allCorrect = false;
+                }
+            });
+
+            if (allCorrect) {
+                feedbackEl.textContent = 'Bạn đã trả lời đúng!';
+                feedbackEl.className = 'mt-6 text-lg font-semibold min-h-[28px] text-green-600';
+                speak(fullSentence.replace(/\.\.\./g, ''), 'ko-KR');
+                checkBtn.style.display = 'none';
+                nextBtn.style.display = 'inline-block';
+            } else {
+                feedbackEl.textContent = 'Hãy thử lại!';
+                feedbackEl.className = 'mt-6 text-lg font-semibold min-h-[28px] text-red-600';
+            }
+        }
+
+        function speak(text, lang) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = lang;
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // --- EVENT LISTENERS ---
+        checkBtn.addEventListener('click', checkAnswers);
+        nextBtn.addEventListener('click', loadRandomQuestion);
+
+        // --- INITIALIZE QUIZ ---
+        initializeQuiz();
+    });
+  </script>
+</body>
+</html>
