@@ -1,0 +1,17 @@
+[
+  {
+    "id": "lesson1",
+    "title": "Bài 1: Giới thiệu & Chào hỏi",
+    "file": "data/lesson1.json"
+  },
+  {
+    "id": "lesson2",
+    "title": "Bài 2: Mua sắm",
+    "file": "data/lesson2.json"
+  },
+  {
+    "id": "lesson3",
+    "title": "Bài 3: Thời tiết",
+    "file": "data/lesson3.json"
+  }
+]

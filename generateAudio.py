@@ -1,3 +1,38 @@
+"""
+Công cụ tự động tạo file âm thanh cho từ vựng tiếng Hàn
+===================================================
+
+Các bước chuẩn bị trước khi chạy:
+1. Cài đặt Python 3.x
+2. Cài đặt thư viện edge-tts:
+   pip install edge-tts
+
+3. Chuẩn bị file dữ liệu:
+   - Tạo file .js trong thư mục data/
+   - Đặt tên theo format: sc[số]b[số]_[số][Chủ đề].js
+     Ví dụ: sc1b1_1NgheNghiep.js
+   
+   - Nội dung file phải có cấu trúc:
+     const vocabulary = [
+         {
+             "han": "한국어",  // Từ tiếng Hàn cần tạo âm thanh
+             // ... các thông tin khác
+         }
+     ];
+
+4. Cấu trúc thư mục:
+   vocab-quiz/
+   ├── data/           # Chứa file .js
+   └── audio/         # Nơi lưu file âm thanh (tự động tạo)
+
+5. Chạy script:
+   python generateAudio.py
+
+Kết quả:
+- Tạo file .mp3 trong thư mục audio/
+- In ra console các thẻ HTML để sử dụng
+"""
+
 import os
 import json
 import re

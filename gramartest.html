@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài tập điền từ tiếng Hàn</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Roboto', sans-serif; }
+        .korean-text, .korean-text .blank, .korean-text .word-btn { font-family: 'Noto Sans KR', sans-serif; }
+        .blank.correct { background-color: #dcfce7; border-color: #22c55e; color: #16a34a; }
+        .blank.incorrect { background-color: #fee2e2; border-color: #ef4444; color: #dc2626; }
+        .word-btn:disabled { background-color: #d1d5db; cursor: not-allowed; opacity: 0.7; }
+        #next-btn { display: none; }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div id="app-container" class="w-full max-w-2xl bg-white rounded-xl shadow-lg p-6 sm:p-8 text-center">
+
+        <h1 id="main-title" class="text-2xl sm:text-3xl font-bold text-blue-600 mb-6">Bài tập điền từ tiếng Hàn</h1>
+
+        <div id="lesson-selection-screen">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Vui lòng chọn một bài học</h2>
+            <div id="lesson-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Lesson buttons will be generated here -->
+            </div>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <div id="sentence-container" class="korean-text text-xl sm:text-2xl leading-loose bg-gray-50 p-6 rounded-lg border border-dashed border-gray-300 mb-8 min-h-[100px]">
+            </div>
+            <div id="word-bank" class="flex flex-wrap justify-center gap-3 mb-8"></div>
+            <div id="action-buttons" class="flex flex-col sm:flex-row justify-center gap-4">
+                <button id="check-btn" class="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300">
+                    Kiểm tra đáp án
+                </button>
+                <button id="next-btn" class="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300">
+                    Câu tiếp theo
+                </button>
+            </div>
+            <div id="feedback" class="mt-6 text-lg font-semibold min-h-[28px]"></div>
+            <button id="back-to-lessons-btn" class="mt-8 text-gray-500 hover:text-blue-600 transition-colors">
+                &#8592; Quay lại chọn bài
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- DOM ELEMENTS ---
+            const mainTitle = document.getElementById('main-title');
+            const lessonSelectionScreen = document.getElementById('lesson-selection-screen');
+            const lessonList = document.getElementById('lesson-list');
+            const quizScreen = document.getElementById('quiz-screen');
+            const sentenceContainer = document.getElementById('sentence-container');
+            const wordBank = document.getElementById('word-bank');
+            const checkBtn = document.getElementById('check-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const feedbackEl = document.getElementById('feedback');
+            const backToLessonsBtn = document.getElementById('back-to-lessons-btn');
+
+            // --- APP STATE ---
+            let questionBank = [];
+            let currentQuestion = null;
+
+            /**
+             * Fetches the list of lessons and creates selection buttons.
+             */
+            async function initializeApp() {
+                try {
+                    const response = await fetch('lessons.json');
+                    if (!response.ok) throw new Error('Network response was not ok.');
+                    const lessons = await response.json();
+                    
+                    lessonList.innerHTML = '';
+                    lessons.forEach(lesson => {
+                        const button = document.createElement('button');
+                        button.textContent = lesson.title;
+                        button.className = 'bg-white p-4 rounded-lg shadow hover:shadow-md hover:bg-gray-50 transition-all border';
+                        button.addEventListener('click', () => loadLesson(lesson));
+                        lessonList.appendChild(button);
+                    });
+                } catch (error) {
+                    lessonList.innerHTML = `<p class="text-red-500">Lỗi: Không thể tải danh sách bài học. Hãy chắc chắn bạn đang chạy ứng dụng trên một máy chủ web cục bộ.</p>`;
+                    console.error('Fetch error:', error);
+                }
+            }
+
+            /**
+             * Fetches a specific lesson's data file and displays the quiz screen.
+             * @param {object} lesson - The lesson object from the manifest.
+             */
+            async function loadLesson(lesson) {
+                try {
+                    const response = await fetch(lesson.file);
+                    if (!response.ok) throw new Error(`Could not fetch ${lesson.file}`);
+                    questionBank = await response.json();
+                    
+                    lessonSelectionScreen.classList.add('hidden');
+                    quizScreen.classList.remove('hidden');
+                    mainTitle.textContent = lesson.title;
+
+                    loadRandomQuestion();
+                } catch (error) {
+                    alert(`Lỗi: Không thể tải dữ liệu cho bài học "${lesson.title}".`);
+                    console.error('Fetch error:', error);
+                }
+            }
+
+            function loadRandomQuestion() {
+                feedbackEl.textContent = '';
+                checkBtn.style.display = 'inline-block';
+                nextBtn.style.display = 'none';
+
+                const randomIndex = Math.floor(Math.random() * questionBank.length);
+                currentQuestion = questionBank[randomIndex];
+
+                sentenceContainer.innerHTML = '';
+                const parts = currentQuestion.template.split('__');
+                parts.forEach((part, index) => {
+                    sentenceContainer.appendChild(document.createTextNode(part));
+                    if (index < parts.length - 1) {
+                        const blank = document.createElement('span');
+                        blank.className = 'blank inline-block align-middle min-w-[80px] sm:min-w-[100px] bg-white border-2 border-gray-300 rounded-md px-3 py-1 cursor-pointer transition-all';
+                        blank.addEventListener('click', () => handleBlankClick(blank));
+                        sentenceContainer.appendChild(blank);
+                    }
+                });
+                
+                wordBank.innerHTML = '';
+                const shuffledChoices = [...currentQuestion.choices].sort(() => Math.random() - 0.5);
+                shuffledChoices.forEach(word => {
+                    const btn = document.createElement('button');
+                    btn.textContent = word;
+                    btn.className = 'word-btn korean-text bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg transition-colors duration-300';
+                    btn.addEventListener('click', () => handleWordSelection(btn));
+                    wordBank.appendChild(btn);
+                });
+            }
+
+            function handleWordSelection(wordBtn) {
+                const blanks = sentenceContainer.querySelectorAll('.blank');
+                const targetBlank = Array.from(blanks).find(b => !b.dataset.answer);
+                if (targetBlank) {
+                    targetBlank.textContent = wordBtn.textContent;
+                    targetBlank.dataset.answer = wordBtn.textContent;
+                    wordBtn.disabled = true;
+                }
+            }
+            
+            function handleBlankClick(clickedBlank) {
+                const wordInBlank = clickedBlank.dataset.answer;
+                if (wordInBlank) {
+                    const wordBtnToEnable = Array.from(wordBank.querySelectorAll('.word-btn')).find(btn => btn.textContent === wordInBlank);
+                    if (wordBtnToEnable) wordBtnToEnable.disabled = false;
+                    
+                    clickedBlank.textContent = '';
+                    clickedBlank.dataset.answer = '';
+                    clickedBlank.classList.remove('correct', 'incorrect');
+                }
+            }
+
+            function checkAnswers() {
+                const blanks = sentenceContainer.querySelectorAll('.blank');
+                let allCorrect = true;
+                let fullSentence = currentQuestion.template;
+
+                blanks.forEach((blank, index) => {
+                    const userAnswer = blank.dataset.answer;
+                    const correctAnswer = currentQuestion.solution[index];
+                    fullSentence = fullSentence.replace('__', userAnswer || '...');
+                    if (userAnswer === correctAnswer) {
+                        blank.classList.add('correct');
+                    } else {
+                        blank.classList.add('incorrect');
+                        allCorrect = false;
+                    }
+                });
+
+                if (allCorrect) {
+                    feedbackEl.textContent = 'Bạn đã trả lời đúng!';
+                    feedbackEl.className = 'mt-6 text-lg font-semibold min-h-[28px] text-green-600';
+                    speak(fullSentence.replace(/\.\.\./g, ''), 'ko-KR');
+                    checkBtn.style.display = 'none';
+                    nextBtn.style.display = 'inline-block';
+                } else {
+                    feedbackEl.textContent = 'Hãy thử lại!';
+                    feedbackEl.className = 'mt-6 text-lg font-semibold min-h-[28px] text-red-600';
+                }
+            }
+
+            function speak(text, lang) {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = lang;
+                    utterance.rate = 0.9;
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
+
+            function showLessonSelection() {
+                quizScreen.classList.add('hidden');
+                lessonSelectionScreen.classList.remove('hidden');
+                mainTitle.textContent = 'Bài tập điền từ tiếng Hàn';
+            }
+
+            // --- EVENT LISTENERS ---
+            checkBtn.addEventListener('click', checkAnswers);
+            nextBtn.addEventListener('click', loadRandomQuestion);
+            backToLessonsBtn.addEventListener('click', showLessonSelection);
+
+            // --- INITIALIZE ---
+            initializeApp();
+        });
+    </script>
+</body>
+</html>
