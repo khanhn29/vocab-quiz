@@ -30,7 +30,7 @@ Các bước chuẩn bị trước khi chạy:
 
 Kết quả:
 - Tạo file .mp3 trong thư mục audio/
-- In ra console các thẻ HTML để sử dụng
+- In ra console các đường dẫn app.html
 """
 
 import os
@@ -42,20 +42,6 @@ import edge_tts
 DATA_DIR = 'data'
 AUDIO_DIR = 'audio'
 VOICE = "ko-KR-SunHiNeural"
-
-# Bảng ánh xạ topic -> tiếng Việt
-TOPIC_VI = {
-    "NgheNghiep": "Nghề nghiệp",
-    "TuMoi": "Từ mới",
-    "QuocGia": "Quốc gia",
-    "NoiChon": "Nơi chốn",
-    "TrangThietBiTruongHoc": "Thiết bị trường học",
-    "DoVatTrongPhongHoc": "Đồ vật trong phòng học",
-    "DongTu": "Động từ",
-    "TinhTu": "Tính từ",
-    "SinhHoatHangNgay": "Sinh hoạt hằng ngày",
-    "DaiTuNghiVan": "Đại từ nghi vấn"
-}
 
 # Trích xuất danh sách từ vựng
 def extract_vocabulary(js_content):
@@ -76,7 +62,7 @@ async def create_audio(text, filepath):
 
 # Main
 async def main():
-    html_cards = []
+    paths = []
 
     for filename in os.listdir(DATA_DIR):
         if not filename.endswith(".js"):
@@ -88,7 +74,6 @@ async def main():
             continue
 
         lesson_code, part_number, topic = match.groups()
-        topic_vi = TOPIC_VI.get(topic, topic)
 
         filepath = os.path.join(DATA_DIR, filename)
         with open(filepath, "r", encoding="utf-8") as f:
@@ -99,8 +84,6 @@ async def main():
         output_dir = os.path.join(AUDIO_DIR, lesson_code, topic)
         os.makedirs(output_dir, exist_ok=True)
 
-        audio_created = False
-
         for entry in vocab_list:
             han_word = entry.get("han")
             if not han_word:
@@ -109,21 +92,19 @@ async def main():
             if not os.path.exists(output_file):
                 print(f"Đang tạo {output_file}...")
                 await create_audio(han_word, output_file)
-                audio_created = True
             else:
                 print(f"Đã tồn tại {output_file}")
 
-        # Nếu có ít nhất một file audio được tạo hoặc tồn tại → in ra thẻ HTML
+        # Nếu có file audio được tạo hoặc tồn tại → tạo path
         if os.listdir(output_dir):
-            html = f'''<div class="card">
-  <a href="app.html?vocab={filename[:-3]}&audio=audio/{lesson_code}/{topic}">
-    <div class="card-title">Phần {part_number}: {topic_vi}</div>
-  </a>
-</div>'''
-            html_cards.append(html)
+            path = f"app.html?vocab={filename[:-3]}&audio=audio/{lesson_code}/{topic}"
+            paths.append(path)
 
-    print("\n<!-- Các thẻ card được tạo từ các file có audio -->\n")
-    print("\n".join(html_cards))
+    print("\n" + "="*50)
+    print("Các đường dẫn được tạo:")
+    print("="*50)
+    for path in paths:
+        print(path)
 
 if __name__ == "__main__":
     asyncio.run(main())
