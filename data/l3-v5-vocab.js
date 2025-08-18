@@ -12,13 +12,5 @@ const vocabulary = [
     { "vi": "báo", "han": "신문" },
     { "vi": "kem", "han": "아이스크림" },
     { "vi": "rất", "han": "아주" },
-    { "vi": "du lịch", "han": "여행" },
-    { "vi": "áo", "han": "옷" },
-    { "vi": "email, thư điện tử", "han": "이메일" },
-    { "vi": "trên", "han": "위" },
-    { "vi": "gọi điện thoại", "han": "전화하다" },
-    { "vi": "bây giờ", "han": "지금" },
-    { "vi": "đá bóng", "han": "축구를 하다" },
-    { "vi": "quán cà phê", "han": "카페" },
-    { "vi": "câu lạc bộ thể dục thể thao", "han": "헬스클럽" }
+    { "vi": "du lịch", "han": "여행" }
 ];

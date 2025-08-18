@@ -457,7 +457,7 @@
         
         if (vocabFile) {
             const script = document.createElement("script");
-            script.src = `data/${vocabFile}.js`;
+        script.src = `data/${vocabFile}.js`;
             script.onload = () => init();
             document.head.appendChild(script);
         } else {

@@ -65,41 +65,151 @@
       gap: 12px;
     }
 
+    .lesson-group {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      border-left: 4px solid transparent;
+    }
+
+    .lesson-group.vocab-group {
+      border-left-color: var(--vocab-accent);
+      background: linear-gradient(135deg, #f8fff9, #ffffff);
+    }
+
+    .lesson-group.grammar-group {
+      border-left-color: var(--grammar-accent);
+      background: linear-gradient(135deg, #fffbf0, #ffffff);
+    }
+
+    .group-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .group-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .group-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .vocab-group .group-icon {
+      background: linear-gradient(135deg, var(--vocab-accent), #27a463);
+      color: white;
+    }
+
+    .grammar-group .group-icon {
+      background: linear-gradient(135deg, var(--grammar-accent), #e08e00);
+      color: white;
+    }
+
+    .group-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 768px) {
+      .group-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .group-cards {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      
+      .card {
+        padding: 12px 14px;
+      }
+      
+      .card-title {
+        font-size: 0.9rem;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      
+      .card-title span:first-child {
+        flex: 1;
+        line-height: 1.3;
+      }
+      
+      .word-count-badge {
+        margin-left: 8px;
+        font-size: 0.7rem;
+        padding: 2px 6px;
+        flex-shrink: 0;
+      }
+    }
+
     .card {
       display: flex;
       align-items: center;
-      padding: 18px 20px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      background-color: var(--card-bg);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      padding: 14px 16px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      background-color: #ffffff;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
       text-decoration: none;
       color: var(--text);
-      border-left: 5px solid transparent; /* Accent border */
+      border: 1px solid #e9ecef;
     }
 
     .card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-color: #dee2e6;
     }
     
-    /* Card Accent Styles */
-    .card.vocab {
-      border-left-color: var(--vocab-accent);
-    }
-    
-    .card.grammar {
-      border-left-color: var(--grammar-accent);
-    }
+    /* Card Accent Styles - Removed as no longer needed */
 
     .card-content {
       flex-grow: 1;
     }
 
     .card-title {
-      font-size: 1.15rem;
+      font-size: 1rem;
       font-weight: 500;
       margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .word-count-badge {
+      background: linear-gradient(135deg, #f1f3f4, #ffffff);
+      color: var(--text-light);
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 12px;
+      border: 1px solid #e1e5e9;
+      min-width: fit-content;
+      flex-shrink: 0;
     }
 
     @media (max-width: 600px) {
@@ -111,8 +221,27 @@
         font-size: 1.4rem;
       }
       
-      .card-title {
-        font-size: 1.05rem;
+      .container {
+        padding: 24px 12px;
+      }
+      
+      .lesson-group {
+        padding: 16px;
+        margin-bottom: 12px;
+      }
+      
+      .group-header {
+        margin-bottom: 12px;
+      }
+      
+      .group-title {
+        font-size: 1.1rem;
+      }
+      
+      .group-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
       }
     }
   </style>
@@ -124,121 +253,235 @@
     <!-- === BÀI 1 === -->
     <div class="section">
       <h2 class="section-title">Bài 1: Giới thiệu (소개)</h2>
-      <div class="card-list">
-        <a href="app.html?vocab=sc1b1_1NgheNghiep&audio=audio/sc1b1/NgheNghiep" class="card vocab">
-          <div class="card-content">
-            <h3 class="card-title">📚 Từ vựng: Nghề nghiệp</h3>
-          </div>
-        </a>
-         <a href="app.html?vocab=sc1b1_2TuMoi&audio=audio/sc1b1/QuocGia" class="card vocab">
-          <div class="card-content">
-            <h3 class="card-title">📚 Từ vựng: Từ mới</h3>
-          </div>
-        </a>
-         <a href="app.html?vocab=sc1b1_3QuocGia&audio=audio/sc1b1/QuocGia" class="card vocab">
-          <div class="card-content">
-            <h3 class="card-title">📚 Từ vựng: Quốc gia</h3>
-          </div>
-        </a>
-        <a href="grammar.html?lesson=lesson1" class="card grammar">
-          <div class="card-content">
-            <h3 class="card-title">📝 Ngữ pháp Bài 1</h3>
-          </div>
-        </a>
+      
+      <!-- Nhóm Từ vựng -->
+      <div class="lesson-group vocab-group">
+        <div class="group-header">
+          <div class="group-icon">📚</div>
+          <h3 class="group-title">Từ vựng</h3>
+        </div>
+        <div class="group-cards">
+          <a href="app.html?vocab=l1-v1-jobs&audio=audio/l1/jobs" class="card">
+            <div class="card-content">
+              <h4 class="card-title">
+                <span>Nghề nghiệp</span>
+                <span class="word-count-badge">11 từ</span>
+              </h4>
+            </div>
+          </a>
+          <a href="app.html?vocab=l1-v2-vocab&audio=audio/l1/vocab" class="card">
+            <div class="card-content">
+              <h4 class="card-title">
+                <span>Từ mới</span>
+                <span class="word-count-badge">23 từ</span>
+              </h4>
+            </div>
+          </a>
+          <a href="app.html?vocab=l1-v3-countries&audio=audio/l1/countries" class="card">
+            <div class="card-content">
+              <h4 class="card-title">
+                <span>Quốc gia</span>
+                <span class="word-count-badge">15 từ</span>
+              </h4>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Nhóm Ngữ pháp -->
+      <div class="lesson-group grammar-group">
+        <div class="group-header">
+          <div class="group-icon">📝</div>
+          <h3 class="group-title">Ngữ pháp</h3>
+        </div>
+        <div class="group-cards">
+          <a href="grammar.html?lesson=lesson1" class="card">
+            <div class="card-content">
+              <h4 class="card-title">Ngữ pháp Bài 1</h4>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
 
     <!-- === BÀI 2 === -->
     <div class="section">
       <h2 class="section-title">Bài 2: Trường học (학교)</h2>
-      <div class="card-list">
-        <a href="app.html?vocab=sc1b2_1NoiChon&audio=audio/sc1b2/NoiChon" class="card vocab">
-          <div class="card-content">
-            <h3 class="card-title">📚 Từ vựng: Nơi chốn</h3>
-          </div>
-        </a>
-        <a href="app.html?vocab=sc1b2_2TrangThietBiTruongHoc&audio=audio/sc1b2/TrangThietBiTruongHoc" class="card vocab">
-          <div class="card-content">
-            <h3 class="card-title">📚 Từ vựng: Trang thiết bị trường học</h3>
-          </div>
-        </a>
-        <a href="app.html?vocab=sc1b2_3DoVatTrongPhongHoc&audio=audio/sc1b2/DoVatTrongPhongHoc" class="card vocab">
-          <div class="card-content">
-            <h3 class="card-title">📚 Từ vựng: Đồ vật trong phòng học</h3>
-          </div>
-        </a>
-        <a href="grammar.html?lesson=lesson2" class="card grammar">
-          <div class="card-content">
-            <h3 class="card-title">📝 Ngữ pháp Bài 2</h3>
-          </div>
-        </a>
+      
+      <!-- Nhóm Từ vựng -->
+      <div class="lesson-group vocab-group">
+        <div class="group-header">
+          <div class="group-icon">📚</div>
+          <h3 class="group-title">Từ vựng</h3>
+        </div>
+        <div class="group-cards">
+          <a href="app.html?vocab=l2-v1-places&audio=audio/l2/places" class="card">
+            <div class="card-content">
+              <h4 class="card-title">
+                <span>Nơi chốn</span>
+                <span class="word-count-badge">13 từ</span>
+              </h4>
+            </div>
+          </a>
+          <a href="app.html?vocab=l2-v2-school&audio=audio/l2/school" class="card">
+            <div class="card-content">
+              <h4 class="card-title">
+                <span>Trang thiết bị trường học</span>
+                <span class="word-count-badge">13 từ</span>
+              </h4>
+            </div>
+          </a>
+          <a href="app.html?vocab=l2-v3-classroom&audio=audio/l2/classroom" class="card">
+            <div class="card-content">
+              <h4 class="card-title">
+                <span>Đồ vật trong phòng học</span>
+                <span class="word-count-badge">15 từ</span>
+              </h4>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Nhóm Ngữ pháp -->
+      <div class="lesson-group grammar-group">
+        <div class="group-header">
+          <div class="group-icon">📝</div>
+          <h3 class="group-title">Ngữ pháp</h3>
+        </div>
+        <div class="group-cards">
+          <a href="grammar.html?lesson=lesson2" class="card">
+            <div class="card-content">
+              <h4 class="card-title">Ngữ pháp Bài 2</h4>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
 
     <!-- === BÀI 3 === -->
     <div class="section">
       <h2 class="section-title">Bài 3: Sinh hoạt hằng ngày (일상생활)</h2>
-      <div class="card-list">
-        <a href="app.html?vocab=sc1b3_1DongTu&audio=audio/sc1b3/DongTu" class="card vocab">
-          <div class="card-content">
-            <h3 class="card-title">📚 Từ vựng: Động từ</h3>
-          </div>
-        </a>
-        <a href="app.html?vocab=sc1b3_2TinhTu&audio=audio/sc1b3/TinhTu" class="card vocab">
-          <div class="card-content">
-            <h3 class="card-title">📚 Từ vựng: Tính từ</h3>
-          </div>
-        </a>
-        <a href="app.html?vocab=sc1b3_3SinhHoatHangNgay&audio=audio/sc1b3/SinhHoatHangNgay" class="card vocab">
-          <div class="card-content">
-            <h3 class="card-title">📚 Từ vựng: Sinh hoạt hằng ngày</h3>
-          </div>
-        </a>
-        <a href="grammar.html?lesson=lesson3" class="card grammar">
-          <div class="card-content">
-            <h3 class="card-title">📝 Ngữ pháp Bài 3</h3>
-          </div>
-        </a>
+      
+      <!-- Nhóm Từ vựng -->
+      <div class="lesson-group vocab-group">
+        <div class="group-header">
+          <div class="group-icon">📚</div>
+          <h3 class="group-title">Từ vựng</h3>
+        </div>
+        <div class="group-cards">
+          <a href="app.html?vocab=l3-v1-verbs&audio=audio/l3/verbs" class="card">
+            <div class="card-content">
+              <h4 class="card-title">
+                <span>Động từ</span>
+                <span class="word-count-badge">18 từ</span>
+              </h4>
+            </div>
+          </a>
+          <a href="app.html?vocab=l3-v2-adjectives&audio=audio/l3/adjectives" class="card">
+            <div class="card-content">
+              <h4 class="card-title">
+                <span>Tính từ</span>
+                <span class="word-count-badge">12 từ</span>
+              </h4>
+            </div>
+          </a>
+          <a href="app.html?vocab=l3-v3-daily&audio=audio/l3/daily" class="card">
+            <div class="card-content">
+              <h4 class="card-title">
+                <span>Sinh hoạt hằng ngày</span>
+                <span class="word-count-badge">15 từ</span>
+              </h4>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Nhóm Ngữ pháp -->
+      <div class="lesson-group grammar-group">
+        <div class="group-header">
+          <div class="group-icon">📝</div>
+          <h3 class="group-title">Ngữ pháp</h3>
+        </div>
+        <div class="group-cards">
+          <a href="grammar.html?lesson=lesson3" class="card">
+            <div class="card-content">
+              <h4 class="card-title">Ngữ pháp Bài 3</h4>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
 
     <!-- === BÀI 4 === -->
     <div class="section">
       <h2 class="section-title">Bài 4: Ngày và Thứ (날짜와 요일)</h2>
-      <div class="card-list">
-        <a href="app.html?vocab=sc1b4_1phan1&audio=audio/sc1b4/phan1" class="card vocab">
-          <div class="card-content">
-            <h3 class="card-title">📚 Từ vựng: ngày, tháng, tuần, năm (P1)</h3>
+      
+      <!-- Nhóm Từ vựng -->
+      <div class="lesson-group vocab-group">
+        <div class="group-header">
+          <div class="group-icon">📚</div>
+          <h3 class="group-title">Từ vựng</h3>
         </div>
-        </a>
-        <a href="app.html?vocab=sc1b4_2phan2&audio=audio/sc1b4/phan2" class="card vocab">
-          <div class="card-content">
-            <h3 class="card-title">📚 Từ vựng: Thời gian, Ngày, Tháng & Tuần (P2)</h3>
+        <div class="group-cards">
+          <a href="app.html?vocab=l4-v1-time&audio=audio/l4/time" class="card">
+            <div class="card-content">
+              <h4 class="card-title">
+                <span>Ngày, tháng, tuần, năm (P1)</span>
+                <span class="word-count-badge">10 từ</span>
+              </h4>
+            </div>
+          </a>
+          <a href="app.html?vocab=l4-v2-datetime&audio=audio/l4/datetime" class="card">
+            <div class="card-content">
+              <h4 class="card-title">
+                <span>Thời gian, Ngày, Tháng & Tuần (P2)</span>
+                <span class="word-count-badge">12 từ</span>
+              </h4>
+            </div>
+          </a>
+          <a href="app.html?vocab=l4-v3-schedule&audio=audio/l4/schedule" class="card">
+            <div class="card-content">
+              <h4 class="card-title">
+                <span>Thời gian, Giờ, Ngày, Tháng & Tuần (P3)</span>
+                <span class="word-count-badge">14 từ</span>
+              </h4>
+            </div>
+          </a>
+          <a href="app.html?vocab=l4-v4-calendar&audio=audio/l4/calendar" class="card">
+            <div class="card-content">
+              <h4 class="card-title">
+                <span>Thời gian, Ngày, Tháng & Năm (P4)</span>
+                <span class="word-count-badge">11 từ</span>
+              </h4>
+            </div>
+          </a>
+          <a href="app.html?vocab=l4-v5-activities&audio=audio/l4/activities" class="card">
+            <div class="card-content">
+              <h4 class="card-title">
+                <span>Sinh hoạt & Sự kiện</span>
+                <span class="word-count-badge">13 từ</span>
+              </h4>
+            </div>
+          </a>
+          <a href="app.html?vocab=l4-v6-events&audio=audio/l4/events" class="card">
+            <div class="card-content">
+              <h4 class="card-title">
+                <span>Học tập, Ngày lễ & Sinh hoạt</span>
+                <span class="word-count-badge">15 từ</span>
+              </h4>
+            </div>
+          </a>
         </div>
-        </a>
-        <a href="app.html?vocab=sc1b4_3phan3&audio=audio/sc1b4/phan3" class="card vocab">
-          <div class="card-content">
-            <h3 class="card-title">📚 Từ vựng: Thời gian, Giờ, Ngày, Tháng & Tuần (P3)</h3>
-        </div>
-        </a>
-        <a href="app.html?vocab=sc1b4_4phan4&audio=audio/sc1b4/phan4" class="card vocab">
-          <div class="card-content">
-            <h3 class="card-title">📚 Từ vựng: Thời gian, Ngày, Tháng & Năm (P4)</h3>
-        </div>
-        </a>
-
-        <a href="app.html?vocab=sc1b4_5Tumoi1&audio=audio/sc1b4/Tumoi1" class="card vocab">
-          <div class="card-content">
-            <h3 class="card-title">📚 Từ vựng: Sinh hoạt & Sự kiện</h3>
-        </div>
-        </a>
-
-        <a href="app.html?vocab=sc1b4_6Tumoi2&audio=audio/sc1b4/Tumoi2" class="card vocab">
-          <div class="card-content">
-            <h3 class="card-title">📚 Từ vựng: Học tập, Ngày lễ & Sinh hoạt</h3>
-        </div>
-        </a>
-        
       </div>
+    </div>
+  </div>
+
+  <footer style="background-color: var(--primary); color: white; text-align: center; padding: 20px; margin-top: 40px;">
+    <p>© 2025 Tiếng Hàn Hyewon - Học tiếng Hàn hiệu quả</p>
+    <p style="font-size: 0.9rem; margin-top: 8px; opacity: 0.8;">
+      📱 Responsive Design | 🎧 Audio Support
+    </p>
+  </footer>
+
 </body>
 </html>
