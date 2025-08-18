@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minh hoạ cách viết chữ Trung Quốc</title>
+  <meta name="description" content="Trang web cho phép nhập chữ Hán và xem thứ tự nét (stroke order) kèm điều khiển tốc độ, phát lại, từng bước." />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <style>
+    :root{--bg:#0f172a;--panel:#111827;--muted:#94a3b8;--text:#e5e7eb;--accent:#22c55e;--card:#0b1220;--border:#1f2937}
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;background:radial-gradient(1000px 600px at 10% -10%,#1e293b 0%,transparent 60%),linear-gradient(180deg,#0b1020 0%,#020617 100%);color:var(--text)}
+    .container{max-width:1080px;margin:0 auto;padding:20px 16px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .title{font-size:clamp(18px,5vw,28px);font-weight:800;letter-spacing:.3px;line-height:1.2}
+    .subtitle{color:var(--muted);font-size:clamp(13px,3.5vw,14px);margin-top:8px;line-height:1.5}
+    .panel{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid var(--border);border-radius:16px;padding:16px}
+    .row{display:flex;flex-direction:column;gap:12px;align-items:stretch}
+    .input{flex:1;min-width:100%;display:flex;gap:10px;margin-bottom:12px}
+    input[type="text"]{flex:1;padding:14px 16px;border-radius:12px;border:1px solid var(--border);background:#0b1220;color:var(--text);font-size:16px;outline:none;min-height:48px}
+    input[type="text"]::placeholder{color:#6b7280}
+    .btn{padding:14px 20px;border-radius:12px;border:1px solid var(--border);background:#0d1628;color:var(--text);cursor:pointer;font-weight:600;font-size:15px;min-height:48px;touch-action:manipulation}
+    .btn:hover{background:#121d34}
+    .btn.primary{background:linear-gradient(180deg,#22c55e,#16a34a);border-color:#15803d;min-width:100px;padding:12px 16px}
+    .btn.primary:hover{filter:brightness(1.05)}
+    .controls{margin:0;padding:0;flex:1}
+    .slider{display:flex;justify-content:flex-start;background:none;padding:0;border:none;min-width:auto;gap:8px;flex:1;align-items:center;color:var(--muted)}
+    .slider label{font-size:13px}
+    .slider input[type="range"]{min-width:120px;flex:1}
+    .slider .small{font-size:12px}
+    .input-only{width:100%;margin-bottom:0}
+    .input-only input[type="text"]{width:100%;margin-bottom:0}
+    .button-only{margin:0;flex-shrink:0}
+    .button-only .btn{width:auto;min-width:100px;margin:0;padding:12px 16px;font-size:14px}
+    .control-row{display:flex;gap:12px;align-items:center;width:100%}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:20px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));border:1px solid var(--border);border-radius:16px;padding:16px;position:relative}
+    .char-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .char-label{font-weight:700;color:#cbd5e1;font-size:18px}
+    .small{font-size:13px;color:var(--muted)}
+    .canvas{width:100%;height:180px;margin-bottom:12px}
+    .practice-mode{background:#0a2a1a!important;border-color:#16a34a!important}
+    .practice-canvas{cursor:crosshair!important}
+    .footer{margin-top:24px;color:var(--muted);font-size:13px;text-align:center}
+    .notice{margin-top:12px;color:#9ca3af;font-size:13px;text-align:center;line-height:1.4}
+    .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#111827;border:1px solid #1f2937;padding:3px 8px;border-radius:6px;color:#e5e7eb;font-size:12px}
+    
+    /* Mobile fine-tuning */
+    @media (max-width: 768px) {
+      .container{padding:16px 12px}
+      .title{font-size:22px;text-align:center}
+      .subtitle{font-size:14px;text-align:left}
+      .grid{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:16px}
+      .card{padding:12px}
+      .canvas{height:160px}
+      .card .row{flex-direction:column;gap:8px}
+      .card .btn{width:100%;padding:12px 16px;font-size:15px}
+      .char-label{font-size:20px}
+    }
+    
+    @media (max-width: 480px) {
+      .container{padding:12px 8px}
+      .title{font-size:20px}
+      .subtitle{font-size:13px}
+      .slider input[type="range"]{min-width:100px}
+      .button-only .btn{min-width:80px;font-size:13px;padding:10px 12px}
+      .grid{grid-template-columns:1fr;max-width:300px;margin:16px auto 0}
+      .card{max-width:280px;margin:0 auto}
+      .canvas{height:200px}
+    }
+  </style>
+  <!-- Hanzi Writer & dữ liệu nét qua CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.7.0/dist/hanzi-writer.min.js"></script>
+  <script>
+    // Chỉ ra nơi lấy dữ liệu nét: hanzi-writer sẽ tự tải JSON từ CDN dưới đây
+    window.HANZI_WRITER_LOAD_DATA = function(char) {
+      return fetch(`https://cdn.jsdelivr.net/npm/hanzi-writer-data@latest/${encodeURIComponent(char)}.json`).then(r => {
+        if (!r.ok) throw new Error('Không tải được dữ liệu nét cho ký tự: '+char)
+        return r.json()
+      })
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <div class="title">Minh hoạ cách viết chữ Trung Quốc (Stroke Order)</div>
+        <div class="subtitle">
+          Nhập chữ Hán (Ví dụ: <span class="kbd">永学习汉字</span>) rồi bấm <strong>Cập nhật</strong>.<br>
+          Chữ và tốc độ sẽ được cập nhật.<br>
+          Sử dụng nút "Phát" để xem cách viết và "Thực hành" để tập viết.
+        </div>
+      </div>
+    </header>
+
+    <section class="panel" style="margin-top:16px">
+      <div class="row">
+        <div class="input-only">
+          <input id="charsInput" type="text" placeholder="Nhập chữ Hán..." value="永学习" />
+        </div>
+        <div class="control-row">
+          <div class="controls">
+            <div class="slider">
+              <label for="speed">Tốc độ</label>
+              <input id="speed" type="range" min="0.4" max="1.8" step="0.1" value="1" />
+              <span id="speedVal" class="small">1.0×</span>
+            </div>
+          </div>
+          <div class="button-only">
+            <button id="renderBtn" class="btn primary">Cập nhật</button>
+          </div>
+        </div>
+      </div>
+      <div id="grid" class="grid"></div>
+      <div class="notice">Nguồn nét và ghép nét dùng thư viện mã nguồn mở <span class="kbd">Hanzi Writer</span>. Một số chữ hiếm có thể chưa có dữ liệu.</div>
+    </section>
+
+    <div class="footer">Gợi ý: chữ <span class="kbd">永</span> chứa “Bát pháp Vĩnh tự” – 8 nét cơ bản để luyện viết đẹp.</div>
+  </div>
+
+  <template id="cardTpl">
+    <div class="card">
+      <div class="char-head">
+        <span class="char-label"></span>
+        <span class="small stroke-count">Đang tải...</span>
+      </div>
+      <div class="canvas"></div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn btnPlay">Phát</button>
+        <button class="btn btnPractice">Thực hành</button>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    const state = { writers: [], speed: 1 }
+
+    const grid = document.getElementById('grid')
+    const tpl = document.getElementById('cardTpl')
+    const input = document.getElementById('charsInput')
+    const renderBtn = document.getElementById('renderBtn')
+    const speed = document.getElementById('speed')
+    const speedVal = document.getElementById('speedVal')
+
+    function clearGrid(){
+      state.writers.forEach(w => w && w.hideCharacter && w.hideCharacter())
+      state.writers = []
+      grid.innerHTML = ''
+    }
+
+    async function createCard(ch){
+      const node = tpl.content.firstElementChild.cloneNode(true)
+      node.querySelector('.char-label').textContent = ch
+      const canvas = node.querySelector('.canvas')
+      grid.appendChild(node)
+
+      const writer = HanziWriter.create(canvas, ch, {
+        width: 160,
+        height: 160,
+        padding: 8,
+        showOutline: true,
+        strokeAnimationSpeed: state.speed,
+        delayBetweenStrokes: 200 / state.speed,
+        delayBetweenLoops: 600 / state.speed,
+      })
+
+      // Hiển thị dạng tĩnh trước để người dùng xem cấu trúc
+      writer.showCharacter()
+
+      // Cập nhật số nét khi đã có dữ liệu
+      writer._withData(() => {
+        const count = writer._characterModel.strokes.length
+        node.querySelector('.stroke-count').textContent = `${count} nét`
+      })
+
+      // Nút điều khiển riêng cho card
+      node.querySelector('.btnPlay').onclick = () => writer.animateCharacter({strokeAnimationSpeed: state.speed, delayBetweenStrokes: 200/state.speed})
+      node.querySelector('.btnPractice').onclick = () => togglePracticeMode(writer, node)
+
+      state.writers.push(writer)
+    }
+
+    function stepStroke(writer){
+      // phát từng nét: lấy index hiện tại từ internal timeline
+      if(!writer._isShowing) writer.showCharacter()
+      const m = writer._characterModel
+      const total = m.strokes.length
+      let i = writer._strokeRenderers?.filter(s => s.renderState === 'completed').length || 0
+      if(i >= total){
+        writer.showCharacter(); i = 0
+      }
+      writer.animateStroke(i, { strokeAnimationSpeed: state.speed })
+    }
+
+    function togglePracticeMode(writer, node) {
+      const canvas = node.querySelector('.canvas')
+      const practiceBtn = node.querySelector('.btnPractice')
+      
+      if (canvas.classList.contains('practice-mode')) {
+        exitPracticeMode(writer, node)
+      } else {
+        enterPracticeMode(writer, node)
+      }
+    }
+
+    function enterPracticeMode(writer, node) {
+      const canvas = node.querySelector('.canvas')
+      const practiceBtn = node.querySelector('.btnPractice')
+      
+      canvas.classList.add('practice-mode', 'practice-canvas')
+      practiceBtn.textContent = 'Thoát thực hành'
+      practiceBtn.style.background = '#dc3545'
+      
+      // Ẩn character để có thể thực hành
+      writer.hideCharacter()
+      
+      // Thêm grid lines
+      const svg = canvas.querySelector('svg')
+      if (svg && !svg.querySelector('.practice-grid')) {
+        const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs')
+        const pattern = document.createElementNS('http://www.w3.org/2000/svg', 'pattern')
+        pattern.setAttribute('id', `grid-${Math.random().toString(36).substr(2, 9)}`)
+        pattern.setAttribute('width', '20')
+        pattern.setAttribute('height', '20')
+        pattern.setAttribute('patternUnits', 'userSpaceOnUse')
+        pattern.className = 'practice-grid'
+        
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+        path.setAttribute('d', 'M 20 0 L 0 0 0 20')
+        path.setAttribute('fill', 'none')
+        path.setAttribute('stroke', '#333')
+        path.setAttribute('stroke-width', '0.5')
+        path.setAttribute('opacity', '0.3')
+        
+        pattern.appendChild(path)
+        defs.appendChild(pattern)
+        svg.appendChild(defs)
+        
+        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+        rect.setAttribute('width', '100%')
+        rect.setAttribute('height', '100%')
+        rect.setAttribute('fill', `url(#${pattern.id})`)
+        rect.className = 'practice-grid'
+        svg.insertBefore(rect, svg.firstChild)
+        
+        // Center lines
+        const centerLineH = document.createElementNS('http://www.w3.org/2000/svg', 'line')
+        centerLineH.setAttribute('x1', '0')
+        centerLineH.setAttribute('y1', '80')
+        centerLineH.setAttribute('x2', '160')
+        centerLineH.setAttribute('y2', '80')
+        centerLineH.setAttribute('stroke', '#555')
+        centerLineH.setAttribute('stroke-width', '1')
+        centerLineH.setAttribute('opacity', '0.5')
+        centerLineH.className = 'practice-grid'
+        
+        const centerLineV = document.createElementNS('http://www.w3.org/2000/svg', 'line')
+        centerLineV.setAttribute('x1', '80')
+        centerLineV.setAttribute('y1', '0')
+        centerLineV.setAttribute('x2', '80')
+        centerLineV.setAttribute('y2', '160')
+        centerLineV.setAttribute('stroke', '#555')
+        centerLineV.setAttribute('stroke-width', '1')
+        centerLineV.setAttribute('opacity', '0.5')
+        centerLineV.className = 'practice-grid'
+        
+        svg.appendChild(centerLineH)
+        svg.appendChild(centerLineV)
+      }
+      
+      // Enable drawing
+      setupDrawing(writer, canvas)
+    }
+
+    function exitPracticeMode(writer, node) {
+      const canvas = node.querySelector('.canvas')
+      const practiceBtn = node.querySelector('.btnPractice')
+      
+      canvas.classList.remove('practice-mode', 'practice-canvas')
+      practiceBtn.textContent = 'Thực hành'
+      practiceBtn.style.background = ''
+      
+      // Remove grid and user strokes
+      const svg = canvas.querySelector('svg')
+      if (svg) {
+        svg.querySelectorAll('.practice-grid, .user-stroke, .user-strokes-group').forEach(el => el.remove())
+      }
+      
+      // Show character again
+      writer.showCharacter()
+      
+      // Remove all drawing events properly
+      if (canvas._drawHandlers) {
+        canvas.removeEventListener('mousedown', canvas._drawHandlers.mousedown)
+        canvas.removeEventListener('mousemove', canvas._drawHandlers.mousemove)
+        canvas.removeEventListener('mouseup', canvas._drawHandlers.mouseup)
+        canvas.removeEventListener('mouseleave', canvas._drawHandlers.mouseleave)
+        canvas.removeEventListener('touchstart', canvas._drawHandlers.touchstart)
+        canvas.removeEventListener('touchmove', canvas._drawHandlers.touchmove)
+        canvas.removeEventListener('touchend', canvas._drawHandlers.touchend)
+        delete canvas._drawHandlers
+      }
+    }
+
+    function setupDrawing(writer, canvas) {
+      const svg = canvas.querySelector('svg')
+      if (!svg) return
+      
+      let isDrawing = false
+      let currentPath = null
+      let userStrokesGroup = svg.querySelector('.user-strokes-group')
+      
+      if (!userStrokesGroup) {
+        userStrokesGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+        userStrokesGroup.className = 'user-strokes-group'
+        svg.appendChild(userStrokesGroup)
+      }
+      
+      function startDrawing(e) {
+        isDrawing = true
+        const rect = svg.getBoundingClientRect()
+        const x = (e.clientX - rect.left) * (160 / rect.width)
+        const y = (e.clientY - rect.top) * (160 / rect.height)
+        
+        currentPath = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+        currentPath.setAttribute('d', `M${x},${y}`)
+        currentPath.setAttribute('fill', 'none')
+        currentPath.setAttribute('stroke', '#22c55e')
+        currentPath.setAttribute('stroke-width', '3')
+        currentPath.setAttribute('stroke-linecap', 'round')
+        currentPath.setAttribute('stroke-linejoin', 'round')
+        currentPath.className = 'user-stroke'
+        
+        userStrokesGroup.appendChild(currentPath)
+      }
+      
+      function draw(e) {
+        if (!isDrawing || !currentPath) return
+        
+        const rect = svg.getBoundingClientRect()
+        const x = (e.clientX - rect.left) * (160 / rect.width)
+        const y = (e.clientY - rect.top) * (160 / rect.height)
+        
+        const d = currentPath.getAttribute('d')
+        currentPath.setAttribute('d', d + ` L${x},${y}`)
+      }
+      
+      function stopDrawing() {
+        isDrawing = false
+        currentPath = null
+      }
+      
+      function touchStart(e) {
+        e.preventDefault()
+        startDrawing(e.touches[0])
+      }
+      
+      function touchMove(e) {
+        e.preventDefault()
+        draw(e.touches[0])
+      }
+      
+      function touchEnd(e) {
+        e.preventDefault()
+        stopDrawing()
+      }
+      
+      // Mouse events
+      canvas.addEventListener('mousedown', startDrawing)
+      canvas.addEventListener('mousemove', draw)
+      canvas.addEventListener('mouseup', stopDrawing)
+      canvas.addEventListener('mouseleave', stopDrawing)
+      
+      // Touch events
+      canvas.addEventListener('touchstart', touchStart)
+      canvas.addEventListener('touchmove', touchMove)
+      canvas.addEventListener('touchend', touchEnd)
+      
+      // Store handlers for cleanup
+      canvas._drawHandlers = {
+        mousedown: startDrawing,
+        mousemove: draw,
+        mouseup: stopDrawing,
+        mouseleave: stopDrawing,
+        touchstart: touchStart,
+        touchmove: touchMove,
+        touchend: touchEnd
+      }
+    }
+
+    async function renderAll(){
+      const chars = [...new Set((input.value || '').trim().split('').filter(c => /\S/.test(c)))]
+      if(chars.length === 0){
+        alert('Vui lòng nhập ít nhất 1 ký tự Hán.');
+        return
+      }
+      clearGrid()
+      for(const ch of chars){
+        await createCard(ch)
+      }
+    }
+
+    renderBtn.addEventListener('click', renderAll)
+    input.addEventListener('keydown', e => { if(e.key==='Enter') renderAll() })
+
+    speed.addEventListener('input', () => {
+      state.speed = parseFloat(speed.value)
+      speedVal.textContent = state.speed.toFixed(1)+'×'
+    })
+
+    // Khởi động với ví dụ sẵn
+    window.addEventListener('DOMContentLoaded', renderAll)
+  </script>
+</body>
+</html>
