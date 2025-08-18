@@ -39,7 +39,7 @@
     .char-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
     .char-label{font-weight:700;color:#cbd5e1;font-size:24px}
     .small{font-size:14px;color:var(--muted)}
-    .canvas{width:100%;height:300px;margin-bottom:16px;aspect-ratio:1/1;max-width:300px;margin-left:auto;margin-right:auto}
+    .canvas{width:100%;height:400px;margin-bottom:16px;aspect-ratio:1/1;max-width:400px;margin-left:auto;margin-right:auto}
     .practice-mode{background:#0a2a1a!important;border-color:#16a34a!important}
     .practice-canvas{cursor:crosshair!important}
     .footer{margin-top:24px;color:var(--muted);font-size:13px;text-align:center}
@@ -53,7 +53,7 @@
       .subtitle{font-size:14px;text-align:left}
       .grid{max-width:350px;gap:16px;margin-top:16px}
       .card{padding:16px}
-      .canvas{height:250px;max-width:250px}
+      .canvas{height:300px;max-width:300px}
       .char-label{font-size:22px}
     }
     
@@ -65,7 +65,7 @@
       .button-only .btn{min-width:80px;font-size:13px;padding:10px 12px}
       .grid{max-width:300px;margin:16px auto 0}
       .card{padding:12px}
-      .canvas{height:200px;max-width:200px}
+      .canvas{height:250px;max-width:250px}
       .char-label{font-size:20px}
     }
   </style>
@@ -156,7 +156,7 @@
       grid.appendChild(node)
 
       // Get actual canvas size for responsive
-      const canvasSize = Math.min(300, window.innerWidth <= 480 ? 200 : window.innerWidth <= 768 ? 250 : 300)
+      const canvasSize = Math.min(400, window.innerWidth <= 480 ? 250 : window.innerWidth <= 768 ? 300 : 400)
 
       const writer = HanziWriter.create(canvas, ch, {
         width: canvasSize,
