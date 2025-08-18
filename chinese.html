@@ -9,8 +9,8 @@
   <style>
     :root{--bg:#0f172a;--panel:#111827;--muted:#94a3b8;--text:#e5e7eb;--accent:#22c55e;--card:#0b1220;--border:#1f2937}
     *{box-sizing:border-box}
-    html,body{height:100%;}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;background:radial-gradient(1000px 600px at 10% -10%,#1e293b 0%,transparent 60%),linear-gradient(180deg,#0b1020 0%,#020617 100%);color:var(--text)}
+    html,body{height:100%;min-height:100vh}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;background:radial-gradient(1000px 600px at 10% -10%,#1e293b 0%,#0f172a 70%),linear-gradient(180deg,#0b1020 0%,#020617 100%);background-attachment:fixed;color:var(--text)}
     .container{max-width:1080px;margin:0 auto;padding:20px 16px}
     header{display:flex;align-items:center;justify-content:space-between;gap:16px}
     .title{font-size:clamp(18px,5vw,28px);font-weight:800;letter-spacing:.3px;line-height:1.2}
@@ -39,7 +39,7 @@
     .char-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
     .char-label{font-weight:700;color:#cbd5e1;font-size:24px}
     .small{font-size:14px;color:var(--muted)}
-    .canvas{width:100%;height:300px;margin-bottom:16px}
+    .canvas{width:100%;height:300px;margin-bottom:16px;aspect-ratio:1/1;max-width:300px;margin-left:auto;margin-right:auto}
     .practice-mode{background:#0a2a1a!important;border-color:#16a34a!important}
     .practice-canvas{cursor:crosshair!important}
     .footer{margin-top:24px;color:var(--muted);font-size:13px;text-align:center}
@@ -53,7 +53,7 @@
       .subtitle{font-size:14px;text-align:left}
       .grid{max-width:350px;gap:16px;margin-top:16px}
       .card{padding:16px}
-      .canvas{height:250px}
+      .canvas{height:250px;max-width:250px}
       .char-label{font-size:22px}
     }
     
@@ -65,7 +65,7 @@
       .button-only .btn{min-width:80px;font-size:13px;padding:10px 12px}
       .grid{max-width:300px;margin:16px auto 0}
       .card{padding:12px}
-      .canvas{height:200px}
+      .canvas{height:200px;max-width:200px}
       .char-label{font-size:20px}
     }
   </style>
@@ -155,10 +155,13 @@
       const canvas = node.querySelector('.canvas')
       grid.appendChild(node)
 
+      // Get actual canvas size for responsive
+      const canvasSize = Math.min(300, window.innerWidth <= 480 ? 200 : window.innerWidth <= 768 ? 250 : 300)
+
       const writer = HanziWriter.create(canvas, ch, {
-        width: 160,
-        height: 160,
-        padding: 8,
+        width: canvasSize,
+        height: canvasSize,
+        padding: canvasSize * 0.067, // proportional padding
         showOutline: true,
         strokeAnimationSpeed: state.speed,
         delayBetweenStrokes: 200 / state.speed,
@@ -244,22 +247,26 @@
         rect.className = 'practice-grid'
         svg.insertBefore(rect, svg.firstChild)
         
-        // Center lines
+        // Center lines - responsive to actual canvas size
+        const svgRect = svg.getBoundingClientRect()
+        const centerX = svgRect.width / 2
+        const centerY = svgRect.height / 2
+        
         const centerLineH = document.createElementNS('http://www.w3.org/2000/svg', 'line')
         centerLineH.setAttribute('x1', '0')
-        centerLineH.setAttribute('y1', '80')
-        centerLineH.setAttribute('x2', '160')
-        centerLineH.setAttribute('y2', '80')
+        centerLineH.setAttribute('y1', centerY)
+        centerLineH.setAttribute('x2', svgRect.width)
+        centerLineH.setAttribute('y2', centerY)
         centerLineH.setAttribute('stroke', '#555')
         centerLineH.setAttribute('stroke-width', '1')
         centerLineH.setAttribute('opacity', '0.5')
         centerLineH.className = 'practice-grid'
         
         const centerLineV = document.createElementNS('http://www.w3.org/2000/svg', 'line')
-        centerLineV.setAttribute('x1', '80')
+        centerLineV.setAttribute('x1', centerX)
         centerLineV.setAttribute('y1', '0')
-        centerLineV.setAttribute('x2', '80')
-        centerLineV.setAttribute('y2', '160')
+        centerLineV.setAttribute('x2', centerX)
+        centerLineV.setAttribute('y2', svgRect.height)
         centerLineV.setAttribute('stroke', '#555')
         centerLineV.setAttribute('stroke-width', '1')
         centerLineV.setAttribute('opacity', '0.5')
@@ -320,14 +327,16 @@
       function startDrawing(e) {
         isDrawing = true
         const rect = svg.getBoundingClientRect()
-        const x = (e.clientX - rect.left) * (160 / rect.width)
-        const y = (e.clientY - rect.top) * (160 / rect.height)
+        const svgWidth = svg.getAttribute('width') || rect.width
+        const svgHeight = svg.getAttribute('height') || rect.height
+        const x = (e.clientX - rect.left) * (svgWidth / rect.width)
+        const y = (e.clientY - rect.top) * (svgHeight / rect.height)
         
         currentPath = document.createElementNS('http://www.w3.org/2000/svg', 'path')
         currentPath.setAttribute('d', `M${x},${y}`)
         currentPath.setAttribute('fill', 'none')
         currentPath.setAttribute('stroke', '#22c55e')
-        currentPath.setAttribute('stroke-width', '3')
+        currentPath.setAttribute('stroke-width', Math.max(3, svgWidth / 60)) // responsive stroke width
         currentPath.setAttribute('stroke-linecap', 'round')
         currentPath.setAttribute('stroke-linejoin', 'round')
         currentPath.className = 'user-stroke'
@@ -339,8 +348,10 @@
         if (!isDrawing || !currentPath) return
         
         const rect = svg.getBoundingClientRect()
-        const x = (e.clientX - rect.left) * (160 / rect.width)
-        const y = (e.clientY - rect.top) * (160 / rect.height)
+        const svgWidth = svg.getAttribute('width') || rect.width
+        const svgHeight = svg.getAttribute('height') || rect.height
+        const x = (e.clientX - rect.left) * (svgWidth / rect.width)
+        const y = (e.clientY - rect.top) * (svgHeight / rect.height)
         
         const d = currentPath.getAttribute('d')
         currentPath.setAttribute('d', d + ` L${x},${y}`)
