@@ -33,25 +33,54 @@
       color: var(--text);
       line-height: 1.6;
       min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
     }
 
-    header {
-      padding: 24px 16px;
-      text-align: center;
-      background-color: var(--primary);
-      color: var(--card-bg);
-      font-size: 1.7rem;
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: linear-gradient(135deg, #6c757d, #495057);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 0.9rem;
       font-weight: 600;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+    }
+
+    .back-button:hover {
+      background: linear-gradient(135deg, #495057, #343a40);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .back-button:active {
+      transform: translateY(0);
+    }
+
+    .back-arrow {
+      font-size: 1.1rem;
     }
 
     .container {
-      max-width: 650px;
-      margin: 0 auto;
-      padding: 60px 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
       text-align: center;
     }
 
@@ -105,30 +134,6 @@
       line-height: 1.7;
     }
 
-    .back-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      background-color: var(--primary);
-      color: var(--card-bg);
-      text-decoration: none;
-      border-radius: var(--radius);
-      font-weight: 500;
-      transition: all 0.3s ease;
-      box-shadow: var(--shadow);
-    }
-
-    .back-button:hover {
-      background-color: #3c56a6;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .back-button:active {
-      transform: translateY(0);
-    }
-
     .feature-list {
       background-color: var(--warning-bg);
       border: 1px solid var(--warning-border);
@@ -168,7 +173,8 @@
 
     @media (max-width: 600px) {
       .container {
-        padding: 40px 16px;
+        padding: 20px;
+        margin: 10px;
       }
       
       .main-title {
@@ -186,13 +192,12 @@
   </style>
 </head>
 <body>
-  <header>Tiếng Hàn Hyewon</header>
+  <button class="back-button" onclick="goToIndex()">
+    <span class="back-arrow">←</span>
+    <span>Quay lại</span>
+  </button>
 
   <div class="container">
-    <a href="index.html" class="back-button" style="position: absolute; top: 120px; left: 20px; margin: 0;">
-      ← Quay lại
-    </a>
-    
     <div class="construction-icon">🚧</div>
     
     <div class="message-card">
@@ -216,18 +221,54 @@
   </div>
 
   <script>
-    // Get lesson parameter from URL
+    // Get lesson and type parameters from URL
     const urlParams = new URLSearchParams(window.location.search);
     const lesson = urlParams.get('lesson');
+    const type = urlParams.get('type'); // 'overview' or 'exercise'
     
-    // Update title if lesson parameter exists
+    // If this is an exercise request, redirect to the exercise page
+    if (type === 'exercise' && lesson) {
+      window.location.href = `grammar-exercise.html?lesson=${lesson}`;
+      return;
+    }
+    
+    // Update title and content based on lesson and type
     if (lesson) {
       const lessonNumber = lesson.replace('lesson', '');
-      document.title = `Ngữ pháp Bài ${lessonNumber} - Tiếng Hàn Hyewon`;
       
-      // Update the main title in the card
-      const mainTitle = document.querySelector('.main-title');
-      mainTitle.textContent = `Ngữ pháp Bài ${lessonNumber} đang phát triển`;
+      if (type === 'overview') {
+        document.title = `Tổng hợp ngữ pháp Bài ${lessonNumber} - Tiếng Hàn Hyewon`;
+        
+        // Update the main title in the card
+        const mainTitle = document.querySelector('.main-title');
+        mainTitle.textContent = `Tổng hợp ngữ pháp Bài ${lessonNumber} đang phát triển`;
+        
+        // Update subtitle
+        const subtitle = document.querySelector('.subtitle');
+        subtitle.textContent = 'Phần lý thuyết ngữ pháp sẽ sớm có mặt!';
+        
+        // Update description
+        const description = document.querySelector('.description');
+        description.textContent = 'Chúng tôi đang tích cực phát triển phần tổng hợp ngữ pháp tiếng Hàn với nội dung chi tiết và dễ hiểu. Vui lòng quay lại sau để học các điểm ngữ pháp quan trọng của bài này.';
+        
+      } else {
+        // Default case for overview when no type is specified
+        document.title = `Ngữ pháp Bài ${lessonNumber} - Tiếng Hàn Hyewon`;
+        
+        // Update the main title in the card
+        const mainTitle = document.querySelector('.main-title');
+        mainTitle.textContent = `Ngữ pháp Bài ${lessonNumber} đang phát triển`;
+      }
+    } else {
+      // Default case when no specific lesson is provided
+      document.title = `Ngữ pháp - Tiếng Hàn Hyewon`;
+    }
+  </script>
+
+  <script>
+    // Function to go back to index
+    function goToIndex() {
+      window.location.href = 'index.html';
     }
   </script>
 </body>
