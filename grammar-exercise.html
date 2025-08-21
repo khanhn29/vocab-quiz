@@ -26,7 +26,7 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             position: relative;
         }
 
@@ -191,6 +191,12 @@
             box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
         }
 
+        .btn-primary:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
         .btn-secondary {
             background: #6c757d;
             color: white;
@@ -234,8 +240,23 @@
             color: #856404;
         }
 
-        #next-btn { 
-            display: none; 
+        .results-content {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .completion-icon {
+            animation: bounce 1s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
         }
 
         @media (max-width: 768px) {
@@ -263,16 +284,25 @@
             }
 
             .controls {
-                flex-direction: column;
-                align-items: center;
                 gap: 10px;
             }
 
             .btn {
-                width: 100%;
-                max-width: 300px;
                 padding: 12px 16px;
                 font-size: 0.9rem;
+                flex: 1;
+                max-width: 150px;
+            }
+
+            .results-actions {
+                flex-direction: column !important;
+                align-items: center;
+            }
+
+            .results-actions .btn {
+                width: 100% !important;
+                max-width: 250px !important;
+                margin-bottom: 10px;
             }
         }
     </style>
@@ -294,7 +324,7 @@
         </div>
         <div id="word-bank" class="flex flex-wrap justify-center gap-3 mb-8"></div>
         <div class="controls">
-            <button id="check-btn" class="btn btn-primary">Kiểm tra đáp án</button>
+            <button id="check-btn" class="btn btn-primary">Kiểm tra</button>
             <button id="next-btn" class="btn btn-primary">Câu tiếp theo</button>
         </div>
         <div id="feedback" class="feedback" style="display: none;"></div>
@@ -319,6 +349,7 @@
             let hasAnswered = false;
             let currentQuestionIndex = 0;
             let totalQuestions = 0;
+            let correctAnswers = 0; // Track correct answers
 
             // Exercise data structure (same as before)
             const exerciseData = {
@@ -501,6 +532,7 @@
                 currentExercises = [...lessonData.exercises];
                 totalQuestions = currentExercises.length;
                 currentQuestionIndex = 1;
+                correctAnswers = 0; // Reset correct answers count
                 
                 // Set lesson name at the top
                 lessonName.textContent = lessonData.title;
@@ -524,7 +556,7 @@
                 feedbackEl.style.display = 'none';
                 explanationEl.style.display = 'none';
                 checkBtn.style.display = 'inline-block';
-                nextBtn.style.display = 'none';
+                nextBtn.disabled = true; // Disable next button until check is clicked
                 hasAnswered = false;
 
                 const randomIndex = Math.floor(Math.random() * currentExercises.length);
@@ -532,6 +564,13 @@
 
                 // Update question counter
                 updateQuestionCounter();
+
+                // Update button text based on current question index
+                if (currentQuestionIndex === totalQuestions) {
+                    nextBtn.textContent = 'Kết thúc';
+                } else {
+                    nextBtn.textContent = 'Câu tiếp theo';
+                }
 
                 // Clear and rebuild sentence container
                 sentenceContainer.innerHTML = '';
@@ -624,13 +663,15 @@
 
                 hasAnswered = true;
 
+                // Enable next button after checking answers
+                nextBtn.disabled = false;
+
                 // Show feedback
                 if (allCorrect) {
+                    correctAnswers++; // Increment correct answers count
                     feedbackEl.className = 'feedback success';
                     feedbackEl.textContent = 'Chính xác! 🎉';
                     speak(fullSentence.replace(/\.\.\./g, ''), 'ko-KR');
-                    checkBtn.style.display = 'none';
-                    nextBtn.style.display = 'inline-block';
 
                     // Track correct answer
                     if (typeof trackQuestionAnswer === 'function') {
@@ -668,14 +709,108 @@
                 }
             }
 
+            function showResultsPage() {
+                // Hide current quiz container
+                const quizContainer = document.getElementById('quiz-container');
+                quizContainer.style.display = 'none';
+
+                // Calculate score percentage
+                const scorePercentage = Math.round((correctAnswers / totalQuestions) * 100);
+                const isPerfectScore = correctAnswers === totalQuestions;
+                
+                // Choose content based on score
+                let resultIcon, resultTitle, resultMessage, resultColor;
+                
+                if (isPerfectScore) {
+                    // Perfect score - congratulations screen
+                    resultIcon = '🎉';
+                    resultTitle = 'Xuất sắc!';
+                    resultMessage = 'Bạn đã trả lời đúng tất cả các câu hỏi! Thật tuyệt vời!';
+                    resultColor = '#28a745';
+                } else if (scorePercentage >= 80) {
+                    // Good score
+                    resultIcon = '👏';
+                    resultTitle = 'Rất tốt!';
+                    resultMessage = 'Bạn đã làm rất tốt! Hãy tiếp tục cố gắng!';
+                    resultColor = '#17a2b8';
+                } else if (scorePercentage >= 60) {
+                    // Average score
+                    resultIcon = '📚';
+                    resultTitle = 'Cần cố gắng thêm!';
+                    resultMessage = 'Bạn đã hoàn thành bài học. Hãy ôn tập và thử lại để cải thiện kết quả!';
+                    resultColor = '#ffc107';
+                } else {
+                    // Low score
+                    resultIcon = '💪';
+                    resultTitle = 'Đừng nản chí!';
+                    resultMessage = 'Học tiếng Hàn cần thời gian và kiên trì. Hãy ôn tập và thử lại!';
+                    resultColor = '#dc3545';
+                }
+
+                // Create results container
+                const resultsContainer = document.createElement('div');
+                resultsContainer.className = 'main-container text-center';
+                resultsContainer.innerHTML = `
+                    <div class="results-content">
+                        <div class="completion-icon" style="font-size: 4rem; margin-bottom: 20px;">${resultIcon}</div>
+                        <h2 style="color: ${resultColor}; font-size: 2rem; margin-bottom: 20px; font-weight: 700;">${resultTitle}</h2>
+                        <p style="font-size: 1.2rem; color: #6c757d; margin-bottom: 30px;">
+                            ${resultMessage}
+                        </p>
+                        
+                        <div class="score-display" style="background: linear-gradient(135deg, ${resultColor}20, ${resultColor}10); border: 2px solid ${resultColor}; border-radius: 16px; padding: 30px; margin-bottom: 30px;">
+                            <div style="font-size: 3rem; font-weight: bold; color: ${resultColor}; margin-bottom: 10px;">
+                                ${correctAnswers}/${totalQuestions}
+                            </div>
+                            <div style="font-size: 1.5rem; color: ${resultColor}; font-weight: 600; margin-bottom: 10px;">
+                                ${scorePercentage}% chính xác
+                            </div>
+                            <div style="font-size: 1rem; color: #6c757d;">
+                                Bạn đã trả lời đúng ${correctAnswers} trên ${totalQuestions} câu hỏi
+                            </div>
+                        </div>
+                        
+                        <div class="results-stats" style="background: #f8f9fa; border-radius: 12px; padding: 25px; margin-bottom: 30px;">
+                            <div style="font-size: 1.1rem; color: #495057;">
+                                <strong>Bài học:</strong> ${lessonName.textContent}<br>
+                                <strong>Tổng số câu:</strong> ${totalQuestions} câu<br>
+                                <strong>Trạng thái:</strong> <span style="color: ${resultColor}; font-weight: 600;">Hoàn thành ✓</span>
+                            </div>
+                        </div>
+                        
+                        <div class="results-actions" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                            <button onclick="restartLesson()" class="btn btn-primary" style="min-width: 150px;">
+                                🔄 Làm lại bài
+                            </button>
+                            <button onclick="goToIndex()" class="btn btn-secondary" style="min-width: 150px;">
+                                🏠 Về trang chủ
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                // Insert results container after header
+                document.body.appendChild(resultsContainer);
+
+                // Track completion with score
+                if (typeof trackPageView === 'function') {
+                    trackPageView('Grammar Exercise Completed', `/grammar-exercise-completed.html?lesson=${new URLSearchParams(window.location.search).get('lesson')}&score=${scorePercentage}`);
+                }
+            }
+
             // --- EVENT LISTENERS ---
             checkBtn.addEventListener('click', checkAnswers);
             nextBtn.addEventListener('click', function() {
-                currentQuestionIndex++;
-                if (currentQuestionIndex > totalQuestions) {
-                    currentQuestionIndex = 1; // Reset về câu 1 khi hết
+                if (nextBtn.disabled) return; // Prevent action if disabled
+                
+                if (currentQuestionIndex === totalQuestions) {
+                    // Go to results page when finishing the lesson
+                    showResultsPage();
+                } else {
+                    // Continue to next question
+                    currentQuestionIndex++;
+                    loadRandomQuestion();
                 }
-                loadRandomQuestion();
             });
 
             // --- INITIALIZE QUIZ ---
@@ -684,6 +819,13 @@
 
         function goToIndex() {
             window.location.href = 'index.html';
+        }
+
+        // Restart lesson function - accessible globally
+        function restartLesson() {
+            // Reset all state variables by accessing them through the global window object
+            // Since they're defined in DOMContentLoaded, we need to reload the page for a clean restart
+            window.location.reload();
         }
     </script>
 </body>

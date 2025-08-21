@@ -9,8 +9,8 @@ Các bước chuẩn bị trước khi chạy:
 
 3. Chuẩn bị file dữ liệu:
    - Tạo file .js trong thư mục data/
-   - Đặt tên theo format: sc[số]b[số]_[số][Chủ đề].js
-     Ví dụ: sc1b1_1NgheNghiep.js
+   - Đặt tên theo format: l[số]-v[số]-[chủ đề].js
+     Ví dụ: l1-v1-jobs.js, l4-v1-months.js
    
    - Nội dung file phải có cấu trúc:
      const vocabulary = [
@@ -68,12 +68,13 @@ async def main():
         if not filename.endswith(".js"):
             continue
 
-        match = re.match(r"(sc\d+b\d+)_([0-9]+)([A-Za-z0-9]+)\.js", filename)
+        match = re.match(r"(l\d+)-v(\d+)-([A-Za-z0-9]+)\.js", filename)
         if not match:
             print(f"Tên file không hợp lệ: {filename}")
             continue
 
         lesson_code, part_number, topic = match.groups()
+        lesson_code = f"l{lesson_code[1:]}"  # Keep the 'l' prefix
 
         filepath = os.path.join(DATA_DIR, filename)
         with open(filepath, "r", encoding="utf-8") as f:
