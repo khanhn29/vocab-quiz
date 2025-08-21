@@ -226,39 +226,37 @@
     const lesson = urlParams.get('lesson');
     const type = urlParams.get('type'); // 'overview' or 'exercise'
     
-    // If this is an exercise request, redirect to the exercise page
+    // If this is an exercise request, redirect to the exercise page immediately
     if (type === 'exercise' && lesson) {
       window.location.href = `grammar-exercise.html?lesson=${lesson}`;
       return;
     }
     
-    // Update title and content based on lesson and type
-    if (lesson) {
+    // Update title and content based on lesson and type for overview pages only
+    if (lesson && type === 'overview') {
       const lessonNumber = lesson.replace('lesson', '');
+      document.title = `Tổng hợp ngữ pháp Bài ${lessonNumber} - Tiếng Hàn Hyewon`;
       
-      if (type === 'overview') {
-        document.title = `Tổng hợp ngữ pháp Bài ${lessonNumber} - Tiếng Hàn Hyewon`;
-        
-        // Update the main title in the card
-        const mainTitle = document.querySelector('.main-title');
-        mainTitle.textContent = `Tổng hợp ngữ pháp Bài ${lessonNumber} đang phát triển`;
-        
-        // Update subtitle
-        const subtitle = document.querySelector('.subtitle');
-        subtitle.textContent = 'Phần lý thuyết ngữ pháp sẽ sớm có mặt!';
-        
-        // Update description
-        const description = document.querySelector('.description');
-        description.textContent = 'Chúng tôi đang tích cực phát triển phần tổng hợp ngữ pháp tiếng Hàn với nội dung chi tiết và dễ hiểu. Vui lòng quay lại sau để học các điểm ngữ pháp quan trọng của bài này.';
-        
-      } else {
-        // Default case for overview when no type is specified
-        document.title = `Ngữ pháp Bài ${lessonNumber} - Tiếng Hàn Hyewon`;
-        
-        // Update the main title in the card
-        const mainTitle = document.querySelector('.main-title');
-        mainTitle.textContent = `Ngữ pháp Bài ${lessonNumber} đang phát triển`;
-      }
+      // Update the main title in the card
+      const mainTitle = document.querySelector('.main-title');
+      mainTitle.textContent = `Tổng hợp ngữ pháp Bài ${lessonNumber} đang phát triển`;
+      
+      // Update subtitle
+      const subtitle = document.querySelector('.subtitle');
+      subtitle.textContent = 'Phần lý thuyết ngữ pháp sẽ sớm có mặt!';
+      
+      // Update description
+      const description = document.querySelector('.description');
+      description.textContent = 'Chúng tôi đang tích cực phát triển phần tổng hợp ngữ pháp tiếng Hàn với nội dung chi tiết và dễ hiểu. Vui lòng quay lại sau để học các điểm ngữ pháp quan trọng của bài này.';
+      
+    } else if (lesson && !type) {
+      // Default case for lesson without specific type
+      const lessonNumber = lesson.replace('lesson', '');
+      document.title = `Ngữ pháp Bài ${lessonNumber} - Tiếng Hàn Hyewon`;
+      
+      // Update the main title in the card
+      const mainTitle = document.querySelector('.main-title');
+      mainTitle.textContent = `Ngữ pháp Bài ${lessonNumber} đang phát triển`;
     } else {
       // Default case when no specific lesson is provided
       document.title = `Ngữ pháp - Tiếng Hàn Hyewon`;

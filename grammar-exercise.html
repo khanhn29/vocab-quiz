@@ -4,9 +4,13 @@
     <!-- Google tag (gtag.js) -->
     <script src="analytics.js"></script>
     
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bài tập ngữ pháp - Tiếng Hàn Hyewon</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Bài tập Ngữ pháp - Tiếng Hàn Hyewon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * {
             margin: 0;
@@ -18,6 +22,7 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: #f8f9fa;
             padding: 20px;
+            padding-top: 100px;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -25,10 +30,33 @@
             position: relative;
         }
 
-        .back-button {
+        .header-bar {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #f8f9fa;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f39c12;
+            margin: 0;
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 200px);
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .back-button {
             background: linear-gradient(135deg, #6c757d, #495057);
             color: white;
             border: none;
@@ -42,7 +70,8 @@
             align-items: center;
             gap: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
+            position: relative;
+            z-index: 1001;
         }
 
         .back-button:hover {
@@ -55,7 +84,7 @@
             font-size: 1.1rem;
         }
 
-        .container {
+        .main-container {
             background: white;
             border-radius: 16px;
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
@@ -64,28 +93,16 @@
             width: 100%;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
+        .korean-text, .korean-text .blank, .korean-text .word-btn { 
+            font-family: 'Noto Sans KR', sans-serif; 
         }
 
-        .lesson-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #f39c12;
-            margin-bottom: 8px;
-        }
-
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #e9ecef;
-            padding: 12px 20px;
-            border-radius: 25px;
-            margin-bottom: 20px;
+        .question-counter {
+            font-size: 1.1rem;
             font-weight: 600;
             color: #6c757d;
+            margin-bottom: 25px;
+            text-align: center;
         }
 
         .question-container {
@@ -96,11 +113,16 @@
             border: 2px solid #e9ecef;
         }
 
-        .question-text {
-            font-size: 1.3rem;
-            line-height: 1.6;
-            color: #1a1a1a;
-            margin-bottom: 20px;
+        .blank.correct { 
+            background-color: #28a745; 
+            border-color: #28a745; 
+            color: white; 
+        }
+
+        .blank.incorrect { 
+            background-color: #dc3545; 
+            border-color: #dc3545; 
+            color: white; 
         }
 
         .blank {
@@ -123,57 +145,22 @@
             transform: translateY(-1px);
         }
 
-        .blank.filled {
-            background: #007bff;
-            color: white;
+        .blank:empty::after {
+            content: "?";
+            color: #007bff;
         }
 
-        .blank.correct {
-            background: #28a745;
-            border-color: #28a745;
-            color: white;
+        .word-btn:disabled { 
+            background-color: #d1d5db; 
+            cursor: not-allowed; 
+            opacity: 0.7; 
         }
 
-        .blank.incorrect {
-            background: #dc3545;
-            border-color: #dc3545;
-            color: white;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
-        .option {
-            background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            padding: 12px 16px;
-            text-align: center;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .option:hover:not(.used):not(.disabled) {
-            border-color: #007bff;
-            background: #f8f9ff;
-            transform: translateY(-2px);
-        }
-
-        .option.used {
-            background: #e9ecef;
+        .translation-text {
+            font-size: 1rem;
             color: #6c757d;
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        .option.disabled {
-            cursor: not-allowed;
-            opacity: 0.5;
+            margin-bottom: 15px;
+            font-style: italic;
         }
 
         .controls {
@@ -181,6 +168,7 @@
             gap: 15px;
             justify-content: center;
             margin-top: 25px;
+            flex-wrap: wrap;
         }
 
         .btn {
@@ -210,12 +198,6 @@
 
         .btn-secondary:hover {
             background: #545b62;
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
         }
 
         .feedback {
@@ -252,424 +234,457 @@
             color: #856404;
         }
 
-        .completion-message {
-            text-align: center;
-            padding: 30px;
-        }
-
-        .completion-title {
-            font-size: 2rem;
-            color: #28a745;
-            margin-bottom: 15px;
-        }
-
-        .score {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #6c757d;
-            margin-bottom: 20px;
+        #next-btn { 
+            display: none; 
         }
 
         @media (max-width: 768px) {
-            .container {
+            body {
+                padding-top: 100px;
+            }
+
+            .header-bar {
+                padding: 15px 20px;
+            }
+
+            .header-title {
+                font-size: 1.2rem;
+                width: calc(100% - 120px);
+            }
+
+            .back-button {
+                padding: 10px 12px;
+                font-size: 0.8rem;
+            }
+
+            .main-container {
                 padding: 20px;
                 margin: 10px;
-            }
-
-            .question-text {
-                font-size: 1.1rem;
-            }
-
-            .options-grid {
-                grid-template-columns: 1fr;
             }
 
             .controls {
                 flex-direction: column;
                 align-items: center;
+                gap: 10px;
             }
 
             .btn {
                 width: 100%;
-                max-width: 200px;
+                max-width: 300px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
-    <button class="back-button" onclick="goToIndex()">
-        <span class="back-arrow">←</span>
-        <span>Quay lại</span>
-    </button>
+    <div class="header-bar">
+        <button class="back-button" onclick="goToIndex()">
+            <span class="back-arrow">←</span>
+            <span>Quay lại</span>
+        </button>
+        <h1 id="lesson-name" class="header-title">Đang tải bài học...</h1>
+    </div>
 
-    <div class="container">
-        <div class="header">
-            <h1 class="lesson-title" id="lessonTitle">Bài tập ngữ pháp</h1>
-            <div class="progress-info">
-                <span id="questionCounter">Câu 1 / 5</span>
-                <span id="scoreCounter">Điểm: 0</span>
+    <div id="quiz-container" class="main-container text-center">
+        <div id="question-counter" class="question-counter">Câu 1/5</div>
+        <div class="question-container">
+            <div id="sentence-container" class="korean-text text-xl sm:text-2xl leading-loose">
             </div>
         </div>
-
-        <div id="exerciseContent">
-            <div class="question-container">
-                <div class="question-text" id="questionText">
-                    <!-- Question will be loaded here -->
-                </div>
-                
-                <div class="options-grid" id="optionsGrid">
-                    <!-- Options will be loaded here -->
-                </div>
-            </div>
-
-            <div class="controls">
-                <button class="btn btn-secondary" id="resetBtn" onclick="resetQuestion()">Làm lại</button>
-                <button class="btn btn-primary" id="checkBtn" onclick="checkAnswer()">Kiểm tra</button>
-                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" style="display: none;">Câu tiếp theo</button>
-            </div>
-
-            <div id="feedback" class="feedback" style="display: none;"></div>
-            <div id="explanation" class="explanation" style="display: none;"></div>
+        <div id="word-bank" class="flex flex-wrap justify-center gap-3 mb-8"></div>
+        <div class="controls">
+            <button id="check-btn" class="btn btn-primary">Kiểm tra đáp án</button>
+            <button id="next-btn" class="btn btn-primary">Câu tiếp theo</button>
         </div>
-
-        <div id="completionMessage" class="completion-message" style="display: none;">
-            <!-- Completion message will be shown here -->
-        </div>
+        <div id="feedback" class="feedback" style="display: none;"></div>
+        <div id="explanation" class="explanation" style="display: none;"></div>
     </div>
 
     <script>
-        // Get parameters from URL
-        const params = new URLSearchParams(window.location.search);
-        const lesson = params.get('lesson') || 'lesson1';
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- DOM ELEMENTS ---
+            const lessonName = document.getElementById('lesson-name');
+            const questionCounter = document.getElementById('question-counter');
+            const sentenceContainer = document.getElementById('sentence-container');
+            const wordBank = document.getElementById('word-bank');
+            const checkBtn = document.getElementById('check-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const feedbackEl = document.getElementById('feedback');
+            const explanationEl = document.getElementById('explanation');
 
-        // Exercise data structure
-        const exerciseData = {
-            lesson1: {
-                title: "Bài 1: Giới thiệu",
-                exercises: [
-                    {
-                        question: "저는 {blank}입니다. (Tôi là người Việt Nam)",
-                        options: ["베트남 사람", "한국 사람", "일본 사람", "중국 사람"],
-                        correct: "베트남 사람",
-                        explanation: "베트남 사람 có nghĩa là 'người Việt Nam'. Cấu trúc: 저는 + [quốc tịch] + 입니다."
-                    },
-                    {
-                        question: "제 {blank}은 김민수입니다. (Tên tôi là Kim Min Su)",
-                        options: ["이름", "나이", "직업", "취미"],
-                        correct: "이름",
-                        explanation: "이름 có nghĩa là 'tên'. Cấu trúc: 제 이름은 + [tên] + 입니다."
-                    },
-                    {
-                        question: "저는 {blank}입니다. (Tôi là học sinh)",
-                        options: ["학생", "선생님", "의사", "간호사"],
-                        correct: "학생",
-                        explanation: "학생 có nghĩa là 'học sinh/sinh viên'. Cấu trúc: 저는 + [nghề nghiệp] + 입니다."
-                    },
-                    {
-                        question: "안녕하세요? 처음 {blank}입니다. (Xin chào? Rất vui được gặp lần đầu)",
-                        options: ["뵙겠습니다", "만나겠습니다", "뵙습니다", "만납니다"],
-                        correct: "뵙겠습니다",
-                        explanation: "처음 뵙겠습니다 là cách nói lịch sự 'rất vui được gặp lần đầu'."
-                    },
-                    {
-                        question: "저는 한국어를 {blank}. (Tôi học tiếng Hàn)",
-                        options: ["공부합니다", "가르칩니다", "말합니다", "씁니다"],
-                        correct: "공부합니다",
-                        explanation: "공부합니다 có nghĩa là 'học'. Cấu trúc: [môn học]을/를 공부합니다."
+            // --- APP STATE ---
+            let currentExercises = [];
+            let currentQuestion = null;
+            let hasAnswered = false;
+            let currentQuestionIndex = 0;
+            let totalQuestions = 0;
+
+            // Exercise data structure (same as before)
+            const exerciseData = {
+                lesson1: {
+                    title: "Bài 1: Giới thiệu",
+                    exercises: [
+                        {
+                            template: "저는 __이고, __에서 왔습니다.",
+                            translation: "Tôi là người Việt Nam và đến từ Việt Nam",
+                            choices: ["베트남 사람", "베트남", "한국 사람", "일본"],
+                            solution: ["베트남 사람", "베트남"],
+                            explanation: "베트남 사람 có nghĩa là 'người Việt Nam', 베트남 có nghĩa là 'Việt Nam'. Cấu trúc: 저는 [quốc tịch]이고, [quốc gia]에서 왔습니다."
+                        },
+                        {
+                            template: "제 __은 김민수입니다.",
+                            translation: "Tên tôi là Kim Min Su",
+                            choices: ["이름", "나이", "직업", "취미"],
+                            solution: ["이름"],
+                            explanation: "이름 có nghĩa là 'tên'. Cấu trúc: 제 이름은 + [tên] + 입니다."
+                        },
+                        {
+                            template: "저는 __이고 __를 공부합니다.",
+                            translation: "Tôi là học sinh và học tiếng Hàn",
+                            choices: ["학생", "한국어", "선생님", "영어"],
+                            solution: ["학생", "한국어"],
+                            explanation: "학생 có nghĩa là 'học sinh/sinh viên', 한국어 có nghĩa là 'tiếng Hàn'. Cấu trúc: 저는 [nghề nghiệp]이고 [môn học]를 공부합니다."
+                        },
+                        {
+                            template: "안녕하세요? 처음 __입니다.",
+                            translation: "Xin chào? Rất vui được gặp lần đầu",
+                            choices: ["뵙겠습니다", "만나겠습니다", "뵙습니다", "만납니다"],
+                            solution: ["뵙겠습니다"],
+                            explanation: "처음 뵙겠습니다 là cách nói lịch sự 'rất vui được gặp lần đầu'."
+                        },
+                        {
+                            template: "저는 __에서 __을 __.",
+                            translation: "Tôi học tiếng Hàn ở trường đại học",
+                            choices: ["대학교", "한국어", "공부합니다", "가르칩니다"],
+                            solution: ["대학교", "한국어", "공부합니다"],
+                            explanation: "대학교 có nghĩa là 'trường đại học', 한국어 có nghĩa là 'tiếng Hàn', 공부합니다 có nghĩa là 'học'. Cấu trúc: [nơi chốn]에서 [môn học]을 공부합니다."
+                        }
+                    ]
+                },
+                lesson2: {
+                    title: "Bài 2: Trường học",
+                    exercises: [
+                        {
+                            template: "교실에 __이 있습니다.",
+                            translation: "Trong lớp có bảng đen",
+                            choices: ["칠판", "침대", "냉장고", "텔레비전"],
+                            solution: ["칠판"],
+                            explanation: "칠판 có nghĩa là 'bảng đen'. Cấu trúc: [nơi chốn]에 + [đồ vật]이/가 있습니다."
+                        },
+                        {
+                            template: "학생들이 __에서 공부합니다.",
+                            translation: "Học sinh học ở thư viện",
+                            choices: ["도서관", "식당", "화장실", "운동장"],
+                            solution: ["도서관"],
+                            explanation: "도서관 có nghĩa là 'thư viện'. Cấu trúc: [nơi chốn]에서 + [hành động]합니다."
+                        },
+                        {
+                            template: "이것은 __입니다.",
+                            translation: "Đây là quyển sách",
+                            choices: ["책", "공책", "사전", "지도"],
+                            solution: ["책"],
+                            explanation: "책 có nghĩa là 'sách'. Cấu trúc: 이것은 + [đồ vật] + 입니다."
+                        },
+                        {
+                            template: "저는 __에 가습니다.",
+                            translation: "Tôi đi tới trường học",
+                            choices: ["학교", "집", "병원", "은행"],
+                            solution: ["학교"],
+                            explanation: "학교 có nghĩa là 'trường học'. Cấu trúc: [nơi chốn]에 가습니다."
+                        },
+                        {
+                            template: "선생님이 __에 계십니다.",
+                            translation: "Thầy giáo ở trong phòng giáo viên",
+                            choices: ["교무실", "교실", "도서관", "식당"],
+                            solution: ["교무실"],
+                            explanation: "교무실 có nghĩa là 'phòng giáo viên'. 계십니다 là dạng kính ngữ của 있습니다."
+                        }
+                    ]
+                },
+                lesson3: {
+                    title: "Bài 3: Sinh hoạt hằng ngày",
+                    exercises: [
+                        {
+                            template: "저는 매일 아침에 __을 마십니다.",
+                            translation: "Tôi uống cà phê mỗi sáng",
+                            choices: ["커피", "우유", "물", "차"],
+                            solution: ["커피"],
+                            explanation: "커피 có nghĩa là 'cà phê'. Cấu trúc: [đồ uống]을/를 마십니다."
+                        },
+                        {
+                            template: "친구와 함께 __을 봅니다.",
+                            translation: "Tôi xem phim với bạn",
+                            choices: ["영화", "텔레비전", "신문", "책"],
+                            solution: ["영화"],
+                            explanation: "영화 có nghĩa là 'phim'. Cấu trúc: [người] + 와/과 함께 + [hành động]합니다."
+                        },
+                        {
+                            template: "한국 음식을 __.",
+                            translation: "Tôi ăn đồ ăn Hàn Quốc",
+                            choices: ["먹습니다", "마십니다", "봅니다", "듣습니다"],
+                            solution: ["먹습니다"],
+                            explanation: "먹습니다 có nghĩa là 'ăn'. Dùng với thức ăn, còn 마십니다 dùng với đồ uống."
+                        },
+                        {
+                            template: "이 영화는 정말 __.",
+                            translation: "Bộ phim này thật thú vị",
+                            choices: ["재미있습니다", "재미없습니다", "나쁩니다", "어렵습니다"],
+                            solution: ["재미있습니다"],
+                            explanation: "재미있습니다 có nghĩa là 'thú vị, vui'. Phản nghĩa là 재미없습니다 (không thú vị)."
+                        },
+                        {
+                            template: "저는 주말에 친구를 __.",
+                            translation: "Tôi gặp bạn vào cuối tuần",
+                            choices: ["만납니다", "봅니다", "갑니다", "옵니다"],
+                            solution: ["만납니다"],
+                            explanation: "만납니다 có nghĩa là 'gặp'. Cấu trúc: [người]을/를 만납니다."
+                        }
+                    ]
+                },
+                lesson4: {
+                    title: "Bài 4: Ngày và Thứ",
+                    exercises: [
+                        {
+                            template: "오늘은 __입니다.",
+                            translation: "Hôm nay là thứ hai",
+                            choices: ["월요일", "화요일", "수요일", "목요일"],
+                            solution: ["월요일"],
+                            explanation: "월요일 có nghĩa là 'thứ hai'. Các ngày trong tuần: 월요일(T2), 화요일(T3), 수요일(T4), 목요일(T5), 금요일(T6), 토요일(T7), 일요일(CN)."
+                        },
+                        {
+                            template: "지금 __ 시입니다.",
+                            translation: "Bây giờ là 3 giờ",
+                            choices: ["세", "네", "다섯", "여섯"],
+                            solution: ["세"],
+                            explanation: "세 có nghĩa là 'ba'. Khi nói giờ, dùng số thuần Hàn: 하나(1), 둘(2), 세(3), 네(4), 다섯(5)..."
+                        },
+                        {
+                            template: "저는 __에 일어납니다.",
+                            translation: "Tôi thức dậy lúc 7 giờ sáng",
+                            choices: ["일곱 시", "여덟 시", "아홉 시", "열 시"],
+                            solution: ["일곱 시"],
+                            explanation: "일곱 시 có nghĩa là '7 giờ'. Cấu trúc: [số thuần Hàn] + 시 để chỉ giờ."
+                        },
+                        {
+                            template: "내일은 __일입니다.",
+                            translation: "Ngày mai là ngày 15",
+                            choices: ["십오", "십사", "십육", "십칠"],
+                            solution: ["십오"],
+                            explanation: "십오 có nghĩa là '15'. Số Hán-Việt dùng cho ngày tháng: 십(10) + 오(5) = 십오(15)."
+                        },
+                        {
+                            template: "수업은 __에 시작합니다.",
+                            translation: "Lớp học bắt đầu vào tháng 3",
+                            choices: ["삼월", "사월", "오월", "유월"],
+                            solution: ["삼월"],
+                            explanation: "삼월 có nghĩa là 'tháng 3'. Các tháng trong năm: 일월(T1), 이월(T2), 삼월(T3), 사월(T4), 오월(T5), 유월(T6)..."
+                        }
+                    ]
+                }
+            };
+
+            /**
+             * Initialize the quiz
+             */
+            function initializeQuiz() {
+                // Get parameters from URL
+                const params = new URLSearchParams(window.location.search);
+                const lesson = params.get('lesson') || 'lesson1';
+
+                const lessonData = exerciseData[lesson];
+                if (!lessonData) {
+                    lessonName.textContent = "Bài học không hợp lệ";
+                    return;
+                }
+
+                currentExercises = [...lessonData.exercises];
+                totalQuestions = currentExercises.length;
+                currentQuestionIndex = 1;
+                
+                // Set lesson name at the top
+                lessonName.textContent = lessonData.title;
+                
+                // Update question counter
+                updateQuestionCounter();
+
+                // Track page view
+                if (typeof trackPageView === 'function') {
+                    trackPageView(`Grammar Exercise ${lesson}`, `/grammar-exercise.html?lesson=${lesson}`);
+                }
+
+                loadRandomQuestion();
+            }
+
+            function updateQuestionCounter() {
+                questionCounter.textContent = `Câu ${currentQuestionIndex}/${totalQuestions}`;
+            }
+
+            function loadRandomQuestion() {
+                feedbackEl.style.display = 'none';
+                explanationEl.style.display = 'none';
+                checkBtn.style.display = 'inline-block';
+                nextBtn.style.display = 'none';
+                hasAnswered = false;
+
+                const randomIndex = Math.floor(Math.random() * currentExercises.length);
+                currentQuestion = currentExercises[randomIndex];
+
+                // Update question counter
+                updateQuestionCounter();
+
+                // Clear and rebuild sentence container
+                sentenceContainer.innerHTML = '';
+                
+                // Add translation
+                const translationDiv = document.createElement('div');
+                translationDiv.className = 'translation-text';
+                translationDiv.textContent = `(${currentQuestion.translation})`;
+                sentenceContainer.appendChild(translationDiv);
+
+                // Create sentence with blanks
+                const sentenceDiv = document.createElement('div');
+                sentenceDiv.className = 'korean-text text-xl sm:text-2xl leading-loose';
+                
+                const parts = currentQuestion.template.split('__');
+                parts.forEach((part, index) => {
+                    sentenceDiv.appendChild(document.createTextNode(part));
+                    if (index < parts.length - 1) {
+                        const blank = document.createElement('span');
+                        blank.className = 'blank';
+                        blank.dataset.index = index;
+                        blank.addEventListener('click', () => handleBlankClick(blank));
+                        sentenceDiv.appendChild(blank);
                     }
-                ]
-            },
-            lesson2: {
-                title: "Bài 2: Trường học",
-                exercises: [
-                    {
-                        question: "교실에 {blank}이 있습니다. (Trong lớp có bảng đen)",
-                        options: ["칠판", "침대", "냉장고", "텔레비전"],
-                        correct: "칠판",
-                        explanation: "칠판 có nghĩa là 'bảng đen'. Cấu trúc: [nơi chốn]에 + [đồ vật]이/가 있습니다."
-                    },
-                    {
-                        question: "학생들이 {blank}에서 공부합니다. (Học sinh học ở thư viện)",
-                        options: ["도서관", "식당", "화장실", "운동장"],
-                        correct: "도서관",
-                        explanation: "도서관 có nghĩa là 'thư viện'. Cấu trúc: [nơi chốn]에서 + [hành động]합니다."
-                    },
-                    {
-                        question: "이것은 {blank}입니다. (Đây là quyển sách)",
-                        options: ["책", "공책", "사전", "지도"],
-                        correct: "책",
-                        explanation: "책 có nghĩa là 'sách'. Cấu trúc: 이것은 + [đồ vật] + 입니다."
-                    },
-                    {
-                        question: "저는 {blank}에 가습니다. (Tôi đi tới trường học)",
-                        options: ["학교", "집", "병원", "은행"],
-                        correct: "학교",
-                        explanation: "학교 có nghĩa là 'trường học'. Cấu trúc: [nơi chốn]에 가습니다."
-                    },
-                    {
-                        question: "선생님이 {blank}에 계십니다. (Thầy giáo ở trong phòng giáo viên)",
-                        options: ["교무실", "교실", "도서관", "식당"],
-                        correct: "교무실",
-                        explanation: "교무실 có nghĩa là 'phòng giáo viên'. 계십니다 là dạng kính ngữ của 있습니다."
+                });
+                
+                sentenceContainer.appendChild(sentenceDiv);
+                
+                // Create word bank
+                wordBank.innerHTML = '';
+                const shuffledChoices = [...currentQuestion.choices].sort(() => Math.random() - 0.5);
+                shuffledChoices.forEach(word => {
+                    const btn = document.createElement('button');
+                    btn.textContent = word;
+                    btn.className = 'word-btn korean-text bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg transition-colors duration-300';
+                    btn.addEventListener('click', () => handleWordSelection(btn));
+                    wordBank.appendChild(btn);
+                });
+            }
+
+            function handleWordSelection(wordBtn) {
+                if (wordBtn.disabled || hasAnswered) return;
+
+                const blanks = sentenceContainer.querySelectorAll('.blank');
+                const targetBlank = Array.from(blanks).find(b => !b.dataset.answer);
+                
+                if (targetBlank) {
+                    targetBlank.textContent = wordBtn.textContent;
+                    targetBlank.dataset.answer = wordBtn.textContent;
+                    wordBtn.disabled = true;
+                }
+            }
+            
+            function handleBlankClick(clickedBlank) {
+                if (hasAnswered) return;
+
+                const wordInBlank = clickedBlank.dataset.answer;
+                if (wordInBlank) {
+                    const wordBtnToEnable = Array.from(wordBank.querySelectorAll('.word-btn')).find(btn => 
+                        btn.textContent === wordInBlank && btn.disabled
+                    );
+                    if (wordBtnToEnable) wordBtnToEnable.disabled = false;
+                    
+                    clickedBlank.textContent = '';
+                    clickedBlank.dataset.answer = '';
+                    clickedBlank.classList.remove('correct', 'incorrect');
+                }
+            }
+
+            function checkAnswers() {
+                const blanks = sentenceContainer.querySelectorAll('.blank');
+                
+                if (!currentQuestion) return;
+
+                let allCorrect = true;
+                let fullSentence = currentQuestion.template;
+
+                blanks.forEach((blank, index) => {
+                    const userAnswer = blank.dataset.answer;
+                    const correctAnswer = currentQuestion.solution[index];
+                    fullSentence = fullSentence.replace('__', userAnswer || '...');
+                    
+                    if (userAnswer === correctAnswer) {
+                        blank.classList.add('correct');
+                    } else {
+                        blank.classList.add('incorrect');
+                        allCorrect = false;
                     }
-                ]
-            },
-            lesson3: {
-                title: "Bài 3: Sinh hoạt hằng ngày",
-                exercises: [
-                    {
-                        question: "저는 매일 아침에 {blank}을 마십니다. (Tôi uống cà phê mỗi sáng)",
-                        options: ["커피", "우유", "물", "차"],
-                        correct: "커피",
-                        explanation: "커피 có nghĩa là 'cà phê'. Cấu trúc: [đồ uống]을/를 마십니다."
-                    },
-                    {
-                        question: "친구와 함께 {blank}을 봅니다. (Tôi xem phim với bạn)",
-                        options: ["영화", "텔레비전", "신문", "책"],
-                        correct: "영화",
-                        explanation: "영화 có nghĩa là 'phim'. Cấu trúc: [người] + 와/과 함께 + [hành động]합니다."
-                    },
-                    {
-                        question: "한국 음식을 {blank}. (Tôi ăn đồ ăn Hàn Quốc)",
-                        options: ["먹습니다", "마십니다", "봅니다", "듣습니다"],
-                        correct: "먹습니다",
-                        explanation: "먹습니다 có nghĩa là 'ăn'. Dùng với thức ăn, còn 마십니다 dùng với đồ uống."
-                    },
-                    {
-                        question: "이 영화는 정말 {blank}. (Bộ phim này thật thú vị)",
-                        options: ["재미있습니다", "재미없습니다", "나쁩니다", "어렵습니다"],
-                        correct: "재미있습니다",
-                        explanation: "재미있습니다 có nghĩa là 'thú vị, vui'. Phản nghĩa là 재미없습니다 (không thú vị)."
-                    },
-                    {
-                        question: "저는 주말에 친구를 {blank}. (Tôi gặp bạn vào cuối tuần)",
-                        options: ["만납니다", "봅니다", "갑니다", "옵니다"],
-                        correct: "만납니다",
-                        explanation: "만납니다 có nghĩa là 'gặp'. Cấu trúc: [người]을/를 만납니다."
+                });
+
+                hasAnswered = true;
+
+                // Show feedback
+                if (allCorrect) {
+                    feedbackEl.className = 'feedback success';
+                    feedbackEl.textContent = 'Chính xác! 🎉';
+                    speak(fullSentence.replace(/\.\.\./g, ''), 'ko-KR');
+                    checkBtn.style.display = 'none';
+                    nextBtn.style.display = 'inline-block';
+
+                    // Track correct answer
+                    if (typeof trackQuestionAnswer === 'function') {
+                        trackQuestionAnswer(true, 'grammar_exercise', window.location.search, currentQuestion.template);
                     }
-                ]
-            }
-        };
-
-        // Game state
-        let currentExercises = [];
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let hasAnswered = false;
-        let selectedBlanks = [];
-        let usedOptions = [];
-
-        // Initialize the exercise
-        function init() {
-            const lessonData = exerciseData[lesson];
-            if (!lessonData) {
-                console.error('Lesson data not found');
-                return;
-            }
-
-            document.getElementById('lessonTitle').textContent = lessonData.title;
-            currentExercises = [...lessonData.exercises];
-            
-            // Track page view
-            if (typeof trackPageView === 'function') {
-                trackPageView(`Grammar Exercise ${lesson}`, `/grammar-exercise.html?lesson=${lesson}`);
-            }
-
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            if (currentQuestionIndex >= currentExercises.length) {
-                showCompletion();
-                return;
-            }
-
-            const exercise = currentExercises[currentQuestionIndex];
-            hasAnswered = false;
-            selectedBlanks = [];
-            usedOptions = [];
-
-            // Update progress
-            document.getElementById('questionCounter').textContent = 
-                `Câu ${currentQuestionIndex + 1} / ${currentExercises.length}`;
-            document.getElementById('scoreCounter').textContent = `Điểm: ${score}`;
-
-            // Load question with blanks
-            const questionText = exercise.question.replace(/{blank}/g, 
-                `<span class="blank" onclick="selectBlank(this)">?</span>`);
-            document.getElementById('questionText').innerHTML = questionText;
-
-            // Load options
-            const optionsGrid = document.getElementById('optionsGrid');
-            optionsGrid.innerHTML = '';
-            
-            exercise.options.forEach((option, index) => {
-                const optionElement = document.createElement('div');
-                optionElement.className = 'option';
-                optionElement.textContent = option;
-                optionElement.onclick = () => selectOption(option, optionElement);
-                optionsGrid.appendChild(optionElement);
-            });
-
-            // Reset UI
-            document.getElementById('checkBtn').style.display = 'inline-block';
-            document.getElementById('nextBtn').style.display = 'none';
-            document.getElementById('feedback').style.display = 'none';
-            document.getElementById('explanation').style.display = 'none';
-            
-            // Update blanks
-            updateBlanks();
-        }
-
-        function selectBlank(blankElement) {
-            if (hasAnswered) return;
-            
-            // Remove previous selection
-            document.querySelectorAll('.blank').forEach(blank => {
-                blank.classList.remove('selected');
-            });
-            
-            // Select current blank
-            blankElement.classList.add('selected');
-        }
-
-        function selectOption(option, optionElement) {
-            if (hasAnswered || optionElement.classList.contains('used')) return;
-
-            const selectedBlank = document.querySelector('.blank.selected');
-            if (!selectedBlank) {
-                alert('Vui lòng chọn chỗ trống trước');
-                return;
-            }
-
-            // Fill the blank
-            selectedBlank.textContent = option;
-            selectedBlank.classList.add('filled');
-            selectedBlank.classList.remove('selected');
-
-            // Mark option as used
-            optionElement.classList.add('used');
-            usedOptions.push(option);
-        }
-
-        function resetQuestion() {
-            if (hasAnswered) return;
-
-            // Reset all blanks
-            document.querySelectorAll('.blank').forEach(blank => {
-                blank.textContent = '?';
-                blank.classList.remove('filled', 'selected', 'correct', 'incorrect');
-            });
-
-            // Reset all options
-            document.querySelectorAll('.option').forEach(option => {
-                option.classList.remove('used');
-            });
-
-            usedOptions = [];
-        }
-
-        function checkAnswer() {
-            if (hasAnswered) return;
-
-            const exercise = currentExercises[currentQuestionIndex];
-            const blanks = document.querySelectorAll('.blank');
-            let isCorrect = true;
-
-            // Check each blank
-            blanks.forEach(blank => {
-                if (blank.textContent === exercise.correct) {
-                    blank.classList.add('correct');
                 } else {
-                    blank.classList.add('incorrect');
-                    isCorrect = false;
+                    feedbackEl.className = 'feedback error';
+                    feedbackEl.textContent = 'Chưa đúng. Hãy xem giải thích bên dưới! 📚';
+                    
+                    // Track incorrect answer
+                    if (typeof trackQuestionAnswer === 'function') {
+                        trackQuestionAnswer(false, 'grammar_exercise', window.location.search, currentQuestion.template);
+                    }
                 }
-            });
 
-            hasAnswered = true;
+                // Show explanation for both correct and incorrect answers
+                explanationEl.innerHTML = `<h4>Giải thích:</h4><p>${currentQuestion.explanation}</p>`;
+                
+                feedbackEl.style.display = 'block';
+                explanationEl.style.display = 'block';
 
-            // Show feedback
-            const feedback = document.getElementById('feedback');
-            const explanation = document.getElementById('explanation');
-            
-            if (isCorrect) {
-                score++;
-                feedback.className = 'feedback success';
-                feedback.textContent = 'Chính xác! 🎉';
-                
-                // Track correct answer
-                if (typeof trackQuestionAnswer === 'function') {
-                    trackQuestionAnswer(true, 'grammar_exercise', lesson, exercise.question);
-                }
-            } else {
-                feedback.className = 'feedback error';
-                feedback.textContent = 'Chưa đúng. Hãy xem giải thích bên dưới! 📚';
-                
-                // Track incorrect answer
-                if (typeof trackQuestionAnswer === 'function') {
-                    trackQuestionAnswer(false, 'grammar_exercise', lesson, exercise.question);
+                // Disable all word buttons
+                document.querySelectorAll('.word-btn').forEach(btn => {
+                    btn.disabled = true;
+                });
+            }
+
+            function speak(text, lang) {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = lang;
+                    utterance.rate = 0.9;
+                    window.speechSynthesis.speak(utterance);
                 }
             }
 
-            // Show explanation
-            explanation.innerHTML = `<h4>Giải thích:</h4><p>${exercise.explanation}</p>`;
-            
-            feedback.style.display = 'block';
-            explanation.style.display = 'block';
-
-            // Update UI
-            document.getElementById('checkBtn').style.display = 'none';
-            document.getElementById('nextBtn').style.display = 'inline-block';
-            
-            // Disable options
-            document.querySelectorAll('.option').forEach(option => {
-                option.classList.add('disabled');
+            // --- EVENT LISTENERS ---
+            checkBtn.addEventListener('click', checkAnswers);
+            nextBtn.addEventListener('click', function() {
+                currentQuestionIndex++;
+                if (currentQuestionIndex > totalQuestions) {
+                    currentQuestionIndex = 1; // Reset về câu 1 khi hết
+                }
+                loadRandomQuestion();
             });
-        }
 
-        function nextQuestion() {
-            currentQuestionIndex++;
-            loadQuestion();
-        }
-
-        function showCompletion() {
-            const accuracy = (score / currentExercises.length * 100).toFixed(1);
-            
-            document.getElementById('exerciseContent').style.display = 'none';
-            
-            const completionMessage = document.getElementById('completionMessage');
-            completionMessage.innerHTML = `
-                <div class="completion-title">🎉 Hoàn thành!</div>
-                <div class="score">Điểm số: ${score}/${currentExercises.length} (${accuracy}%)</div>
-                <button class="btn btn-primary" onclick="restartExercise()">Làm lại</button>
-                <button class="btn btn-secondary" onclick="goToIndex()">Quay về trang chủ</button>
-            `;
-            completionMessage.style.display = 'block';
-
-            // Track completion
-            if (typeof trackVocabComplete === 'function') {
-                trackVocabComplete(`grammar_exercise_${lesson}`, score, currentExercises.length, currentExercises.length - score);
-            }
-        }
-
-        function restartExercise() {
-            currentQuestionIndex = 0;
-            score = 0;
-            document.getElementById('exerciseContent').style.display = 'block';
-            document.getElementById('completionMessage').style.display = 'none';
-            loadQuestion();
-        }
-
-        function updateBlanks() {
-            // This function can be used for additional blank styling updates
-        }
+            // --- INITIALIZE QUIZ ---
+            initializeQuiz();
+        });
 
         function goToIndex() {
             window.location.href = 'index.html';
         }
-
-        // Initialize when page loads
-        window.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
