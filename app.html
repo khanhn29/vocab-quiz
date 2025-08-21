@@ -443,7 +443,7 @@
         <div class="feedback" id="feedback"></div>
 
         <div class="controls">
-            <button class="next-btn" id="nextBtn" disabled>Next</button>
+            <button class="next-btn" id="nextBtn" disabled>Tiếp theo</button>
         </div>
     </div>
 
@@ -851,7 +851,7 @@
             if (selectedAnswer === correctAnswer) {
                 // Đáp án đúng - chuyển sang câu tiếp theo
                 console.log('Đúng rồi!');
-                feedbackElement.textContent = 'Awesome!';
+                feedbackElement.textContent = 'Tuyệt vời!';
                 feedbackElement.className = 'feedback success';
                 
                 // Thêm animation cho đáp án đúng
@@ -879,7 +879,7 @@
                 xMark.textContent = '❌';
                 selectedOption.appendChild(xMark);
                 
-                feedbackElement.textContent = 'Oops! Try again.';
+                feedbackElement.textContent = 'Ops! Thử lại nhé.';
                 feedbackElement.className = 'feedback error';
                 
                 // Hiển thị nút phát âm nếu chưa có (cho câu hỏi VN->KR)
@@ -925,7 +925,7 @@
             }
             
             const feedbackElement = document.getElementById('feedback');
-            feedbackElement.textContent = 'The correct answer is highlighted!';
+            feedbackElement.textContent = 'Đáp án đúng đã được tô sáng!';
             feedbackElement.className = 'feedback';
             feedbackElement.style.color = '#007bff';
             

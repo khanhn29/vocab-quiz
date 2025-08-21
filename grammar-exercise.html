@@ -7,7 +7,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Bài tập Ngữ pháp - Tiếng Hàn Hyewon</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis            let currentExercises = [];
+            let currentQuestion = null;
+            let hasAnswered = false;
+            let currentQuestionIndex = 0;
+            let totalQuestions = 0;
+            let correctAnswers = 0; // Track correct answers count
+            let isRetake = false; // Track if this is a retake
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -477,39 +483,74 @@
                     title: "Bài 4: Ngày và Thứ",
                     exercises: [
                         {
-                            template: "오늘은 __입니다.",
-                            translation: "Hôm nay là thứ hai",
-                            choices: ["월요일", "화요일", "수요일", "목요일"],
-                            solution: ["월요일"],
-                            explanation: "월요일 có nghĩa là 'thứ hai'. Các ngày trong tuần: 월요일(T2), 화요일(T3), 수요일(T4), 목요일(T5), 금요일(T6), 토요일(T7), 일요일(CN)."
+                            template: "저는 책__ 펜을 샀습니다.",
+                            translation: "Tôi đã mua sách và bút",
+                            choices: ["과", "와", "하고", "이랑"],
+                            solution: ["과"],
+                            explanation: "과/와 có nghĩa là 'và' dùng để nối danh từ. 과 dùng sau phụ âm (책과), 와 dùng sau nguyên âm (사과와). 하고/이랑 cũng có nghĩa 'và' nhưng thân mật hơn."
                         },
                         {
-                            template: "지금 __ 시입니다.",
-                            translation: "Bây giờ là 3 giờ",
-                            choices: ["세", "네", "다섯", "여섯"],
-                            solution: ["세"],
-                            explanation: "세 có nghĩa là 'ba'. Khi nói giờ, dùng số thuần Hàn: 하나(1), 둘(2), 세(3), 네(4), 다섯(5)..."
+                            template: "사과__ 바나나를 먹었습니다.",
+                            translation: "Tôi đã ăn táo và chuối",
+                            choices: ["와", "과", "하고", "이랑"],
+                            solution: ["와"],
+                            explanation: "사과 kết thúc bằng nguyên âm 'ㅏ', nên dùng 와. Quy tắc: 과 (sau phụ âm) / 와 (sau nguyên âm)."
+                        },
+                        {
+                            template: "어제__ 오늘 날씨가 좋습니다.",
+                            translation: "Thời tiết hôm qua và hôm nay đều tốt",
+                            choices: ["와", "과", "하고", "도"],
+                            solution: ["와"],
+                            explanation: "어제 kết thúc bằng nguyên âm 'ㅔ', nên dùng 와. 도 có nghĩa là 'cũng', không phải 'và'."
                         },
                         {
                             template: "저는 __에 일어납니다.",
-                            translation: "Tôi thức dậy lúc 7 giờ sáng",
-                            choices: ["일곱 시", "여덟 시", "아홉 시", "열 시"],
-                            solution: ["일곱 시"],
-                            explanation: "일곱 시 có nghĩa là '7 giờ'. Cấu trúc: [số thuần Hàn] + 시 để chỉ giờ."
+                            translation: "Tôi thức dậy lúc sáng sớm",
+                            choices: ["아침 일찍", "저녁 늦게", "오후에", "밤에"],
+                            solution: ["아침 일찍"],
+                            explanation: "아침 일찍 có nghĩa là 'sáng sớm'. Trạng ngữ thời gian: 아침(sáng), 점심(trưa), 저녁(tối), 밤(đêm). 일찍(sớm), 늦게(muộn)."
                         },
                         {
-                            template: "내일은 __일입니다.",
-                            translation: "Ngày mai là ngày 15",
-                            choices: ["십오", "십사", "십육", "십칠"],
-                            solution: ["십오"],
-                            explanation: "십오 có nghĩa là '15'. Số Hán-Việt dùng cho ngày tháng: 십(10) + 오(5) = 십오(15)."
+                            template: "우리는 __에 만납시다.",
+                            translation: "Chúng ta hãy gặp nhau vào buổi chiều",
+                            choices: ["오후에", "아침에", "저녁에", "밤에"],
+                            solution: ["오후에"],
+                            explanation: "오후 có nghĩa là 'buổi chiều'. Trạng ngữ thời gian + 에: 오후에 (vào buổi chiều), 아침에 (vào buổi sáng)."
                         },
                         {
-                            template: "수업은 __에 시작합니다.",
-                            translation: "Lớp học bắt đầu vào tháng 3",
-                            choices: ["삼월", "사월", "오월", "유월"],
-                            solution: ["삼월"],
-                            explanation: "삼월 có nghĩa là 'tháng 3'. Các tháng trong năm: 일월(T1), 이월(T2), 삼월(T3), 사월(T4), 오월(T5), 유월(T6)..."
+                            template: "수업이 __에 끝납니다.",
+                            translation: "Lớp học kết thúc vào buổi tối",
+                            choices: ["저녁에", "오전에", "정오에", "새벽에"],
+                            solution: ["저녁에"],
+                            explanation: "저녁 có nghĩa là 'buổi tối'. 오전(buổi sáng), 정오(buổi trưa), 새벽(rạng sáng)."
+                        },
+                        {
+                            template: "오늘은 __일입니다.",
+                            translation: "Hôm nay là ngày 25",
+                            choices: ["이십오", "이십사", "이십육", "이십칠"],
+                            solution: ["이십오"],
+                            explanation: "이십오 có nghĩa là '25'. Số Hán-Việt: 이십(20) + 오(5) = 이십오(25). Dùng số Hán-Việt cho ngày tháng, năm."
+                        },
+                        {
+                            template: "저는 __년에 태어났습니다.",
+                            translation: "Tôi sinh năm 1995",
+                            choices: ["천구백구십오", "천구백구십", "천구백팔십오", "천구백칠십오"],
+                            solution: ["천구백구십오"],
+                            explanation: "천구백구십오 là '1995'. Cách đọc: 천(1000) + 구백(900) + 구십(90) + 오(5) = 1995. Dùng số Hán-Việt cho năm."
+                        },
+                        {
+                            template: "제 전화번호는 __ 입니다.",
+                            translation: "Số điện thoại của tôi là 010-1234",
+                            choices: ["공일공 일이삼사", "영일영 일이삼사", "제로일제로 일이삼사", "빵일빵 일이삼사"],
+                            solution: ["공일공 일이삼사"],
+                            explanation: "공일공 일이삼사 đọc là '010-1234'. Với số điện thoại: 공/빵(0), 일(1), 이(2), 삼(3), 사(4). 공 là cách đọc chính thức cho số 0."
+                        },
+                        {
+                            template: "이 책은 __원입니다.",
+                            translation: "Quyển sách này giá 15,000 won",
+                            choices: ["만오천", "일만오천", "오만", "십만"],
+                            solution: ["만오천"],
+                            explanation: "만오천 là '15,000'. Cách đọc: 만(10,000) + 오천(5,000) = 만오천(15,000). Dùng số Hán-Việt cho tiền bạc, giá cả."
                         }
                     ]
                 }
@@ -522,6 +563,10 @@
                 // Get parameters from URL
                 const params = new URLSearchParams(window.location.search);
                 const lesson = params.get('lesson') || 'lesson1';
+                
+                // Check if this is a retake (from localStorage or URL parameter)
+                isRetake = localStorage.getItem(`lesson_${lesson}_completed`) === 'true' || 
+                          params.get('retake') === 'true';
 
                 const lessonData = exerciseData[lesson];
                 if (!lessonData) {
@@ -534,6 +579,14 @@
                 currentQuestionIndex = 1;
                 correctAnswers = 0; // Reset correct answers count
                 
+                // If this is a retake, shuffle the questions randomly
+                if (isRetake) {
+                    currentExercises = shuffleArray(currentExercises);
+                    console.log('Làm lại bài - Câu hỏi được xáo trộn ngẫu nhiên');
+                } else {
+                    console.log('Lần đầu làm bài - Câu hỏi theo thứ tự');
+                }
+                
                 // Set lesson name at the top
                 lessonName.textContent = lessonData.title;
                 
@@ -545,22 +598,22 @@
                     trackPageView(`Grammar Exercise ${lesson}`, `/grammar-exercise.html?lesson=${lesson}`);
                 }
 
-                loadRandomQuestion();
+                loadNextQuestion();
             }
 
             function updateQuestionCounter() {
                 questionCounter.textContent = `Câu ${currentQuestionIndex}/${totalQuestions}`;
             }
 
-            function loadRandomQuestion() {
+            function loadNextQuestion() {
                 feedbackEl.style.display = 'none';
                 explanationEl.style.display = 'none';
                 checkBtn.style.display = 'inline-block';
                 nextBtn.disabled = true; // Disable next button until check is clicked
                 hasAnswered = false;
 
-                const randomIndex = Math.floor(Math.random() * currentExercises.length);
-                currentQuestion = currentExercises[randomIndex];
+                // Get current question based on index (no random selection)
+                currentQuestion = currentExercises[currentQuestionIndex - 1];
 
                 // Update question counter
                 updateQuestionCounter();
@@ -714,6 +767,11 @@
                 const quizContainer = document.getElementById('quiz-container');
                 quizContainer.style.display = 'none';
 
+                // Mark lesson as completed in localStorage
+                const params = new URLSearchParams(window.location.search);
+                const lesson = params.get('lesson') || 'lesson1';
+                localStorage.setItem(`lesson_${lesson}_completed`, 'true');
+
                 // Calculate score percentage
                 const scorePercentage = Math.round((correctAnswers / totalQuestions) * 100);
                 const isPerfectScore = correctAnswers === totalQuestions;
@@ -809,7 +867,7 @@
                 } else {
                     // Continue to next question
                     currentQuestionIndex++;
-                    loadRandomQuestion();
+                    loadNextQuestion();
                 }
             });
 
@@ -823,9 +881,20 @@
 
         // Restart lesson function - accessible globally
         function restartLesson() {
-            // Reset all state variables by accessing them through the global window object
-            // Since they're defined in DOMContentLoaded, we need to reload the page for a clean restart
-            window.location.reload();
+            // Add retake parameter to URL to indicate this is a retake
+            const params = new URLSearchParams(window.location.search);
+            params.set('retake', 'true');
+            window.location.href = window.location.pathname + '?' + params.toString();
+        }
+
+        // Utility function to shuffle array (Fisher-Yates algorithm)
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
         }
     </script>
 </body>
