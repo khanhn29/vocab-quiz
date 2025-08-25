@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <!-- Google tag (gtag.js) -->
     <script src="analytics.js"></script>
     
     <meta charset="UTF-8" />
@@ -111,6 +110,28 @@
             padding: 25px;
             margin-bottom: 25px;
             border: 2px solid #e9ecef;
+            position: relative; /* Cần thiết cho việc định vị nút phát lại */
+        }
+
+        #replay-audio-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background-color: #e9ecef;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+
+        #replay-audio-btn:hover {
+            background-color: #ced4da;
         }
 
         .blank.correct { 
@@ -277,6 +298,14 @@
                 padding: 10px 12px;
                 font-size: 0.8rem;
             }
+            
+            #replay-audio-btn {
+                top: 10px;
+                right: 10px;
+                width: 35px;
+                height: 35px;
+                font-size: 1.2rem;
+            }
 
             .main-container {
                 padding: 20px;
@@ -319,6 +348,7 @@
     <div id="quiz-container" class="main-container text-center">
         <div id="question-counter" class="question-counter">Câu 1/5</div>
         <div class="question-container">
+            <button id="replay-audio-btn" style="display: none;">🔊</button>
             <div id="sentence-container" class="korean-text text-xl sm:text-2xl leading-loose">
             </div>
         </div>
@@ -342,6 +372,7 @@
             const nextBtn = document.getElementById('next-btn');
             const feedbackEl = document.getElementById('feedback');
             const explanationEl = document.getElementById('explanation');
+            const replayAudioBtn = document.getElementById('replay-audio-btn');
 
             // --- APP STATE ---
             let currentExercises = [];
@@ -358,39 +389,12 @@
                     title: "Bài 1: Giới thiệu",
                     exercises: [
                         {
+                            id: "lesson1_q1",
                             template: "저는 __이고, __에서 왔습니다.",
                             translation: "Tôi là người Việt Nam và đến từ Việt Nam",
                             choices: ["베트남 사람", "베트남", "한국 사람", "일본"],
                             solution: ["베트남 사람", "베트남"],
                             explanation: "베트남 사람 có nghĩa là 'người Việt Nam', 베트남 có nghĩa là 'Việt Nam'. Cấu trúc: 저는 [quốc tịch]이고, [quốc gia]에서 왔습니다."
-                        },
-                        {
-                            template: "제 __은 김민수입니다.",
-                            translation: "Tên tôi là Kim Min Su",
-                            choices: ["이름", "나이", "직업", "취미"],
-                            solution: ["이름"],
-                            explanation: "이름 có nghĩa là 'tên'. Cấu trúc: 제 이름은 + [tên] + 입니다."
-                        },
-                        {
-                            template: "저는 __이고 __를 공부합니다.",
-                            translation: "Tôi là học sinh và học tiếng Hàn",
-                            choices: ["학생", "한국어", "선생님", "영어"],
-                            solution: ["학생", "한국어"],
-                            explanation: "학생 có nghĩa là 'học sinh/sinh viên', 한국어 có nghĩa là 'tiếng Hàn'. Cấu trúc: 저는 [nghề nghiệp]이고 [môn học]를 공부합니다."
-                        },
-                        {
-                            template: "안녕하세요? 처음 __입니다.",
-                            translation: "Xin chào? Rất vui được gặp lần đầu",
-                            choices: ["뵙겠습니다", "만나겠습니다", "뵙습니다", "만납니다"],
-                            solution: ["뵙겠습니다"],
-                            explanation: "처음 뵙겠습니다 là cách nói lịch sự 'rất vui được gặp lần đầu'."
-                        },
-                        {
-                            template: "저는 __에서 __을 __.",
-                            translation: "Tôi học tiếng Hàn ở trường đại học",
-                            choices: ["대학교", "한국어", "공부합니다", "가르칩니다"],
-                            solution: ["대학교", "한국어", "공부합니다"],
-                            explanation: "대학교 có nghĩa là 'trường đại học', 한국어 có nghĩa là 'tiếng Hàn', 공부합니다 có nghĩa là 'học'. Cấu trúc: [nơi chốn]에서 [môn học]을 공부합니다."
                         }
                     ]
                 },
@@ -398,39 +402,12 @@
                     title: "Bài 2: Trường học",
                     exercises: [
                         {
+                            id: "lesson2_q1",
                             template: "교실에 __이 있습니다.",
                             translation: "Trong lớp có bảng đen",
                             choices: ["칠판", "침대", "냉장고", "텔레비전"],
                             solution: ["칠판"],
                             explanation: "칠판 có nghĩa là 'bảng đen'. Cấu trúc: [nơi chốn]에 + [đồ vật]이/가 있습니다."
-                        },
-                        {
-                            template: "학생들이 __에서 공부합니다.",
-                            translation: "Học sinh học ở thư viện",
-                            choices: ["도서관", "식당", "화장실", "운동장"],
-                            solution: ["도서관"],
-                            explanation: "도서관 có nghĩa là 'thư viện'. Cấu trúc: [nơi chốn]에서 + [hành động]합니다."
-                        },
-                        {
-                            template: "이것은 __입니다.",
-                            translation: "Đây là quyển sách",
-                            choices: ["책", "공책", "사전", "지도"],
-                            solution: ["책"],
-                            explanation: "책 có nghĩa là 'sách'. Cấu trúc: 이것은 + [đồ vật] + 입니다."
-                        },
-                        {
-                            template: "저는 __에 가습니다.",
-                            translation: "Tôi đi tới trường học",
-                            choices: ["학교", "집", "병원", "은행"],
-                            solution: ["학교"],
-                            explanation: "학교 có nghĩa là 'trường học'. Cấu trúc: [nơi chốn]에 가습니다."
-                        },
-                        {
-                            template: "선생님이 __에 계십니다.",
-                            translation: "Thầy giáo ở trong phòng giáo viên",
-                            choices: ["교무실", "교실", "도서관", "식당"],
-                            solution: ["교무실"],
-                            explanation: "교무실 có nghĩa là 'phòng giáo viên'. 계십니다 là dạng kính ngữ của 있습니다."
                         }
                     ]
                 },
@@ -438,39 +415,12 @@
                     title: "Bài 3: Sinh hoạt hằng ngày",
                     exercises: [
                         {
+                            id: "lesson3_q1",
                             template: "저는 매일 아침에 __을 마십니다.",
                             translation: "Tôi uống cà phê mỗi sáng",
                             choices: ["커피", "우유", "물", "차"],
                             solution: ["커피"],
                             explanation: "커피 có nghĩa là 'cà phê'. Cấu trúc: [đồ uống]을/를 마십니다."
-                        },
-                        {
-                            template: "친구와 함께 __을 봅니다.",
-                            translation: "Tôi xem phim với bạn",
-                            choices: ["영화", "텔레비전", "신문", "책"],
-                            solution: ["영화"],
-                            explanation: "영화 có nghĩa là 'phim'. Cấu trúc: [người] + 와/과 함께 + [hành động]합니다."
-                        },
-                        {
-                            template: "한국 음식을 __.",
-                            translation: "Tôi ăn đồ ăn Hàn Quốc",
-                            choices: ["먹습니다", "마십니다", "봅니다", "듣습니다"],
-                            solution: ["먹습니다"],
-                            explanation: "먹습니다 có nghĩa là 'ăn'. Dùng với thức ăn, còn 마십니다 dùng với đồ uống."
-                        },
-                        {
-                            template: "이 영화는 정말 __.",
-                            translation: "Bộ phim này thật thú vị",
-                            choices: ["재미있습니다", "재미없습니다", "나쁩니다", "어렵습니다"],
-                            solution: ["재미있습니다"],
-                            explanation: "재미있습니다 có nghĩa là 'thú vị, vui'. Phản nghĩa là 재미없습니다 (không thú vị)."
-                        },
-                        {
-                            template: "저는 주말에 친구를 __.",
-                            translation: "Tôi gặp bạn vào cuối tuần",
-                            choices: ["만납니다", "봅니다", "갑니다", "옵니다"],
-                            solution: ["만납니다"],
-                            explanation: "만납니다 có nghĩa là 'gặp'. Cấu trúc: [người]을/를 만납니다."
                         }
                     ]
                 },
@@ -478,77 +428,98 @@
                     title: "Bài 4: Ngày và Thứ",
                     exercises: [
                         {
-                            template: "저는 책__ 펜을 샀습니다.",
-                            translation: "Tôi đã mua sách và bút",
-                            choices: ["과", "와", "하고", "이랑"],
-                            solution: ["과"],
-                            explanation: "과/와 có nghĩa là 'và' dùng để nối danh từ. 과 dùng sau phụ âm (책과), 와 dùng sau nguyên âm (사과와). 하고/이랑 cũng có nghĩa 'và' nhưng thân mật hơn."
+                            id: "lesson4_q1",
+                            template: "오늘은 __일입니다.",
+                            translation: "Hôm nay là ngày 15",
+                            choices: ["십오", "이십", "삼십", "십육"],
+                            solution: ["십오"],
+                            completeSentence: "오늘은 십오일입니다",
+                            explanation: "십오 = 15. Dùng số Hán Hàn cho ngày tháng, năm."
                         },
                         {
-                            template: "사과__ 바나나를 먹었습니다.",
-                            translation: "Tôi đã ăn táo và chuối",
+                            id: "lesson4_q2",
+                            template: "내 생일은 __월 __일입니다.",
+                            translation: "Sinh nhật tôi là ngày 3 tháng 7",
+                            choices: ["칠", "삼", "이십오", "십이"],
+                            solution: ["칠", "삼"],
+                            completeSentence: "내 생일은 칠월 삼일입니다",
+                            explanation: "칠월 삼일 = ngày 3 tháng 7. Số Hán Hàn dùng cho tháng (월) và ngày (일)."
+                        },
+                        {
+                            id: "lesson4_q3",
+                            template: "사과__ 바나나를 샀습니다.",
+                            translation: "Tôi đã mua táo và chuối",
                             choices: ["와", "과", "하고", "이랑"],
                             solution: ["와"],
-                            explanation: "사과 kết thúc bằng nguyên âm 'ㅏ', nên dùng 와. Quy tắc: 과 (sau phụ âm) / 와 (sau nguyên âm)."
+                            completeSentence: "사과와 바나나를 샀습니다",
+                            explanation: "사과 kết thúc bằng nguyên âm → dùng 와. Quy tắc: 과 (sau phụ âm) / 와 (sau nguyên âm)."
                         },
                         {
-                            template: "어제__ 오늘 날씨가 좋습니다.",
-                            translation: "Thời tiết hôm qua và hôm nay đều tốt",
-                            choices: ["와", "과", "하고", "도"],
-                            solution: ["와"],
-                            explanation: "어제 kết thúc bằng nguyên âm 'ㅔ', nên dùng 와. 도 có nghĩa là 'cũng', không phải 'và'."
+                            id: "lesson4_q4",
+                            template: "책__ 연필을 샀습니다.",
+                            translation: "Tôi đã mua sách và bút",
+                            choices: ["와", "과", "하고", "이랑"],
+                            solution: ["과"],
+                            completeSentence: "책과 연필을 샀습니다",
+                            explanation: "책 kết thúc bằng phụ âm → dùng 과."
                         },
                         {
-                            template: "저는 __에 일어납니다.",
-                            translation: "Tôi thức dậy lúc sáng sớm",
-                            choices: ["아침 일찍", "저녁 늦게", "오후에", "밤에"],
-                            solution: ["아침 일찍"],
-                            explanation: "아침 일찍 có nghĩa là 'sáng sớm'. Trạng ngữ thời gian: 아침(sáng), 점심(trưa), 저녁(tối), 밤(đêm). 일찍(sớm), 늦게(muộn)."
+                            id: "lesson4_q5",
+                            template: "저는 아침 __ 일어납니다.",
+                            translation: "Tôi thức dậy vào buổi sáng",
+                            choices: ["에", "와", "으로", "에서"],
+                            solution: ["에"],
+                            completeSentence: "저는 아침 에 일어납니다",
+                            explanation: "에 dùng sau danh từ chỉ thời gian: 아침에 = vào buổi sáng."
                         },
                         {
-                            template: "우리는 __에 만납시다.",
-                            translation: "Chúng ta hãy gặp nhau vào buổi chiều",
-                            choices: ["오후에", "아침에", "저녁에", "밤에"],
-                            solution: ["오후에"],
-                            explanation: "오후 có nghĩa là 'buổi chiều'. Trạng ngữ thời gian + 에: 오후에 (vào buổi chiều), 아침에 (vào buổi sáng)."
+                            id: "lesson4_q6",
+                            template: "우리는 오후 3시__ 만납시다.",
+                            translation: "Chúng ta hãy gặp nhau lúc 3 giờ chiều",
+                            choices: ["에", "에서", "까지", "부터"],
+                            solution: ["에"],
+                            completeSentence: "우리는 오후 3시에 만납시다",
+                            explanation: "3시에 = vào lúc 3 giờ. 에 chỉ thời điểm."
                         },
                         {
-                            template: "수업이 __에 끝납니다.",
-                            translation: "Lớp học kết thúc vào buổi tối",
-                            choices: ["저녁에", "오전에", "정오에", "새벽에"],
-                            solution: ["저녁에"],
-                            explanation: "저녁 có nghĩa là 'buổi tối'. 오전(buổi sáng), 정오(buổi trưa), 새벽(rạng sáng)."
+                            id: "lesson4_q7",
+                            template: "수업은 9시__ 시작합니다.",
+                            translation: "Lớp học bắt đầu lúc 9 giờ",
+                            choices: ["에", "에서", "까지", "와"],
+                            solution: ["에"],
+                            completeSentence: "수업은 9시에 시작합니다",
+                            explanation: "9시에 = vào lúc 9 giờ. 에 gắn vào thời gian cụ thể."
                         },
                         {
-                            template: "오늘은 __일입니다.",
-                            translation: "Hôm nay là ngày 25",
-                            choices: ["이십오", "이십사", "이십육", "이십칠"],
-                            solution: ["이십오"],
-                            explanation: "이십오 có nghĩa là '25'. Số Hán-Việt: 이십(20) + 오(5) = 이십오(25). Dùng số Hán-Việt cho ngày tháng, năm."
+                            id: "lesson4_q8",
+                            template: "오늘은 __요일입니다.",
+                            translation: "Hôm nay là thứ Hai",
+                            choices: ["월", "화", "수", "목"],
+                            solution: ["월"],
+                            completeSentence: "오늘은 월요일입니다",
+                            explanation: "월요일 = thứ Hai. Các thứ: 월, 화, 수, 목, 금, 토, 일."
                         },
                         {
-                            template: "저는 __년에 태어났습니다.",
-                            translation: "Tôi sinh năm 1995",
-                            choices: ["천구백구십오", "천구백구십", "천구백팔십오", "천구백칠십오"],
-                            solution: ["천구백구십오"],
-                            explanation: "천구백구십오 là '1995'. Cách đọc: 천(1000) + 구백(900) + 구십(90) + 오(5) = 1995. Dùng số Hán-Việt cho năm."
-                        },
-                        {
-                            template: "제 전화번호는 __ 입니다.",
-                            translation: "Số điện thoại của tôi là 010-1234",
-                            choices: ["공일공 일이삼사", "영일영 일이삼사", "제로일제로 일이삼사", "빵일빵 일이삼사"],
-                            solution: ["공일공 일이삼사"],
-                            explanation: "공일공 일이삼사 đọc là '010-1234'. Với số điện thoại: 공/빵(0), 일(1), 이(2), 삼(3), 사(4). 공 là cách đọc chính thức cho số 0."
-                        },
-                        {
+                            id: "lesson4_q9",
                             template: "이 책은 __원입니다.",
-                            translation: "Quyển sách này giá 15,000 won",
-                            choices: ["만오천", "일만오천", "오만", "십만"],
-                            solution: ["만오천"],
-                            explanation: "만오천 là '15,000'. Cách đọc: 만(10,000) + 오천(5,000) = 만오천(15,000). Dùng số Hán-Việt cho tiền bạc, giá cả."
+                            translation: "Quyển sách này giá 10,000 won",
+                            choices: ["만", "천", "이만", "삼만"],
+                            solution: ["만"],
+                            completeSentence: "이 책은 만원입니다",
+                            explanation: "만 = 10,000. 만원 = 10,000 won."
+                        },
+                        {
+                            id: "lesson4_q10",
+                            template: "제 전화번호는 공일공-일이삼사-__입니다.",
+                            translation: "Số điện thoại của tôi là 010-1234-5678",
+                            choices: ["오육칠팔", "사오육칠", "육칠팔구", "칠팔구십"],
+                            solution: ["오육칠팔"],
+                            completeSentence: "제 전화번호는 공일공-일이삼사-오육칠팔입니다",
+                            explanation: "공일공 = 010, 일이삼사 = 1234, 오육칠팔 = 5678."
                         }
                     ]
                 }
+
             };
 
             /**
@@ -603,6 +574,7 @@
             function loadNextQuestion() {
                 feedbackEl.style.display = 'none';
                 explanationEl.style.display = 'none';
+                replayAudioBtn.style.display = 'none'; // Ẩn nút phát lại khi tải câu mới
                 checkBtn.style.display = 'inline-block';
                 nextBtn.disabled = true; // Disable next button until check is clicked
                 hasAnswered = false;
@@ -688,18 +660,30 @@
                 }
             }
 
+            function playCurrentQuestionAudio() {
+                if (!currentQuestion || !currentQuestion.id) return;
+
+                const audioSrc = `audio/sentences/${currentQuestion.id}.mp3`;
+                const audio = new Audio(audioSrc);
+                audio.play().catch(error => {
+                    console.error(`Could not play audio: ${error}`);
+                });
+                audio.addEventListener('error', () => {
+                    console.error(`Audio file not found or could not be played: ${audioSrc}`);
+                });
+            }
+
+
             function checkAnswers() {
                 const blanks = sentenceContainer.querySelectorAll('.blank');
                 
                 if (!currentQuestion) return;
 
                 let allCorrect = true;
-                let fullSentence = currentQuestion.template;
 
                 blanks.forEach((blank, index) => {
                     const userAnswer = blank.dataset.answer;
                     const correctAnswer = currentQuestion.solution[index];
-                    fullSentence = fullSentence.replace('__', userAnswer || '...');
                     
                     if (userAnswer === correctAnswer) {
                         blank.classList.add('correct');
@@ -710,51 +694,38 @@
                 });
 
                 hasAnswered = true;
-
-                // Enable next button after checking answers
                 nextBtn.disabled = false;
 
-                // Show feedback
+                // Show feedback based on correctness
                 if (allCorrect) {
-                    correctAnswers++; // Increment correct answers count
+                    correctAnswers++;
                     feedbackEl.className = 'feedback success';
                     feedbackEl.textContent = 'Chính xác! 🎉';
-                    speak(fullSentence.replace(/\.\.\./g, ''), 'ko-KR');
-
-                    // Track correct answer
                     if (typeof trackQuestionAnswer === 'function') {
                         trackQuestionAnswer(true, 'grammar_exercise', window.location.search, currentQuestion.template);
                     }
                 } else {
                     feedbackEl.className = 'feedback error';
                     feedbackEl.textContent = 'Chưa đúng. Hãy xem giải thích bên dưới! 📚';
-                    
-                    // Track incorrect answer
                     if (typeof trackQuestionAnswer === 'function') {
                         trackQuestionAnswer(false, 'grammar_exercise', window.location.search, currentQuestion.template);
                     }
                 }
 
-                // Show explanation for both correct and incorrect answers
+                // Show explanation and feedback
                 explanationEl.innerHTML = `<h4>Giải thích:</h4><p>${currentQuestion.explanation}</p>`;
-                
                 feedbackEl.style.display = 'block';
                 explanationEl.style.display = 'block';
+
+                // Play audio and show replay button regardless of answer
+                playCurrentQuestionAudio();
+                replayAudioBtn.style.display = 'flex';
+
 
                 // Disable all word buttons
                 document.querySelectorAll('.word-btn').forEach(btn => {
                     btn.disabled = true;
                 });
-            }
-
-            function speak(text, lang) {
-                if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel();
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    utterance.lang = lang;
-                    utterance.rate = 0.9;
-                    window.speechSynthesis.speak(utterance);
-                }
             }
 
             function showResultsPage() {
@@ -775,25 +746,21 @@
                 let resultIcon, resultTitle, resultMessage, resultColor;
                 
                 if (isPerfectScore) {
-                    // Perfect score - congratulations screen
                     resultIcon = '🎉';
                     resultTitle = 'Xuất sắc!';
                     resultMessage = 'Bạn đã trả lời đúng tất cả các câu hỏi! Thật tuyệt vời!';
                     resultColor = '#28a745';
                 } else if (scorePercentage >= 80) {
-                    // Good score
                     resultIcon = '👏';
                     resultTitle = 'Rất tốt!';
                     resultMessage = 'Bạn đã làm rất tốt! Hãy tiếp tục cố gắng!';
                     resultColor = '#17a2b8';
                 } else if (scorePercentage >= 60) {
-                    // Average score
                     resultIcon = '📚';
                     resultTitle = 'Cần cố gắng thêm!';
                     resultMessage = 'Bạn đã hoàn thành bài học. Hãy ôn tập và thử lại để cải thiện kết quả!';
                     resultColor = '#ffc107';
                 } else {
-                    // Low score
                     resultIcon = '💪';
                     resultTitle = 'Đừng nản chí!';
                     resultMessage = 'Học tiếng Hàn cần thời gian và kiên trì. Hãy ôn tập và thử lại!';
@@ -853,14 +820,13 @@
 
             // --- EVENT LISTENERS ---
             checkBtn.addEventListener('click', checkAnswers);
+            replayAudioBtn.addEventListener('click', playCurrentQuestionAudio);
             nextBtn.addEventListener('click', function() {
-                if (nextBtn.disabled) return; // Prevent action if disabled
+                if (nextBtn.disabled) return;
                 
                 if (currentQuestionIndex === totalQuestions) {
-                    // Go to results page when finishing the lesson
                     showResultsPage();
                 } else {
-                    // Continue to next question
                     currentQuestionIndex++;
                     loadNextQuestion();
                 }
@@ -874,15 +840,12 @@
             window.location.href = 'index.html';
         }
 
-        // Restart lesson function - accessible globally
         function restartLesson() {
-            // Add retake parameter to URL to indicate this is a retake
             const params = new URLSearchParams(window.location.search);
             params.set('retake', 'true');
             window.location.href = window.location.pathname + '?' + params.toString();
         }
 
-        // Utility function to shuffle array (Fisher-Yates algorithm)
         function shuffleArray(array) {
             const shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script src="analytics.js"></script>
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Bài tập Ngữ pháp - Tiếng Hàn Hyewon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+            padding-top: 100px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+        }
+
+        .header-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #f8f9fa;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f39c12;
+            margin: 0;
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 200px);
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .back-button {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 1001;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, #495057, #343a40);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-arrow {
+            font-size: 1.1rem;
+        }
+
+        .main-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .korean-text, .korean-text .blank, .korean-text .word-btn { 
+            font-family: 'Noto Sans KR', sans-serif; 
+        }
+
+        .question-counter {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .question-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 2px solid #e9ecef;
+        }
+
+        .blank.correct { 
+            background-color: #28a745; 
+            border-color: #28a745; 
+            color: white; 
+        }
+
+        .blank.incorrect { 
+            background-color: #dc3545; 
+            border-color: #dc3545; 
+            color: white; 
+        }
+
+        .blank {
+            display: inline-block;
+            min-width: 120px;
+            padding: 8px 12px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            background: white;
+            font-weight: 600;
+            color: #007bff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 0 4px;
+            position: relative;
+        }
+
+        .blank:hover {
+            background: #f8f9ff;
+            transform: translateY(-1px);
+        }
+
+        .blank:empty::after {
+            content: "?";
+            color: #007bff;
+        }
+
+        .word-btn:disabled { 
+            background-color: #d1d5db; 
+            cursor: not-allowed; 
+            opacity: 0.7; 
+        }
+
+        .translation-text {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn-primary:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .feedback {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .feedback.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .feedback.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .explanation {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            color: #856404;
+        }
+
+        .explanation h4 {
+            margin-bottom: 8px;
+            color: #856404;
+        }
+
+        .results-content {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .completion-icon {
+            animation: bounce 1s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 100px;
+            }
+
+            .header-bar {
+                padding: 15px 20px;
+            }
+
+            .header-title {
+                font-size: 1.2rem;
+                width: calc(100% - 120px);
+            }
+
+            .back-button {
+                padding: 10px 12px;
+                font-size: 0.8rem;
+            }
+
+            .main-container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .controls {
+                gap: 10px;
+            }
+
+            .btn {
+                padding: 12px 16px;
+                font-size: 0.9rem;
+                flex: 1;
+                max-width: 150px;
+            }
+
+            .results-actions {
+                flex-direction: column !important;
+                align-items: center;
+            }
+
+            .results-actions .btn {
+                width: 100% !important;
+                max-width: 250px !important;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-bar">
+        <button class="back-button" onclick="goToIndex()">
+            <span class="back-arrow">←</span>
+            <span>Quay lại</span>
+        </button>
+        <h1 id="lesson-name" class="header-title">Đang tải bài học...</h1>
+    </div>
+
+    <div id="quiz-container" class="main-container text-center">
+        <div id="question-counter" class="question-counter">Câu 1/5</div>
+        <div class="question-container">
+            <div id="sentence-container" class="korean-text text-xl sm:text-2xl leading-loose">
+            </div>
+        </div>
+        <div id="word-bank" class="flex flex-wrap justify-center gap-3 mb-8"></div>
+        <div class="controls">
+            <button id="check-btn" class="btn btn-primary">Kiểm tra</button>
+            <button id="next-btn" class="btn btn-primary">Câu tiếp theo</button>
+        </div>
+        <div id="feedback" class="feedback" style="display: none;"></div>
+        <div id="explanation" class="explanation" style="display: none;"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- DOM ELEMENTS ---
+            const lessonName = document.getElementById('lesson-name');
+            const questionCounter = document.getElementById('question-counter');
+            const sentenceContainer = document.getElementById('sentence-container');
+            const wordBank = document.getElementById('word-bank');
+            const checkBtn = document.getElementById('check-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const feedbackEl = document.getElementById('feedback');
+            const explanationEl = document.getElementById('explanation');
+
+            // --- APP STATE ---
+            let currentExercises = [];
+            let currentQuestion = null;
+            let hasAnswered = false;
+            let currentQuestionIndex = 0;
+            let totalQuestions = 0;
+            let correctAnswers = 0; // Track correct answers count
+            let isRetake = false; // Track if this is a retake
+
+            // Exercise data structure (same as before)
+            const exerciseData = {
+                lesson1: {
+                    title: "Bài 1: Giới thiệu",
+                    exercises: [
+                        {
+                            id: "lesson1_q1",
+                            template: "저는 __이고, __에서 왔습니다.",
+                            translation: "Tôi là người Việt Nam và đến từ Việt Nam",
+                            choices: ["베트남 사람", "베트남", "한국 사람", "일본"],
+                            solution: ["베트남 사람", "베트남"],
+                            explanation: "베트남 사람 có nghĩa là 'người Việt Nam', 베트남 có nghĩa là 'Việt Nam'. Cấu trúc: 저는 [quốc tịch]이고, [quốc gia]에서 왔습니다."
+                        }
+                    ]
+                },
+                lesson2: {
+                    title: "Bài 2: Trường học",
+                    exercises: [
+                        {
+                            id: "lesson2_q1",
+                            template: "교실에 __이 있습니다.",
+                            translation: "Trong lớp có bảng đen",
+                            choices: ["칠판", "침대", "냉장고", "텔레비전"],
+                            solution: ["칠판"],
+                            explanation: "칠판 có nghĩa là 'bảng đen'. Cấu trúc: [nơi chốn]에 + [đồ vật]이/가 있습니다."
+                        }
+                    ]
+                },
+                lesson3: {
+                    title: "Bài 3: Sinh hoạt hằng ngày",
+                    exercises: [
+                        {
+                            id: "lesson3_q1",
+                            template: "저는 매일 아침에 __을 마십니다.",
+                            translation: "Tôi uống cà phê mỗi sáng",
+                            choices: ["커피", "우유", "물", "차"],
+                            solution: ["커피"],
+                            explanation: "커피 có nghĩa là 'cà phê'. Cấu trúc: [đồ uống]을/를 마십니다."
+                        }
+                    ]
+                },
+                lesson4: {
+                    title: "Bài 4: Ngày và Thứ",
+                    exercises: [
+                        {
+                            id: "lesson4_q1",
+                            template: "오늘은 __일입니다.",
+                            translation: "Hôm nay là ngày 15",
+                            choices: ["십오", "이십", "삼십", "십육"],
+                            solution: ["십오"],
+                            completeSentence: "오늘은 십오일입니다",
+                            explanation: "십오 = 15. Dùng số Hán Hàn cho ngày tháng, năm."
+                        },
+                        {
+                            id: "lesson4_q2",
+                            template: "내 생일은 __월 __일입니다.",
+                            translation: "Sinh nhật tôi là ngày 3 tháng 7",
+                            choices: ["칠", "삼", "이십오", "십이"],
+                            solution: ["칠", "삼"],
+                            completeSentence: "내 생일은 칠월 삼일입니다",
+                            explanation: "칠월 삼일 = ngày 3 tháng 7. Số Hán Hàn dùng cho tháng (월) và ngày (일)."
+                        },
+                        {
+                            id: "lesson4_q3",
+                            template: "사과__ 바나나를 샀습니다.",
+                            translation: "Tôi đã mua táo và chuối",
+                            choices: ["와", "과", "하고", "이랑"],
+                            solution: ["와"],
+                            completeSentence: "사과와 바나나를 샀습니다",
+                            explanation: "사과 kết thúc bằng nguyên âm → dùng 와. Quy tắc: 과 (sau phụ âm) / 와 (sau nguyên âm)."
+                        },
+                        {
+                            id: "lesson4_q4",
+                            template: "책__ 연필을 샀습니다.",
+                            translation: "Tôi đã mua sách và bút",
+                            choices: ["와", "과", "하고", "이랑"],
+                            solution: ["과"],
+                            completeSentence: "책과 연필을 샀습니다",
+                            explanation: "책 kết thúc bằng phụ âm → dùng 과."
+                        },
+                        {
+                            id: "lesson4_q5",
+                            template: "저는 아침 __ 일어납니다.",
+                            translation: "Tôi thức dậy vào buổi sáng",
+                            choices: ["에", "와", "으로", "에서"],
+                            solution: ["에"],
+                            completeSentence: "저는 아침 에 일어납니다",
+                            explanation: "에 dùng sau danh từ chỉ thời gian: 아침에 = vào buổi sáng."
+                        },
+                        {
+                            id: "lesson4_q6",
+                            template: "우리는 오후 3시__ 만납시다.",
+                            translation: "Chúng ta hãy gặp nhau lúc 3 giờ chiều",
+                            choices: ["에", "에서", "까지", "부터"],
+                            solution: ["에"],
+                            completeSentence: "우리는 오후 3시에 만납시다",
+                            explanation: "3시에 = vào lúc 3 giờ. 에 chỉ thời điểm."
+                        },
+                        {
+                            id: "lesson4_q7",
+                            template: "수업은 9시__ 시작합니다.",
+                            translation: "Lớp học bắt đầu lúc 9 giờ",
+                            choices: ["에", "에서", "까지", "와"],
+                            solution: ["에"],
+                            completeSentence: "수업은 9시에 시작합니다",
+                            explanation: "9시에 = vào lúc 9 giờ. 에 gắn vào thời gian cụ thể."
+                        },
+                        {
+                            id: "lesson4_q8",
+                            template: "오늘은 __요일입니다.",
+                            translation: "Hôm nay là thứ Hai",
+                            choices: ["월", "화", "수", "목"],
+                            solution: ["월"],
+                            completeSentence: "오늘은 월요일입니다",
+                            explanation: "월요일 = thứ Hai. Các thứ: 월, 화, 수, 목, 금, 토, 일."
+                        },
+                        {
+                            id: "lesson4_q9",
+                            template: "이 책은 __원입니다.",
+                            translation: "Quyển sách này giá 10,000 won",
+                            choices: ["만", "천", "이만", "삼만"],
+                            solution: ["만"],
+                            completeSentence: "이 책은 만원입니다",
+                            explanation: "만 = 10,000. 만원 = 10,000 won."
+                        },
+                        {
+                            id: "lesson4_q10",
+                            template: "제 전화번호는 공일공-일이삼사-__입니다.",
+                            translation: "Số điện thoại của tôi là 010-1234-5678",
+                            choices: ["오육칠팔", "사오육칠", "육칠팔구", "칠팔구십"],
+                            solution: ["오육칠팔"],
+                            completeSentence: "제 전화번호는 공일공-일이삼사-오육칠팔입니다",
+                            explanation: "공일공 = 010, 일이삼사 = 1234, 오육칠팔 = 5678."
+                        }
+                    ]
+                }
+
+            };
+
+            /**
+             * Initialize the quiz
+             */
+            function initializeQuiz() {
+                // Get parameters from URL
+                const params = new URLSearchParams(window.location.search);
+                const lesson = params.get('lesson') || 'lesson1';
+                
+                // Check if this is a retake (from localStorage or URL parameter)
+                isRetake = localStorage.getItem(`lesson_${lesson}_completed`) === 'true' || 
+                          params.get('retake') === 'true';
+
+                const lessonData = exerciseData[lesson];
+                if (!lessonData) {
+                    lessonName.textContent = "Bài học không hợp lệ";
+                    return;
+                }
+
+                currentExercises = [...lessonData.exercises];
+                totalQuestions = currentExercises.length;
+                currentQuestionIndex = 1;
+                correctAnswers = 0; // Reset correct answers count
+                
+                // If this is a retake, shuffle the questions randomly
+                if (isRetake) {
+                    currentExercises = shuffleArray(currentExercises);
+                    console.log('Làm lại bài - Câu hỏi được xáo trộn ngẫu nhiên');
+                } else {
+                    console.log('Lần đầu làm bài - Câu hỏi theo thứ tự');
+                }
+                
+                // Set lesson name at the top
+                lessonName.textContent = lessonData.title;
+                
+                // Update question counter
+                updateQuestionCounter();
+
+                // Track page view
+                if (typeof trackPageView === 'function') {
+                    trackPageView(`Grammar Exercise ${lesson}`, `/grammar-exercise.html?lesson=${lesson}`);
+                }
+
+                loadNextQuestion();
+            }
+
+            function updateQuestionCounter() {
+                questionCounter.textContent = `Câu ${currentQuestionIndex}/${totalQuestions}`;
+            }
+
+            function loadNextQuestion() {
+                feedbackEl.style.display = 'none';
+                explanationEl.style.display = 'none';
+                checkBtn.style.display = 'inline-block';
+                nextBtn.disabled = true; // Disable next button until check is clicked
+                hasAnswered = false;
+
+                // Get current question based on index (no random selection)
+                currentQuestion = currentExercises[currentQuestionIndex - 1];
+
+                // Update question counter
+                updateQuestionCounter();
+
+                // Update button text based on current question index
+                if (currentQuestionIndex === totalQuestions) {
+                    nextBtn.textContent = 'Kết thúc';
+                } else {
+                    nextBtn.textContent = 'Câu tiếp theo';
+                }
+
+                // Clear and rebuild sentence container
+                sentenceContainer.innerHTML = '';
+                
+                // Add translation
+                const translationDiv = document.createElement('div');
+                translationDiv.className = 'translation-text';
+                translationDiv.textContent = `(${currentQuestion.translation})`;
+                sentenceContainer.appendChild(translationDiv);
+
+                // Create sentence with blanks
+                const sentenceDiv = document.createElement('div');
+                sentenceDiv.className = 'korean-text text-xl sm:text-2xl leading-loose';
+                
+                const parts = currentQuestion.template.split('__');
+                parts.forEach((part, index) => {
+                    sentenceDiv.appendChild(document.createTextNode(part));
+                    if (index < parts.length - 1) {
+                        const blank = document.createElement('span');
+                        blank.className = 'blank';
+                        blank.dataset.index = index;
+                        blank.addEventListener('click', () => handleBlankClick(blank));
+                        sentenceDiv.appendChild(blank);
+                    }
+                });
+                
+                sentenceContainer.appendChild(sentenceDiv);
+                
+                // Create word bank
+                wordBank.innerHTML = '';
+                const shuffledChoices = [...currentQuestion.choices].sort(() => Math.random() - 0.5);
+                shuffledChoices.forEach(word => {
+                    const btn = document.createElement('button');
+                    btn.textContent = word;
+                    btn.className = 'word-btn korean-text bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg transition-colors duration-300';
+                    btn.addEventListener('click', () => handleWordSelection(btn));
+                    wordBank.appendChild(btn);
+                });
+            }
+
+            function handleWordSelection(wordBtn) {
+                if (wordBtn.disabled || hasAnswered) return;
+
+                const blanks = sentenceContainer.querySelectorAll('.blank');
+                const targetBlank = Array.from(blanks).find(b => !b.dataset.answer);
+                
+                if (targetBlank) {
+                    targetBlank.textContent = wordBtn.textContent;
+                    targetBlank.dataset.answer = wordBtn.textContent;
+                    wordBtn.disabled = true;
+                }
+            }
+            
+            function handleBlankClick(clickedBlank) {
+                if (hasAnswered) return;
+
+                const wordInBlank = clickedBlank.dataset.answer;
+                if (wordInBlank) {
+                    const wordBtnToEnable = Array.from(wordBank.querySelectorAll('.word-btn')).find(btn => 
+                        btn.textContent === wordInBlank && btn.disabled
+                    );
+                    if (wordBtnToEnable) wordBtnToEnable.disabled = false;
+                    
+                    clickedBlank.textContent = '';
+                    clickedBlank.dataset.answer = '';
+                    clickedBlank.classList.remove('correct', 'incorrect');
+                }
+            }
+
+            function checkAnswers() {
+                const blanks = sentenceContainer.querySelectorAll('.blank');
+                
+                if (!currentQuestion) return;
+
+                let allCorrect = true;
+                let fullSentence = currentQuestion.template;
+
+                blanks.forEach((blank, index) => {
+                    const userAnswer = blank.dataset.answer;
+                    const correctAnswer = currentQuestion.solution[index];
+                    fullSentence = fullSentence.replace('__', userAnswer || '...');
+                    
+                    if (userAnswer === correctAnswer) {
+                        blank.classList.add('correct');
+                    } else {
+                        blank.classList.add('incorrect');
+                        allCorrect = false;
+                    }
+                });
+
+                hasAnswered = true;
+
+                // Enable next button after checking answers
+                nextBtn.disabled = false;
+
+                // Show feedback
+                if (allCorrect) {
+                    correctAnswers++; // Increment correct answers count
+                    feedbackEl.className = 'feedback success';
+                    feedbackEl.textContent = 'Chính xác! 🎉';
+                    speak(fullSentence.replace(/\.\.\./g, ''), 'ko-KR');
+
+                    // Track correct answer
+                    if (typeof trackQuestionAnswer === 'function') {
+                        trackQuestionAnswer(true, 'grammar_exercise', window.location.search, currentQuestion.template);
+                    }
+                } else {
+                    feedbackEl.className = 'feedback error';
+                    feedbackEl.textContent = 'Chưa đúng. Hãy xem giải thích bên dưới! 📚';
+                    
+                    // Track incorrect answer
+                    if (typeof trackQuestionAnswer === 'function') {
+                        trackQuestionAnswer(false, 'grammar_exercise', window.location.search, currentQuestion.template);
+                    }
+                }
+
+                // Show explanation for both correct and incorrect answers
+                explanationEl.innerHTML = `<h4>Giải thích:</h4><p>${currentQuestion.explanation}</p>`;
+                
+                feedbackEl.style.display = 'block';
+                explanationEl.style.display = 'block';
+
+                // Disable all word buttons
+                document.querySelectorAll('.word-btn').forEach(btn => {
+                    btn.disabled = true;
+                });
+            }
+
+            function speak(text, lang) {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = lang;
+                    utterance.rate = 0.9;
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
+
+            function showResultsPage() {
+                // Hide current quiz container
+                const quizContainer = document.getElementById('quiz-container');
+                quizContainer.style.display = 'none';
+
+                // Mark lesson as completed in localStorage
+                const params = new URLSearchParams(window.location.search);
+                const lesson = params.get('lesson') || 'lesson1';
+                localStorage.setItem(`lesson_${lesson}_completed`, 'true');
+
+                // Calculate score percentage
+                const scorePercentage = Math.round((correctAnswers / totalQuestions) * 100);
+                const isPerfectScore = correctAnswers === totalQuestions;
+                
+                // Choose content based on score
+                let resultIcon, resultTitle, resultMessage, resultColor;
+                
+                if (isPerfectScore) {
+                    // Perfect score - congratulations screen
+                    resultIcon = '🎉';
+                    resultTitle = 'Xuất sắc!';
+                    resultMessage = 'Bạn đã trả lời đúng tất cả các câu hỏi! Thật tuyệt vời!';
+                    resultColor = '#28a745';
+                } else if (scorePercentage >= 80) {
+                    // Good score
+                    resultIcon = '👏';
+                    resultTitle = 'Rất tốt!';
+                    resultMessage = 'Bạn đã làm rất tốt! Hãy tiếp tục cố gắng!';
+                    resultColor = '#17a2b8';
+                } else if (scorePercentage >= 60) {
+                    // Average score
+                    resultIcon = '📚';
+                    resultTitle = 'Cần cố gắng thêm!';
+                    resultMessage = 'Bạn đã hoàn thành bài học. Hãy ôn tập và thử lại để cải thiện kết quả!';
+                    resultColor = '#ffc107';
+                } else {
+                    // Low score
+                    resultIcon = '💪';
+                    resultTitle = 'Đừng nản chí!';
+                    resultMessage = 'Học tiếng Hàn cần thời gian và kiên trì. Hãy ôn tập và thử lại!';
+                    resultColor = '#dc3545';
+                }
+
+                // Create results container
+                const resultsContainer = document.createElement('div');
+                resultsContainer.className = 'main-container text-center';
+                resultsContainer.innerHTML = `
+                    <div class="results-content">
+                        <div class="completion-icon" style="font-size: 4rem; margin-bottom: 20px;">${resultIcon}</div>
+                        <h2 style="color: ${resultColor}; font-size: 2rem; margin-bottom: 20px; font-weight: 700;">${resultTitle}</h2>
+                        <p style="font-size: 1.2rem; color: #6c757d; margin-bottom: 30px;">
+                            ${resultMessage}
+                        </p>
+                        
+                        <div class="score-display" style="background: linear-gradient(135deg, ${resultColor}20, ${resultColor}10); border: 2px solid ${resultColor}; border-radius: 16px; padding: 30px; margin-bottom: 30px;">
+                            <div style="font-size: 3rem; font-weight: bold; color: ${resultColor}; margin-bottom: 10px;">
+                                ${correctAnswers}/${totalQuestions}
+                            </div>
+                            <div style="font-size: 1.5rem; color: ${resultColor}; font-weight: 600; margin-bottom: 10px;">
+                                ${scorePercentage}% chính xác
+                            </div>
+                            <div style="font-size: 1rem; color: #6c757d;">
+                                Bạn đã trả lời đúng ${correctAnswers} trên ${totalQuestions} câu hỏi
+                            </div>
+                        </div>
+                        
+                        <div class="results-stats" style="background: #f8f9fa; border-radius: 12px; padding: 25px; margin-bottom: 30px;">
+                            <div style="font-size: 1.1rem; color: #495057;">
+                                <strong>Bài học:</strong> ${lessonName.textContent}<br>
+                                <strong>Tổng số câu:</strong> ${totalQuestions} câu<br>
+                                <strong>Trạng thái:</strong> <span style="color: ${resultColor}; font-weight: 600;">Hoàn thành ✓</span>
+                            </div>
+                        </div>
+                        
+                        <div class="results-actions" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                            <button onclick="restartLesson()" class="btn btn-primary" style="min-width: 150px;">
+                                🔄 Làm lại bài
+                            </button>
+                            <button onclick="goToIndex()" class="btn btn-secondary" style="min-width: 150px;">
+                                🏠 Về trang chủ
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                // Insert results container after header
+                document.body.appendChild(resultsContainer);
+
+                // Track completion with score
+                if (typeof trackPageView === 'function') {
+                    trackPageView('Grammar Exercise Completed', `/grammar-exercise-completed.html?lesson=${new URLSearchParams(window.location.search).get('lesson')}&score=${scorePercentage}`);
+                }
+            }
+
+            // --- EVENT LISTENERS ---
+            checkBtn.addEventListener('click', checkAnswers);
+            nextBtn.addEventListener('click', function() {
+                if (nextBtn.disabled) return; // Prevent action if disabled
+                
+                if (currentQuestionIndex === totalQuestions) {
+                    // Go to results page when finishing the lesson
+                    showResultsPage();
+                } else {
+                    // Continue to next question
+                    currentQuestionIndex++;
+                    loadNextQuestion();
+                }
+            });
+
+            // --- INITIALIZE QUIZ ---
+            initializeQuiz();
+        });
+
+        function goToIndex() {
+            window.location.href = 'index.html';
+        }
+
+        // Restart lesson function - accessible globally
+        function restartLesson() {
+            // Add retake parameter to URL to indicate this is a retake
+            const params = new URLSearchParams(window.location.search);
+            params.set('retake', 'true');
+            window.location.href = window.location.pathname + '?' + params.toString();
+        }
+
+        // Utility function to shuffle array (Fisher-Yates algorithm)
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+    </script>
+</body>
+</html>
