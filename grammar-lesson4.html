@@ -15,13 +15,10 @@
   <link rel="stylesheet" href="styles/grammar-common.css">
 </head>
 <body>
-  <div class="header-bar">
-    <button class="back-button" onclick="goToIndex()">
-      <span class="back-arrow">←</span>
-      <span>Quay lại</span>
-    </button>
-    <h1 class="header-title">Ngữ pháp Bài 4: 날짜와 요일</h1>
-  </div>
+  <button class="back-button" onclick="goToIndex()">
+    <span class="back-arrow">←</span>
+    <span>Quay lại</span>
+  </button>
 
   <div class="container">
     <div class="lesson-header">
@@ -36,143 +33,153 @@
         1. Số từ Hán Hàn (한자어 수사)
       </h2>
 
-      <div class="grammar-point">
-        <h3 class="point-title">a. Khái niệm</h3>
-        <p class="point-description">
-          Số từ Hán Hàn là hệ thống số được vay mượn từ tiếng Trung Quốc và được sử dụng trong nhiều trường hợp đặc biệt trong tiếng Hàn.
-        </p>
-        
-        <div class="rule-box">
-          <div class="rule-title">📝 Khi nào sử dụng số từ Hán Hàn:</div>
-          <ul>
-            <li>Ngày tháng năm</li>
-            <li>Thứ trong tuần</li>
-            <li>Số tầng, số phòng</li>
-            <li>Số điện thoại</li>
-            <li>Tiền bạc (won)</li>
-          </ul>
+      <h3 class="point-title">a. Khái niệm</h3>
+      <p class="point-description">
+        Số từ Hán Hàn là hệ thống số được vay mượn từ tiếng Trung Quốc và được sử dụng trong nhiều trường hợp đặc biệt trong tiếng Hàn.
+      </p>
+      
+      <div class="rule-box">
+        <div class="rule-title">📝 Khi nào sử dụng số từ Hán Hàn:</div>
+        <ul>
+          <li>Ngày tháng năm</li>
+          <li>Thứ trong tuần</li>
+          <li>Số tầng, số phòng</li>
+          <li>Số điện thoại</li>
+          <li>Tiền bạc (won)</li>
+        </ul>
+      </div>
+
+      <h3 class="point-title">b. Bảng số từ Hán Hàn cơ bản</h3>
+      
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Số</th>
+            <th>Hán Hàn</th>
+            <th>Phát âm</th>
+            <th>Ví dụ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0</td>
+            <td class="korean">공</td>
+            <td>gong</td>
+            <td class="korean">공십 (10)</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td class="korean">일</td>
+            <td>il</td>
+            <td class="korean">일월 (tháng 1)</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td class="korean">이</td>
+            <td>i</td>
+            <td class="korean">이월 (tháng 2)</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td class="korean">삼</td>
+            <td>sam</td>
+            <td class="korean">삼월 (tháng 3)</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td class="korean">사</td>
+            <td>sa</td>
+            <td class="korean">사월 (tháng 4)</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td class="korean">오</td>
+            <td>o</td>
+            <td class="korean">오월 (tháng 5)</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td class="korean">육</td>
+            <td>yuk</td>
+            <td class="korean">육월 (tháng 6)</td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td class="korean">칠</td>
+            <td>chil</td>
+            <td class="korean">칠월 (tháng 7)</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td class="korean">팔</td>
+            <td>pal</td>
+            <td class="korean">팔월 (tháng 8)</td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td class="korean">구</td>
+            <td>gu</td>
+            <td class="korean">구월 (tháng 9)</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td class="korean">십</td>
+            <td>sip</td>
+            <td class="korean">십월 (tháng 10)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="example-content">
+        <div class="korean-text">
+          오늘은 십오일입니다.<br>
+          제 전화번호는 공일공-일이삼사-오육칠팔입니다.
+        </div>
+        <div class="translation">
+          Hôm nay là ngày 15.<br>
+          Số điện thoại của tôi là 010-1234-5678.
         </div>
       </div>
 
-      <div class="grammar-point">
-        <h3 class="point-title">b. Bảng số từ Hán Hàn cơ bản</h3>
-        
-        <table class="number-table">
-          <thead>
-            <tr>
-              <th>Số</th>
-              <th>Hán Hàn</th>
-              <th>Phát âm</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>0</td>
-              <td class="korean">공</td>
-              <td>gong</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td class="korean">일</td>
-              <td>il</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td class="korean">이</td>
-              <td>i</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td class="korean">삼</td>
-              <td>sam</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td class="korean">사</td>
-              <td>sa</td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td class="korean">오</td>
-              <td>o</td>
-            </tr>
-            <tr>
-              <td>6</td>
-              <td class="korean">육</td>
-              <td>yuk</td>
-            </tr>
-            <tr>
-              <td>7</td>
-              <td class="korean">칠</td>
-              <td>chil</td>
-            </tr>
-            <tr>
-              <td>8</td>
-              <td class="korean">팔</td>
-              <td>pal</td>
-            </tr>
-            <tr>
-              <td>9</td>
-              <td class="korean">구</td>
-              <td>gu</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td class="korean">십</td>
-              <td>sip</td>
-            </tr>
-          </tbody>
-        </table>
+      <h3 class="point-title">c. Số lớn với Hán Hàn</h3>
+      
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Số</th>
+            <th>Hán Hàn</th>
+            <th>Ví dụ</th>
+            <th>Nghĩa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>100</td>
+            <td class="korean">백</td>
+            <td class="korean">이백 (200)</td>
+            <td>hai trăm</td>
+          </tr>
+          <tr>
+            <td>1,000</td>
+            <td class="korean">천</td>
+            <td class="korean">삼천 (3,000)</td>
+            <td>ba nghìn</td>
+          </tr>
+          <tr>
+            <td>10,000</td>
+            <td class="korean">만</td>
+            <td class="korean">오만 (50,000)</td>
+            <td>năm mười nghìn</td>
+          </tr>
+        </tbody>
+      </table>
 
-        <div class="example-box">
-          <div class="korean-text">
-            오늘은 십오일입니다.<br>
-            제 전화번호는 공일공-일이삼사-오육칠팔입니다.
-          </div>
-          <div class="translation">
-            Hôm nay là ngày 15.<br>
-            Số điện thoại của tôi là 010-1234-5678.
-          </div>
+      <div class="example-content">
+        <div class="korean-text">
+          이 책은 만원입니다.
         </div>
-      </div>
-
-      <div class="grammar-point">
-        <h3 class="point-title">c. Số lớn với Hán Hàn</h3>
-        
-        <table class="number-table">
-          <thead>
-            <tr>
-              <th>Số</th>
-              <th>Hán Hàn</th>
-              <th>Ví dụ</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>100</td>
-              <td class="korean">백</td>
-              <td class="korean">이백 (200)</td>
-            </tr>
-            <tr>
-              <td>1,000</td>
-              <td class="korean">천</td>
-              <td class="korean">삼천 (3,000)</td>
-            </tr>
-            <tr>
-              <td>10,000</td>
-              <td class="korean">만</td>
-              <td class="korean">오만 (50,000)</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="example-box">
-          <div class="korean-text">
-            이 책은 만원입니다.
-          </div>
-          <div class="translation">
-            Quyển sách này giá 10,000 won.
-          </div>
+        <div class="translation">
+          Quyển sách này giá 10,000 won.
         </div>
       </div>
     </div>
@@ -184,45 +191,68 @@
         2. 와/과 (và) - Trợ từ nối
       </h2>
 
-      <div class="grammar-point">
-        <h3 class="point-title">a. Cách sử dụng</h3>
-        <p class="point-description">
-          와/과 được sử dụng để nối hai danh từ với nhau, có nghĩa là "và".
-        </p>
-        
-        <div class="rule-box">
-          <div class="rule-title">📝 Quy tắc sử dụng:</div>
-          <ul>
-            <li><strong>과</strong>: Dùng sau danh từ kết thúc bằng phụ âm</li>
-            <li><strong>와</strong>: Dùng sau danh từ kết thúc bằng nguyên âm</li>
-          </ul>
-        </div>
+      <h3 class="point-title">a. Cách sử dụng</h3>
+      <p class="point-description">
+        와/과 được sử dụng để nối hai danh từ với nhau, có nghĩa là "và".
+      </p>
+      
+      <div class="rule-box">
+        <div class="rule-title">📝 Quy tắc sử dụng:</div>
+        <ul>
+          <li><strong>과</strong>: Dùng sau danh từ kết thúc bằng phụ âm</li>
+          <li><strong>와</strong>: Dùng sau danh từ kết thúc bằng nguyên âm</li>
+        </ul>
+      </div>
 
-        <div class="example-box">
-          <div class="korean-text">
-            책과 연필을 샀습니다.<br>
-            사과와 바나나를 샀습니다.
-          </div>
-          <div class="translation">
-            Tôi đã mua sách và bút chì.<br>
-            Tôi đã mua táo và chuối.
-          </div>
+      <div class="example-content">
+        <div class="korean-text">
+          책과 연필을 샀습니다.<br>
+          사과와 바나나를 샀습니다.
+        </div>
+        <div class="translation">
+          Tôi đã mua sách và bút chì.<br>
+          Tôi đã mua táo và chuối.
         </div>
       </div>
 
-      <div class="grammar-point">
-        <h3 class="point-title">b. Phân biệt 과/와</h3>
-        
-        <div class="rule-box">
-          <div class="rule-title">🔍 Cách nhận biết:</div>
-          <ul>
-            <li><strong>책</strong> (sách) → kết thúc bằng ㄱ (phụ âm) → <strong>책과</strong></li>
-            <li><strong>사과</strong> (táo) → kết thúc bằng ㅏ (nguyên âm) → <strong>사과와</strong></li>
-            <li><strong>연필</strong> (bút chì) → kết thúc bằng ㄹ (phụ âm) → <strong>연필과</strong></li>
-            <li><strong>바나나</strong> (chuối) → kết thúc bằng ㅏ (nguyên âm) → <strong>바나나와</strong></li>
-          </ul>
-        </div>
-      </div>
+      <h3 class="point-title">b. Phân biệt 과/와</h3>
+      
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Danh từ</th>
+            <th>Kết thúc</th>
+            <th>Trợ từ</th>
+            <th>Kết hợp</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="korean">책</td>
+            <td>ㄱ (phụ âm)</td>
+            <td class="korean">과</td>
+            <td class="korean">책과</td>
+          </tr>
+          <tr>
+            <td class="korean">사과</td>
+            <td>ㅏ (nguyên âm)</td>
+            <td class="korean">와</td>
+            <td class="korean">사과와</td>
+          </tr>
+          <tr>
+            <td class="korean">연필</td>
+            <td>ㄹ (phụ âm)</td>
+            <td class="korean">과</td>
+            <td class="korean">연필과</td>
+          </tr>
+          <tr>
+            <td class="korean">바나나</td>
+            <td>ㅏ (nguyên âm)</td>
+            <td class="korean">와</td>
+            <td class="korean">바나나와</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <!-- Section 3: 에 (vào, vào lúc) -->
@@ -232,70 +262,117 @@
         3. 에 (vào, vào lúc) - Trợ từ chỉ thời gian
       </h2>
 
-      <div class="grammar-point">
-        <h3 class="point-title">a. Cách sử dụng</h3>
-        <p class="point-description">
-          Trợ từ "에" được gắn vào sau danh từ chỉ thời gian để biểu thị thời điểm xảy ra một hành động.
-        </p>
-        
-        <div class="rule-box">
-          <div class="rule-title">📝 Cấu trúc:</div>
-          <p><strong>[Thời gian] + 에 + [Động từ]</strong></p>
-        </div>
+      <h3 class="point-title">a. Cách sử dụng</h3>
+      <p class="point-description">
+        Trợ từ "에" được gắn vào sau danh từ chỉ thời gian để biểu thị thời điểm xảy ra một hành động.
+      </p>
+      
+      <div class="rule-box">
+        <div class="rule-title">📝 Cấu trúc:</div>
+        <p><strong>[Thời gian] + 에 + [Động từ]</strong></p>
+      </div>
 
-        <div class="example-box">
-          <div class="korean-text">
-            아침에 일어납니다.<br>
-            3시에 만납시다.<br>
-            월요일에 학교에 갑니다.
-          </div>
-          <div class="translation">
-            Tôi thức dậy vào buổi sáng.<br>
-            Chúng ta hãy gặp nhau lúc 3 giờ.<br>
-            Tôi đến trường vào thứ Hai.
-          </div>
+      <div class="example-content">
+        <div class="korean-text">
+          아침에 일어납니다.<br>
+          3시에 만납시다.<br>
+          월요일에 학교에 갑니다.
+        </div>
+        <div class="translation">
+          Tôi thức dậy vào buổi sáng.<br>
+          Chúng ta hãy gặp nhau lúc 3 giờ.<br>
+          Tôi đến trường vào thứ Hai.
         </div>
       </div>
 
-      <div class="grammar-point">
-        <h3 class="point-title">b. Các trường hợp sử dụng</h3>
-        
-        <div class="rule-box">
-          <div class="rule-title">🕐 Thời điểm cụ thể:</div>
-          <ul>
-            <li><strong>시간</strong>: 9시에 (lúc 9 giờ)</li>
-            <li><strong>요일</strong>: 월요일에 (vào thứ Hai)</li>
-            <li><strong>날짜</strong>: 15일에 (vào ngày 15)</li>
-            <li><strong>월</strong>: 7월에 (vào tháng 7)</li>
-          </ul>
-        </div>
+      <h3 class="point-title">b. Các trường hợp sử dụng</h3>
+      
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Loại thời gian</th>
+            <th>Ví dụ tiếng Hàn</th>
+            <th>Nghĩa tiếng Việt</th>
+            <th>Câu ví dụ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>시간</strong></td>
+            <td class="korean">9시에</td>
+            <td>lúc 9 giờ</td>
+            <td class="korean">수업은 9시에 시작합니다</td>
+          </tr>
+          <tr>
+            <td><strong>요일</strong></td>
+            <td class="korean">월요일에</td>
+            <td>vào thứ Hai</td>
+            <td class="korean">월요일에 학교에 갑니다</td>
+          </tr>
+          <tr>
+            <td><strong>날짜</strong></td>
+            <td class="korean">15일에</td>
+            <td>vào ngày 15</td>
+            <td class="korean">15일에 시험이 있습니다</td>
+          </tr>
+          <tr>
+            <td><strong>월</strong></td>
+            <td class="korean">7월에</td>
+            <td>vào tháng 7</td>
+            <td class="korean">7월에 휴가를 갑니다</td>
+          </tr>
+        </tbody>
+      </table>
 
-        <div class="rule-box">
-          <div class="rule-title">🌅 Thời gian chung:</div>
-          <ul>
-            <li><strong>아침에</strong> (vào buổi sáng)</li>
-            <li><strong>저녁에</strong> (vào buổi tối)</li>
-            <li><strong>주말에</strong> (vào cuối tuần)</li>
-          </ul>
-        </div>
+      <div class="rule-box">
+        <div class="rule-title">🌅 Thời gian chung:</div>
+        <ul>
+          <li><strong>아침에</strong> (vào buổi sáng)</li>
+          <li><strong>저녁에</strong> (vào buổi tối)</li>
+          <li><strong>주말에</strong> (vào cuối tuần)</li>
+        </ul>
+      </div>
 
-        <div class="example-box">
-          <div class="korean-text">
-            수업은 9시에 시작합니다.<br>
-            저녁에 친구를 만납니다.<br>
-            7월 15일에 시험이 있습니다.
-          </div>
-          <div class="translation">
-            Lớp học bắt đầu lúc 9 giờ.<br>
-            Tôi gặp bạn vào buổi tối.<br>
-            Có kỳ thi vào ngày 15 tháng 7.
-          </div>
+      <div class="example-content">
+        <div class="korean-text">
+          수업은 9시에 시작합니다.<br>
+          저녁에 친구를 만납니다.<br>
+          7월 15일에 시험이 있습니다.
+        </div>
+        <div class="translation">
+          Lớp học bắt đầu lúc 9 giờ.<br>
+          Tôi gặp bạn vào buổi tối.<br>
+          Có kỳ thi vào ngày 15 tháng 7.
         </div>
       </div>
+    </div>
+
+    <!-- Practice Section -->
+    <div class="practice-section">
+      <h2 class="practice-title">
+        <span class="practice-icon">📝</span>
+        Luyện tập
+      </h2>
+      <p class="practice-description">
+        Thực hành các ngữ pháp đã học trong bài 4 với bài tập tương tác
+      </p>
+      <button class="practice-button" onclick="goToExercise()">
+        Bắt đầu luyện tập
+        <span class="arrow">→</span>
+      </button>
     </div>
   </div>
 
   <!-- Common JavaScript -->
   <script src="js/grammar-common.js"></script>
+  <script>
+    function goToIndex() {
+      window.location.href = 'index.html';
+    }
+
+    function goToExercise() {
+      window.location.href = 'grammar-exercise.html';
+    }
+  </script>
 </body>
 </html>

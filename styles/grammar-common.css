@@ -25,37 +25,13 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   padding: 20px;
-  padding-top: 100px;
 }
 
-/* Header Bar */
-.header-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: #f8f9fa;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  z-index: 1000;
-}
-
-.header-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #f39c12;
-  margin: 0;
-  text-align: center;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 200px);
-  z-index: 1000;
-  pointer-events: none;
-}
-
+/* Back Button */
 .back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
   background: linear-gradient(135deg, #6c757d, #495057);
   color: white;
   border: none;
@@ -69,8 +45,7 @@ body {
   align-items: center;
   gap: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  position: relative;
-  z-index: 1001;
+  z-index: 1000;
 }
 
 .back-button:hover {
@@ -79,23 +54,28 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+.back-button:active {
+  transform: translateY(0);
+}
+
 .back-arrow {
   font-size: 1.1rem;
 }
 
 /* Main Container */
 .container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 32px;
 }
 
 /* Lesson Header */
 .lesson-header {
   text-align: center;
+  margin-top: 10px;
   margin-bottom: 40px;
   padding-bottom: 20px;
   border-bottom: 2px solid #e9ecef;
@@ -116,17 +96,18 @@ body {
 
 /* Grammar Sections */
 .grammar-section {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 20px; /* Giảm từ 30px xuống 20px */
-  margin-bottom: 20px; /* Giảm từ 30px xuống 20px */
-  border-left: 5px solid var(--warning);
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .section-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--primary);
+  color: #2c3e50;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -139,18 +120,18 @@ body {
 
 /* Grammar Points */
 .grammar-point {
-  background: white;
-  border-radius: 8px;
-  padding: 18px; /* Giảm từ 24px xuống 18px */
-  margin-bottom: 16px; /* Giảm từ 20px xuống 16px */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 20px 0;
+  margin-bottom: 20px;
+  border: 1px solid #e9ecef;
 }
 
 .point-title {
-  font-size: 1.1rem; /* Giảm từ 1.2rem xuống 1.1rem */
+  font-size: 1.1rem;
   font-weight: 600;
-  color: var(--warning);
-  margin-bottom: 12px; /* Giảm từ 16px xuống 12px */
+  color: #3498db;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -164,18 +145,24 @@ body {
 
 /* Example Boxes */
 .example-box {
-  background: #e8f4f8;
-  border: 1px solid #bee5eb;
-  border-radius: 8px;
-  padding: 14px; /* Giảm từ 18px xuống 14px */
-  margin: 12px 0; /* Giảm từ 16px xuống 12px */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.example-title {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 12px;
+  font-size: 1rem;
 }
 
 .korean-text {
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 600;
-  color: var(--primary);
+  color: #2980b9;
   font-size: 1.1rem;
   line-height: 1.6;
 }
@@ -189,17 +176,17 @@ body {
 
 /* Rule Boxes */
 .rule-box {
-  background: #fff3cd;
-  border: 1px solid #ffeaa7;
+  background: #fff8e1;
+  border: 1px solid #ffcc02;
   border-radius: 6px;
-  padding: 16px; /* Giảm từ 20px xuống 16px */
-  margin: 12px 0; /* Giảm từ 15px xuống 12px */
+  padding: 16px;
+  margin: 16px 0;
 }
 
 .rule-title {
   font-weight: 600;
-  color: #856404;
-  margin-bottom: 10px; /* Giảm từ 12px xuống 10px */
+  color: #f57c00;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -253,17 +240,41 @@ li {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+/* Table Container for Horizontal Scroll */
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 12px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
 .number-table th,
 .number-table td {
   padding: 10px 12px; /* Giảm từ 12px 15px xuống 10px 12px */
   text-align: center;
   border-bottom: 1px solid #e9ecef;
+  white-space: nowrap; /* Prevent text wrapping in cells */
 }
 
 .number-table th {
   background: var(--primary);
   color: white;
   font-weight: 600;
+}
+
+/* Zebra striping for table rows */
+.number-table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.number-table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.number-table tbody tr:hover {
+  background-color: #e3f2fd;
+  transition: background-color 0.2s ease;
 }
 
 .number-table td:first-child {
@@ -277,21 +288,497 @@ li {
   color: var(--warning);
 }
 
+/* Number Grid Styles */
+.number-grid, .time-grid, .minute-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.number-item, .time-item, .minute-item {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 12px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.number-item:hover, .time-item:hover, .minute-item:hover {
+  background: #f8f9fa;
+  border-color: #3498db;
+  box-shadow: 0 2px 4px rgba(52, 152, 219, 0.1);
+}
+
+.number-item .korean, .time-item .korean, .minute-item .korean {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.number-item .meaning, .time-item .meaning, .minute-item .meaning {
+  font-size: 0.9rem;
+  color: #424242;
+  font-weight: 500;
+}
+
+/* Transformation Table Styles */
+.transformation-table {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 12px;
+  border: 1px solid #dee2e6;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  padding: 8px 0;
+  align-items: center;
+  text-align: center;
+}
+
+.table-row.header {
+  font-weight: 600;
+  color: #2c3e50;
+  border-bottom: 2px solid #dee2e6;
+  margin-bottom: 8px;
+  padding-bottom: 12px;
+}
+
+.table-row .korean {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 1rem;
+}
+
+/* Comparison Table Styles (for lesson 2 modern tables) */
+.comparison-table {
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin: 12px 0;
+}
+
+.comparison-table .table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr; /* Fixed 4 columns */
+  gap: 0;
+  padding: 12px 16px;
+  align-items: center;
+  text-align: center;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.comparison-table .table-row:last-child {
+  border-bottom: none;
+}
+
+.comparison-table .table-header {
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  padding: 14px 16px;
+}
+
+/* Zebra striping for comparison table */
+.comparison-table .table-row:not(.table-header):nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.comparison-table .table-row:not(.table-header):nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.comparison-table .table-row:not(.table-header):hover {
+  background-color: #e3f2fd;
+  transition: background-color 0.2s ease;
+}
+
+/* Zebra striping for standard HTML table rows */
+.comparison-table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.comparison-table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.comparison-table tbody tr:hover {
+  background-color: #e3f2fd;
+  transition: background-color 0.2s ease;
+}
+
+/* Left align table headers and cells */
+.comparison-table th,
+.comparison-table td {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.comparison-table th {
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+}
+
+.comparison-table .table-cell {
+  padding: 4px 8px;
+  word-wrap: break-word;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+.comparison-table .table-cell.korean {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600;
+  color: var(--warning);
+}
+
+/* Utility classes for different column counts */
+.comparison-table.cols-3 .table-row {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.comparison-table.cols-5 .table-row {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.comparison-table.cols-6 .table-row {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+/* Responsive adjustments for different column counts */
+@media (max-width: 480px) {
+  .comparison-table.cols-5 .table-row {
+    font-size: 0.65rem;
+  }
+  
+  .comparison-table.cols-5 .table-cell {
+    padding: 2px 1px;
+  }
+  
+  .comparison-table.cols-6 .table-row {
+    font-size: 0.6rem;
+  }
+  
+  .comparison-table.cols-6 .table-cell {
+    padding: 1px;
+  }
+}
+
+/* Responsive comparison table - keep 4 columns but reduce sizes */
+@media (max-width: 768px) {
+  .comparison-table .table-row {
+    grid-template-columns: 1fr 1fr 1fr 1fr; /* Keep 4 columns */
+    padding: 8px 12px;
+    font-size: 0.8rem; /* Smaller font */
+  }
+  
+  .comparison-table .table-header {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+  
+  .comparison-table .table-cell {
+    padding: 4px 2px; /* Reduce padding */
+  }
+}
+
+@media (max-width: 480px) {
+  .comparison-table .table-row {
+    grid-template-columns: 1fr 1fr 1fr 1fr; /* Keep 4 columns */
+    padding: 6px 8px;
+    font-size: 0.7rem; /* Even smaller font */
+  }
+  
+  .comparison-table .table-header {
+    padding: 8px 8px;
+    font-size: 0.75rem;
+  }
+  
+  .comparison-table .table-cell {
+    padding: 2px 1px; /* Minimal padding */
+    line-height: 1.2;
+  }
+  
+  .comparison-table .table-cell.korean {
+    font-size: 0.75rem;
+  }
+}
+
+/* Conjugation Rules */
+.conjugation-rules {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.rule-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.rule-item:last-child {
+  border-bottom: none;
+}
+
+.condition {
+  font-weight: 500;
+  color: #6c757d;
+}
+
+.result {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600;
+  color: #e74c3c;
+}
+
+/* Verb Grid */
+.verb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.verb-item {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.verb-item:hover {
+  background: #f8f9fa;
+  border-color: #3498db;
+  box-shadow: 0 2px 4px rgba(52, 152, 219, 0.1);
+}
+
+.verb-item .base, .verb-item .conjugated {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.verb-item .base {
+  color: #2c3e50;
+}
+
+.verb-item .conjugated {
+  color: #e74c3c;
+}
+
+.verb-item .arrow {
+  color: #6c757d;
+  font-weight: bold;
+}
+
+.verb-item .meaning {
+  font-size: 0.85rem;
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Usage Examples */
+.usage-examples h4 {
+  color: #2c3e50;
+  font-size: 1rem;
+  margin: 20px 0 12px 0;
+  font-weight: 600;
+}
+
+.example-content {
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+}
+
+.example-content p {
+  margin-bottom: 8px;
+}
+
+.example-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Negation Examples */
+.negation-examples {
+  margin-top: 16px;
+}
+
+.example-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+}
+
+.positive, .negative {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.positive .label, .negative .label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6c757d;
+  margin-bottom: 8px;
+}
+
+.positive .korean, .negative .korean {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.positive .korean {
+  color: #27ae60;
+}
+
+.negative .korean {
+  color: #e74c3c;
+}
+
+.positive .meaning, .negative .meaning {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Practice Section */
+.practice-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  margin-top: 40px;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.practice-title {
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.practice-icon {
+  display: inline-block;
+  margin-right: 12px;
+  font-size: 2rem;
+}
+
+.practice-description {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.practice-button {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 16px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 24px rgba(255, 107, 107, 0.4);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.practice-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.practice-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 40px rgba(255, 107, 107, 0.6);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.practice-button:hover::before {
+  left: 100%;
+}
+
+.practice-button:active {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+/* Practice Section Responsive */
+@media (max-width: 600px) {
+  .practice-section {
+    padding: 24px;
+    margin-top: 30px;
+  }
+  
+  .practice-title {
+    font-size: 1.5rem;
+  }
+  
+  .practice-icon {
+    font-size: 1.8rem;
+  }
+  
+  .practice-description {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+  
+  .practice-button {
+    padding: 14px 32px;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+  }
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
-  body {
-    padding-top: 100px;
-  }
-
-  .header-bar {
-    padding: 15px 20px;
-  }
-
-  .header-title {
-    font-size: 1.2rem;
-    width: calc(100% - 120px);
-  }
-
   .back-button {
     padding: 10px 12px;
     font-size: 0.8rem;
@@ -300,6 +787,10 @@ li {
   .container {
     padding: 20px;
     margin: 10px;
+  }
+
+  .lesson-header {
+    margin-top: 10px;
   }
 
   .lesson-title {
@@ -334,6 +825,27 @@ li {
     font-size: 0.85rem; /* Giảm từ 0.9rem xuống 0.85rem */
   }
 
+  /* Responsive table handling */
+  .table-container {
+    margin: 8px -20px; /* Extend to container edges */
+    border-radius: 0;
+  }
+  
+  .number-table {
+    min-width: 500px; /* Minimum width to prevent crushing */
+  }
+  
+  .number-table th,
+  .number-table td {
+    padding: 8px 6px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+  
+  .number-table .korean {
+    font-size: 0.85rem;
+  }
+
   .example-box,
   .rule-box {
     padding: 12px; /* Giảm từ 15px xuống 12px */
@@ -348,5 +860,124 @@ li {
     padding-left: 14px; /* Giảm từ 16px xuống 14px */
     margin-bottom: 4px; /* Giảm từ 6px xuống 4px */
     font-size: 0.85rem; /* Giảm từ 0.9rem xuống 0.85rem */
+  }
+
+  .number-grid, .time-grid, .minute-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 8px;
+  }
+  
+  .table-row {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    font-size: 0.9rem;
+  }
+  
+  .verb-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .example-pair {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .rule-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Table responsive handling */
+  .table-container {
+    margin: 8px -16px; /* Extend to container edges */
+    border-radius: 0;
+  }
+  
+  .number-table {
+    min-width: 400px; /* Minimum width for tablet */
+  }
+  
+  .number-table th,
+  .number-table td {
+    padding: 8px 6px;
+    font-size: 0.85rem;
+  }
+
+  .number-grid, .time-grid, .minute-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 8px;
+  }
+  
+  .table-row {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    font-size: 0.9rem;
+  }
+  
+  .verb-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .example-pair {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .rule-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+}
+
+/* Responsive Table Utilities */
+.responsive-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 12px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.responsive-table-wrapper .number-table,
+.responsive-table-wrapper .comparison-table {
+  margin: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* Scrollbar styling for better UX */
+.responsive-table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.responsive-table-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.responsive-table-wrapper::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.responsive-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+@media (max-width: 600px) {
+  .responsive-table-wrapper {
+    margin: 8px -20px;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .responsive-table-wrapper {
+    margin: 8px -16px;
+    border-radius: 0;
   }
 }

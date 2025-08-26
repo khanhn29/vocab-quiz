@@ -256,6 +256,11 @@
       window.location.href = 'grammar-lesson4.html';
     }
     
+    // If this is lesson 5 overview, redirect to dedicated lesson 5 page
+    if (lesson === 'lesson5' && type === 'overview') {
+      window.location.href = 'grammar-lesson5.html';
+    }
+    
     // Show appropriate content based on lesson
     function showLessonContent() {
       const constructionContent = document.getElementById('construction-content');
