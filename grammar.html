@@ -7,6 +7,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ngữ pháp - Tiếng Hàn Hyewon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #4a69bd;
@@ -79,7 +82,7 @@
       border-radius: 16px;
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
       padding: 40px;
-      max-width: 500px;
+      max-width: 800px;
       width: 100%;
       text-align: center;
     }
@@ -198,25 +201,27 @@
   </button>
 
   <div class="container">
-    <div class="construction-icon">🚧</div>
-    
-    <div class="message-card">
-      <h1 class="main-title">Tính năng đang phát triển</h1>
-      <p class="subtitle">Phần ngữ pháp sẽ sớm có mặt!</p>
+    <!-- Under Construction Content (Default) -->
+    <div id="construction-content">
+      <div class="construction-icon">🚧</div>
       
-      <p class="description">
-        Chúng tôi đang tích cực phát triển phần học ngữ pháp tiếng Hàn với nhiều tính năng hấp dẫn. 
-        Vui lòng quay lại sau để trải nghiệm những bài học ngữ pháp chi tiết và bài tập thực hành phong phú.
-      </p>
-      
-      <div class="feature-list">
-        <h3>Những gì sẽ có:</h3>
-        <ul>
-          <li>Bài tập điền từ</li>
-          <li>Xem lại ngữ pháp</li>
-        </ul>
+      <div class="message-card">
+        <h1 class="main-title">Tính năng đang phát triển</h1>
+        <p class="subtitle">Phần ngữ pháp sẽ sớm có mặt!</p>
+        
+        <p class="description">
+          Chúng tôi đang tích cực phát triển phần học ngữ pháp tiếng Hàn với nhiều tính năng hấp dẫn. 
+          Vui lòng quay lại sau để trải nghiệm những bài học ngữ pháp chi tiết và bài tập thực hành phong phú.
+        </p>
+        
+        <div class="feature-list">
+          <h3>Những gì sẽ có:</h3>
+          <ul>
+            <li>Bài tập điền từ</li>
+            <li>Xem lại ngữ pháp</li>
+          </ul>
+        </div>
       </div>
-      
     </div>
   </div>
 
@@ -229,38 +234,65 @@
     // If this is an exercise request, redirect to the exercise page immediately
     if (type === 'exercise' && lesson) {
       window.location.href = `grammar-exercise.html?lesson=${lesson}`;
-      return;
     }
     
-    // Update title and content based on lesson and type for overview pages only
-    if (lesson && type === 'overview') {
-      const lessonNumber = lesson.replace('lesson', '');
-      document.title = `Tổng hợp ngữ pháp Bài ${lessonNumber} - Tiếng Hàn Hyewon`;
-      
-      // Update the main title in the card
-      const mainTitle = document.querySelector('.main-title');
-      mainTitle.textContent = `Tổng hợp ngữ pháp Bài ${lessonNumber} đang phát triển`;
-      
-      // Update subtitle
-      const subtitle = document.querySelector('.subtitle');
-      subtitle.textContent = 'Phần lý thuyết ngữ pháp sẽ sớm có mặt!';
-      
-      // Update description
-      const description = document.querySelector('.description');
-      description.textContent = 'Chúng tôi đang tích cực phát triển phần tổng hợp ngữ pháp tiếng Hàn với nội dung chi tiết và dễ hiểu. Vui lòng quay lại sau để học các điểm ngữ pháp quan trọng của bài này.';
-      
-    } else if (lesson && !type) {
-      // Default case for lesson without specific type
-      const lessonNumber = lesson.replace('lesson', '');
-      document.title = `Ngữ pháp Bài ${lessonNumber} - Tiếng Hàn Hyewon`;
-      
-      // Update the main title in the card
-      const mainTitle = document.querySelector('.main-title');
-      mainTitle.textContent = `Ngữ pháp Bài ${lessonNumber} đang phát triển`;
-    } else {
-      // Default case when no specific lesson is provided
-      document.title = `Ngữ pháp - Tiếng Hàn Hyewon`;
+    // If this is lesson 1 overview, redirect to dedicated lesson 1 page
+    if (lesson === 'lesson1' && type === 'overview') {
+      window.location.href = 'grammar-lesson1.html';
     }
+    
+    // If this is lesson 2 overview, redirect to dedicated lesson 2 page
+    if (lesson === 'lesson2' && type === 'overview') {
+      window.location.href = 'grammar-lesson2.html';
+    }
+    
+    // If this is lesson 3 overview, redirect to dedicated lesson 3 page
+    if (lesson === 'lesson3' && type === 'overview') {
+      window.location.href = 'grammar-lesson3.html';
+    }
+    
+    // If this is lesson 4 overview, redirect to dedicated lesson 4 page
+    if (lesson === 'lesson4' && type === 'overview') {
+      window.location.href = 'grammar-lesson4.html';
+    }
+    
+    // Show appropriate content based on lesson
+    function showLessonContent() {
+      const constructionContent = document.getElementById('construction-content');
+      
+      if (lesson && type === 'overview') {
+        // For other lessons, show under construction with lesson-specific title
+        const lessonNumber = lesson.replace('lesson', '');
+        document.title = `Tổng hợp ngữ pháp Bài ${lessonNumber} - Tiếng Hàn Hyewon`;
+        
+        const mainTitle = document.querySelector('.main-title');
+        mainTitle.textContent = `Tổng hợp ngữ pháp Bài ${lessonNumber} đang phát triển`;
+        
+        const subtitle = document.querySelector('.subtitle');
+        subtitle.textContent = 'Phần lý thuyết ngữ pháp sẽ sớm có mặt!';
+        
+        const description = document.querySelector('.description');
+        description.textContent = 'Chúng tôi đang tích cực phát triển phần tổng hợp ngữ pháp tiếng Hàn với nội dung chi tiết và dễ hiểu. Vui lòng quay lại sau để học các điểm ngữ pháp quan trọng của bài này.';
+        
+        constructionContent.style.display = 'block';
+      } else if (lesson && !type) {
+        // Default case for lesson without specific type
+        const lessonNumber = lesson.replace('lesson', '');
+        document.title = `Ngữ pháp Bài ${lessonNumber} - Tiếng Hàn Hyewon`;
+        
+        const mainTitle = document.querySelector('.main-title');
+        mainTitle.textContent = `Ngữ pháp Bài ${lessonNumber} đang phát triển`;
+        
+        constructionContent.style.display = 'block';
+      } else {
+        // Default case when no specific lesson is provided
+        document.title = 'Ngữ pháp - Tiếng Hàn Hyewon';
+        constructionContent.style.display = 'block';
+      }
+    }
+    
+    // Initialize content display
+    showLessonContent();
   </script>
 
   <script>

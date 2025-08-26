@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--
+GRAMMAR LESSON TEMPLATE - Ngắn gọn để tham khảo
+====================================================
+
+Thay thế các variables:
+- {{LESSON_TITLE}}: "Ngữ pháp Bài X: [tên bài]"
+- {{HEADER_TITLE}}: "Ngữ pháp Bài X: [tên bài]"  
+- {{LESSON_FULL_TITLE}}: "Bài X: [tên bài] ([tiếng Việt])"
+- {{GRAMMAR_SECTIONS}}: Nội dung các sections ngữ pháp
+
+Icons thường dùng:
+✨❓🎯📍👆📌❌🔢🔗⏰📝💬🔍🏢
+
+Structure: Khái niệm → Cách sử dụng → Ví dụ → Chi tiết thêm
+-->
+<html lang="vi">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script src="analytics.js"></script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{LESSON_TITLE}} - Tiếng Hàn Hyewon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Common CSS -->
+  <link rel="stylesheet" href="styles/grammar-common.css">
+</head>
+<body>
+  <div class="header-bar">
+    <button class="back-button" onclick="goToIndex()">
+      <span class="back-arrow">←</span>
+      <span>Quay lại</span>
+    </button>
+    <h1 class="header-title">{{HEADER_TITLE}}</h1>
+  </div>
+
+  <div class="container">
+    <div class="lesson-header">
+      <h1 class="lesson-title">{{LESSON_FULL_TITLE}}</h1>
+      <p class="lesson-subtitle">Ngữ Pháp Tiếng Hàn Tổng Hợp Sơ Cấp 1</p>
+    </div>
+
+    <!-- Grammar Sections -->
+    {{GRAMMAR_SECTIONS}}
+    
+    <!-- 
+    TEMPLATE REFERENCE:
+    
+    Basic Section:
+    <div class="grammar-section">
+      <h2 class="section-title">
+        <span class="section-icon">[ICON]</span>
+        [NUMBER]. [GRAMMAR_POINT] - [DESCRIPTION]
+      </h2>
+      
+      <div class="grammar-point">
+        <h3 class="point-title">a. [TITLE]</h3>
+        <p class="point-description">[DESCRIPTION]</p>
+        
+        <div class="rule-box">
+          <div class="rule-title">[ICON] [TITLE]:</div>
+          [CONTENT - ul/li hoặc p]
+        </div>
+
+        <div class="example-box">
+          <div class="korean-text">[KOREAN_TEXT]</div>
+          <div class="translation">[VIETNAMESE_TEXT]</div>
+        </div>
+      </div>
+      
+      <!-- Thêm subsections b, c nếu cần -->
+      <!-- Thêm table nếu cần: <table class="number-table"> -->
+    </div>
+    -->
+  </div>
+
+  <!-- Common JavaScript -->
+  <script src="js/grammar-common.js"></script>
+</body>
+</html>

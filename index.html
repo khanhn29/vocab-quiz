@@ -574,5 +574,49 @@
     </p>
   </footer>
 
+  <script>
+    // Scroll restoration cho trang index
+    document.addEventListener('DOMContentLoaded', function() {
+      // Khôi phục vị trí cuộn khi trang load
+      const savedScrollPosition = sessionStorage.getItem('indexScrollPosition');
+      if (savedScrollPosition) {
+        // Đợi một chút để DOM render hoàn toàn
+        setTimeout(() => {
+          const scrollY = parseInt(savedScrollPosition);
+          window.scrollTo({
+            top: scrollY,
+            behavior: 'auto' // Không dùng smooth để tránh delay
+          });
+          // Xóa vị trí đã lưu sau khi khôi phục
+          sessionStorage.removeItem('indexScrollPosition');
+        }, 50);
+      }
+      
+      // Lưu vị trí cuộn khi click vào các link
+      const links = document.querySelectorAll('a[href]');
+      links.forEach(link => {
+        link.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          // Chỉ lưu vị trí nếu link dẫn đến trang khác (không phải anchor links hoặc mailto/tel)
+          if (href && 
+              !href.startsWith('#') && 
+              !href.startsWith('mailto:') && 
+              !href.startsWith('tel:') &&
+              !href.startsWith('javascript:')) {
+            sessionStorage.setItem('indexScrollPosition', window.scrollY.toString());
+          }
+        });
+      });
+      
+      // Backup: Lưu vị trí khi trang sắp unload (nếu user dùng browser navigation)
+      window.addEventListener('beforeunload', function() {
+        // Chỉ lưu nếu đang không ở đầu trang
+        if (window.scrollY > 100) {
+          sessionStorage.setItem('indexScrollPosition', window.scrollY.toString());
+        }
+      });
+    });
+  </script>
+
 </body>
 </html>

@@ -363,6 +363,22 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Load voices for speech synthesis
+            if ('speechSynthesis' in window) {
+                // Load voices
+                let voices = window.speechSynthesis.getVoices();
+                
+                // If voices are not loaded yet, wait for the voiceschanged event
+                if (voices.length === 0) {
+                    window.speechSynthesis.addEventListener('voiceschanged', function() {
+                        voices = window.speechSynthesis.getVoices();
+                        console.log('Available voices loaded:', voices.filter(v => v.lang.startsWith('ko')).length, 'Korean voices');
+                    });
+                } else {
+                    console.log('Available voices:', voices.filter(v => v.lang.startsWith('ko')).length, 'Korean voices');
+                }
+            }
+
             // --- DOM ELEMENTS ---
             const lessonName = document.getElementById('lesson-name');
             const questionCounter = document.getElementById('question-counter');
@@ -390,11 +406,93 @@
                     exercises: [
                         {
                             id: "lesson1_q1",
-                            template: "저는 __이고, __에서 왔습니다.",
-                            translation: "Tôi là người Việt Nam và đến từ Việt Nam",
-                            choices: ["베트남 사람", "베트남", "한국 사람", "일본"],
-                            solution: ["베트남 사람", "베트남"],
-                            explanation: "베트남 사람 có nghĩa là 'người Việt Nam', 베트남 có nghĩa là 'Việt Nam'. Cấu trúc: 저는 [quốc tịch]이고, [quốc gia]에서 왔습니다."
+                            template: "저__ 학생__.",
+                            translation: "Tôi là học sinh",
+                            choices: ["는", "은", "입니다", "입니까"],
+                            solution: ["는", "입니다"],
+                            completeSentence: "저는 학생입니다",
+                            explanation: "저 kết thúc bằng nguyên âm ㅓ nên dùng 는. 입니다 là dạng lịch sự của động từ 'là'."
+                        },
+                        {
+                            id: "lesson1_q2",
+                            template: "제 이름__ 김민수__.",
+                            translation: "Tên tôi là Kim Min Soo",
+                            choices: ["은", "는", "입니다", "입니까"],
+                            solution: ["은", "입니다"],
+                            completeSentence: "제 이름은 김민수입니다",
+                            explanation: "이름 kết thúc bằng phụ âm ㅁ nên dùng 은. 입니다 để kết thúc câu khẳng định lịch sự."
+                        },
+                        {
+                            id: "lesson1_q3",
+                            template: "선생님__?",
+                            translation: "Có phải là giáo viên không?",
+                            choices: ["입니다", "입니까", "은", "는"],
+                            solution: ["입니까"],
+                            completeSentence: "선생님입니까?",
+                            explanation: "입니까 là dạng nghi vấn lịch sự của 입니다, dùng để hỏi 'có phải là...không?'"
+                        },
+                        {
+                            id: "lesson1_q4",
+                            template: "아버지__ __입니다.",
+                            translation: "Bố là bác sĩ",
+                            choices: ["는", "은", "의사", "학생"],
+                            solution: ["는", "의사"],
+                            completeSentence: "아버지는 의사입니다",
+                            explanation: "아버지 kết thúc bằng nguyên âm ㅣ nên dùng 는. 의사 có nghĩa là 'bác sĩ'."
+                        },
+                        {
+                            id: "lesson1_q5",
+                            template: "네, __입니다.",
+                            translation: "Vâng, tôi là sinh viên đại học",
+                            choices: ["대학생", "의사", "선생님", "회사원"],
+                            solution: ["대학생"],
+                            completeSentence: "네, 대학생입니다",
+                            explanation: "대학생 có nghĩa là 'sinh viên đại học'. 네 dùng để trả lời khẳng định."
+                        },
+                        {
+                            id: "lesson1_q6",
+                            template: "학생__?",
+                            translation: "Có phải là học sinh không?",
+                            choices: ["입니다", "입니까", "은", "는"],
+                            solution: ["입니까"],
+                            completeSentence: "학생입니까?",
+                            explanation: "입니까 là dạng câu hỏi lịch sự để hỏi về danh tính hoặc nghề nghiệp."
+                        },
+                        {
+                            id: "lesson1_q7",
+                            template: "아니요, 의사가 아닙니다. __입니다.",
+                            translation: "Không, không phải bác sĩ. Tôi là y tá",
+                            choices: ["간호사", "선생님", "학생", "회사원"],
+                            solution: ["간호사"],
+                            completeSentence: "아니요, 의사가 아닙니다. 간호사입니다",
+                            explanation: "간호사 có nghĩa là 'y tá'. 아니요 dùng để trả lời phủ định."
+                        },
+                        {
+                            id: "lesson1_q8",
+                            template: "이분__ __입니다.",
+                            translation: "Người này là giáo viên",
+                            choices: ["은", "는", "선생님", "의사"],
+                            solution: ["은", "선생님"],
+                            completeSentence: "이분은 선생님입니다",
+                            explanation: "이분 kết thúc bằng phụ âm ㄴ nên dùng 은. 선생님 có nghĩa là 'giáo viên'."
+                        },
+                        {
+                            id: "lesson1_q9",
+                            template: "누나__ __입니다.",
+                            translation: "Chị gái là nhân viên công ty",
+                            choices: ["는", "은", "회사원", "간호사"],
+                            solution: ["는", "회사원"],
+                            completeSentence: "누나는 회사원입니다",
+                            explanation: "누나 kết thúc bằng nguyên âm ㅏ nên dùng 는. 회사원 có nghĩa là 'nhân viên công ty'."
+                        },
+                        {
+                            id: "lesson1_q10",
+                            template: "저__ 베트남 사람__.",
+                            translation: "Tôi là người Việt Nam",
+                            choices: ["는", "은", "입니다", "입니까"],
+                            solution: ["는", "입니다"],
+                            completeSentence: "저는 베트남 사람입니다",
+                            explanation: "저 kết thúc bằng nguyên âm ㅓ nên dùng 는. 입니다 để kết thúc câu khẳng định về quốc tịch."
                         }
                     ]
                 },
@@ -403,11 +501,93 @@
                     exercises: [
                         {
                             id: "lesson2_q1",
-                            template: "교실에 __이 있습니다.",
-                            translation: "Trong lớp có bảng đen",
-                            choices: ["칠판", "침대", "냉장고", "텔레비전"],
-                            solution: ["칠판"],
-                            explanation: "칠판 có nghĩa là 'bảng đen'. Cấu trúc: [nơi chốn]에 + [đồ vật]이/가 있습니다."
+                            template: "__가 도서관입니다.",
+                            translation: "Đây là thư viện",
+                            choices: ["여기", "거기", "저기", "어디"],
+                            solution: ["여기"],
+                            completeSentence: "여기가 도서관입니다",
+                            explanation: "여기 = 'đây' (gần người nói). 가 được dùng sau 여기 vì kết thúc bằng nguyên âm."
+                        },
+                        {
+                            id: "lesson2_q2",
+                            template: "__이 무엇입니까?",
+                            translation: "Cái này là gì?",
+                            choices: ["이것", "그것", "저것", "어디"],
+                            solution: ["이것"],
+                            completeSentence: "이것이 무엇입니까?",
+                            explanation: "이것 = 'cái này' (gần người nói). 이 được dùng sau 이것 vì kết thúc bằng phụ âm ㅅ."
+                        },
+                        {
+                            id: "lesson2_q3",
+                            template: "교실에 책상__ 있습니다.",
+                            translation: "Trong lớp có bàn học",
+                            choices: ["이", "가", "을", "를"],
+                            solution: ["이"],
+                            completeSentence: "교실에 책상이 있습니다",
+                            explanation: "책상 kết thúc bằng phụ âm ㅇ nên dùng 이. Cấu trúc: [nơi chốn]에 + [đồ vật]이/가 있습니다."
+                        },
+                        {
+                            id: "lesson2_q4",
+                            template: "선생님이 강의실__ 계십니다.",
+                            translation: "Giáo viên có ở phòng giảng",
+                            choices: ["에", "에서", "으로", "까지"],
+                            solution: ["에"],
+                            completeSentence: "선생님이 강의실에 계십니다",
+                            explanation: "에 dùng để chỉ vị trí tĩnh. 계십니다 là dạng kính ngữ của 있습니다."
+                        },
+                        {
+                            id: "lesson2_q5",
+                            template: "그것은 컴퓨터__ 아닙니다.",
+                            translation: "Cái đó không phải là máy tính",
+                            choices: ["가", "이", "를", "을"],
+                            solution: ["가"],
+                            completeSentence: "그것은 컴퓨터가 아닙니다",
+                            explanation: "컴퓨터 kết thúc bằng nguyên âm ㅓ nên dùng 가. 가 아닙니다 = 'không phải là'."
+                        },
+                        {
+                            id: "lesson2_q6",
+                            template: "__에 학생들이 많이 있습니다.",
+                            translation: "Ở đó có nhiều học sinh",
+                            choices: ["여기", "거기", "저기", "어디"],
+                            solution: ["거기"],
+                            completeSentence: "거기에 학생들이 많이 있습니다",
+                            explanation: "거기 = 'đó' (gần người nghe). 거기에 = 'ở đó'."
+                        },
+                        {
+                            id: "lesson2_q7",
+                            template: "칠판__ 교실에 있습니다.",
+                            translation: "Bảng đen có trong lớp học",
+                            choices: ["이", "가", "을", "를"],
+                            solution: ["이"],
+                            completeSentence: "칠판이 교실에 있습니다",
+                            explanation: "칠판 kết thúc bằng phụ âm ㄴ nên dùng 이. 주어 + 이/가 + 장소 + 에 있습니다."
+                        },
+                        {
+                            id: "lesson2_q8",
+                            template: "저__ 체육관입니다.",
+                            translation: "Kia là phòng tập thể dục",
+                            choices: ["이것", "그것", "저것", "여기"],
+                            solution: ["저것"],
+                            completeSentence: "저것이 체육관입니다",
+                            explanation: "저것 = 'cái kia' (xa cả người nói và người nghe). 저것이 = chủ ngữ."
+                        },
+                        {
+                            id: "lesson2_q9",
+                            template: "도서관은 학교__ 아닙니다.",
+                            translation: "Thư viện không phải là trường học",
+                            choices: ["가", "이", "를", "을"],
+                            solution: ["가"],
+                            completeSentence: "도서관은 학교가 아닙니다",
+                            explanation: "학교 kết thúc bằng nguyên âm ㅗ nên dùng 가. [A]는 [B]가 아닙니다 = A không phải là B."
+                        },
+                        {
+                            id: "lesson2_q10",
+                            template: "화장실__ 어디에 있습니까?",
+                            translation: "Nhà vệ sinh ở đâu?",
+                            choices: ["이", "가", "을", "를"],
+                            solution: ["이"],
+                            completeSentence: "화장실이 어디에 있습니까?",
+                            explanation: "화장실 kết thúc bằng phụ âm ㄹ nên dùng 이. 어디에 있습니까 = 'ở đâu?'."
                         }
                     ]
                 },
@@ -416,11 +596,93 @@
                     exercises: [
                         {
                             id: "lesson3_q1",
-                            template: "저는 매일 아침에 __을 마십니다.",
-                            translation: "Tôi uống cà phê mỗi sáng",
-                            choices: ["커피", "우유", "물", "차"],
-                            solution: ["커피"],
-                            explanation: "커피 có nghĩa là 'cà phê'. Cấu trúc: [đồ uống]을/를 마십니다."
+                            template: "매일 아침에 커피를 __?",
+                            translation: "Hàng ngày có uống cà phê vào buổi sáng không?",
+                            choices: ["마십니다", "마십니까", "먹습니다", "먹습니까"],
+                            solution: ["마십니까"],
+                            completeSentence: "매일 아침에 커피를 마십니까?",
+                            explanation: "마시다 kết thúc bằng nguyên âm 시 nên dùng ㅂ니까. 마십니까 = 'có uống không?'."
+                        },
+                        {
+                            id: "lesson3_q2",
+                            template: "저는 신문__ 읽습니다.",
+                            translation: "Tôi đọc báo",
+                            choices: ["을", "를", "이", "가"],
+                            solution: ["을"],
+                            completeSentence: "저는 신문을 읽습니다",
+                            explanation: "신문 kết thúc bằng phụ âm ㄴ nên dùng 을. 을/를 chỉ tân ngữ trực tiếp."
+                        },
+                        {
+                            id: "lesson3_q3",
+                            template: "도서관__ 공부합니다.",
+                            translation: "Học ở thư viện",
+                            choices: ["에", "에서", "으로", "까지"],
+                            solution: ["에서"],
+                            completeSentence: "도서관에서 공부합니다",
+                            explanation: "에서 chỉ nơi diễn ra hành động. 도서관에서 = 'ở thư viện' (nơi học)."
+                        },
+                        {
+                            id: "lesson3_q4",
+                            template: "음악__ 듣습니까?",
+                            translation: "Có nghe nhạc không?",
+                            choices: ["을", "를", "이", "가"],
+                            solution: ["을"],
+                            completeSentence: "음악을 듣습니까?",
+                            explanation: "음악 kết thúc bằng phụ âm ㄱ nên dùng 을. 듣다 + ㅂ/습니까 = 듣습니까."
+                        },
+                        {
+                            id: "lesson3_q5",
+                            template: "네, 매일 운동을 __.",
+                            translation: "Vâng, hàng ngày tôi tập thể dục",
+                            choices: ["합니다", "합니까", "해요", "했습니다"],
+                            solution: ["합니다"],
+                            completeSentence: "네, 매일 운동을 합니다",
+                            explanation: "하다 → 합니다 (dạng lịch sự khẳng định). 운동을 하다 = 'tập thể dục'."
+                        },
+                        {
+                            id: "lesson3_q6",
+                            template: "집__ 텔레비전을 봅니다.",
+                            translation: "Xem tivi ở nhà",
+                            choices: ["에", "에서", "으로", "까지"],
+                            solution: ["에서"],
+                            completeSentence: "집에서 텔레비전을 봅니다",
+                            explanation: "에서 chỉ nơi diễn ra hành động xem tivi. 집에서 = 'ở nhà'."
+                        },
+                        {
+                            id: "lesson3_q7",
+                            template: "친구를 언제 __?",
+                            translation: "Khi nào gặp bạn?",
+                            choices: ["만납니다", "만납니까", "만나요", "만났습니다"],
+                            solution: ["만납니까"],
+                            completeSentence: "친구를 언제 만납니까?",
+                            explanation: "만나다 kết thúc bằng nguyên âm 나 nên dùng ㅂ니까. 언제 = 'khi nào'."
+                        },
+                        {
+                            id: "lesson3_q8",
+                            template: "학교__ 한국어를 배웁니다.",
+                            translation: "Học tiếng Hàn ở trường",
+                            choices: ["에", "에서", "으로", "까지"],
+                            solution: ["에서"],
+                            completeSentence: "학교에서 한국어를 배웁니다",
+                            explanation: "에서 chỉ nơi diễn ra việc học. 한국어를 배우다 = 'học tiếng Hàn'."
+                        },
+                        {
+                            id: "lesson3_q9",
+                            template: "요리__ 자주 합니까?",
+                            translation: "Có thường xuyên nấu ăn không?",
+                            choices: ["을", "를", "이", "가"],
+                            solution: ["를"],
+                            completeSentence: "요리를 자주 합니까?",
+                            explanation: "요리 kết thúc bằng nguyên âm 리 nên dùng 를. 자주 = 'thường xuyên'."
+                        },
+                        {
+                            id: "lesson3_q10",
+                            template: "아니요, 안 __.",
+                            translation: "Không, tôi không ăn",
+                            choices: ["먹습니다", "먹습니까", "먹어요", "먹었습니다"],
+                            solution: ["먹습니다"],
+                            completeSentence: "아니요, 안 먹습니다",
+                            explanation: "안 + 동사 = phủ định. 먹다 + 습니다 = 먹습니다 (ăn - dạng lịch sự)."
                         }
                     ]
                 },
@@ -665,12 +927,59 @@
 
                 const audioSrc = `audio/sentences/${currentQuestion.id}.mp3`;
                 const audio = new Audio(audioSrc);
+                
+                // Try to play the audio file first
                 audio.play().catch(error => {
-                    console.error(`Could not play audio: ${error}`);
+                    console.log(`Audio file not found: ${audioSrc}, falling back to browser TTS`);
+                    // If audio file doesn't exist, use browser TTS
+                    playTextToSpeech(currentQuestion.completeSentence);
                 });
+                
                 audio.addEventListener('error', () => {
-                    console.error(`Audio file not found or could not be played: ${audioSrc}`);
+                    console.log(`Audio file error: ${audioSrc}, falling back to browser TTS`);
+                    // If audio file has error, use browser TTS
+                    playTextToSpeech(currentQuestion.completeSentence);
                 });
+            }
+
+            function playTextToSpeech(text) {
+                if (!text) return;
+                
+                // Check if browser supports Speech Synthesis
+                if ('speechSynthesis' in window) {
+                    // Cancel any ongoing speech
+                    window.speechSynthesis.cancel();
+                    
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    
+                    // Set language to Korean
+                    utterance.lang = 'ko-KR';
+                    
+                    // Set speech parameters
+                    utterance.rate = 0.8; // Slower speech rate for learning
+                    utterance.pitch = 1.0;
+                    utterance.volume = 1.0;
+                    
+                    // Try to find Korean voice
+                    const voices = window.speechSynthesis.getVoices();
+                    const koreanVoice = voices.find(voice => 
+                        voice.lang === 'ko-KR' || voice.lang.startsWith('ko')
+                    );
+                    
+                    if (koreanVoice) {
+                        utterance.voice = koreanVoice;
+                    }
+                    
+                    // Error handling for TTS
+                    utterance.onerror = function(event) {
+                        console.error('Speech synthesis error:', event.error);
+                    };
+                    
+                    // Speak the text
+                    window.speechSynthesis.speak(utterance);
+                } else {
+                    console.log('Speech synthesis not supported in this browser');
+                }
             }
 
 
