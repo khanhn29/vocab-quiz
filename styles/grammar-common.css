@@ -118,8 +118,8 @@ body {
 .grammar-section {
   background: #f8f9fa;
   border-radius: 12px;
-  padding: 30px;
-  margin-bottom: 30px;
+  padding: 20px; /* Giảm từ 30px xuống 20px */
+  margin-bottom: 20px; /* Giảm từ 30px xuống 20px */
   border-left: 5px solid var(--warning);
 }
 
@@ -141,16 +141,16 @@ body {
 .grammar-point {
   background: white;
   border-radius: 8px;
-  padding: 24px;
-  margin-bottom: 20px;
+  padding: 18px; /* Giảm từ 24px xuống 18px */
+  margin-bottom: 16px; /* Giảm từ 20px xuống 16px */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .point-title {
-  font-size: 1.2rem;
+  font-size: 1.1rem; /* Giảm từ 1.2rem xuống 1.1rem */
   font-weight: 600;
   color: var(--warning);
-  margin-bottom: 16px;
+  margin-bottom: 12px; /* Giảm từ 16px xuống 12px */
   display: flex;
   align-items: center;
   gap: 8px;
@@ -158,7 +158,7 @@ body {
 
 .point-description {
   color: var(--text);
-  margin-bottom: 18px;
+  margin-bottom: 14px; /* Giảm từ 18px xuống 14px */
   line-height: 1.6;
 }
 
@@ -167,8 +167,8 @@ body {
   background: #e8f4f8;
   border: 1px solid #bee5eb;
   border-radius: 8px;
-  padding: 18px;
-  margin: 16px 0;
+  padding: 14px; /* Giảm từ 18px xuống 14px */
+  margin: 12px 0; /* Giảm từ 16px xuống 12px */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -192,14 +192,14 @@ body {
   background: #fff3cd;
   border: 1px solid #ffeaa7;
   border-radius: 6px;
-  padding: 20px;
-  margin: 15px 0;
+  padding: 16px; /* Giảm từ 20px xuống 16px */
+  margin: 12px 0; /* Giảm từ 15px xuống 12px */
 }
 
 .rule-title {
   font-weight: 600;
   color: #856404;
-  margin-bottom: 12px;
+  margin-bottom: 10px; /* Giảm từ 12px xuống 10px */
   display: flex;
   align-items: center;
   gap: 8px;
@@ -246,7 +246,7 @@ li {
 .number-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 15px 0;
+  margin: 12px 0; /* Giảm từ 15px xuống 12px */
   background: white;
   border-radius: 8px;
   overflow: hidden;
@@ -255,7 +255,7 @@ li {
 
 .number-table th,
 .number-table td {
-  padding: 12px 15px;
+  padding: 10px 12px; /* Giảm từ 12px 15px xuống 10px 12px */
   text-align: center;
   border-bottom: 1px solid #e9ecef;
 }
@@ -311,42 +311,42 @@ li {
   }
 
   .grammar-section {
-    padding: 20px;
-    margin-bottom: 20px;
+    padding: 16px; /* Giảm từ 20px xuống 16px */
+    margin-bottom: 16px; /* Giảm từ 20px xuống 16px */
   }
 
   .section-title {
-    font-size: 1.3rem;
+    font-size: 1.2rem; /* Giảm từ 1.3rem xuống 1.2rem */
   }
 
   .grammar-point {
-    padding: 15px;
-    margin-bottom: 15px;
+    padding: 12px; /* Giảm từ 15px xuống 12px */
+    margin-bottom: 12px; /* Giảm từ 15px xuống 12px */
   }
 
   .point-title {
-    font-size: 1.1rem;
+    font-size: 1rem; /* Giảm từ 1.1rem xuống 1rem */
   }
 
   .number-table th,
   .number-table td {
-    padding: 8px 10px;
-    font-size: 0.9rem;
+    padding: 6px 8px; /* Giảm từ 8px 10px xuống 6px 8px */
+    font-size: 0.85rem; /* Giảm từ 0.9rem xuống 0.85rem */
   }
 
   .example-box,
   .rule-box {
-    padding: 15px;
-    margin: 8px 0;
+    padding: 12px; /* Giảm từ 15px xuống 12px */
+    margin: 6px 0; /* Giảm từ 8px xuống 6px */
   }
 
   .rule-box ul {
-    padding-left: 16px;
+    padding-left: 14px; /* Giảm từ 16px xuống 14px */
   }
 
   .rule-box li {
-    padding-left: 16px;
-    margin-bottom: 6px;
-    font-size: 0.9rem;
+    padding-left: 14px; /* Giảm từ 16px xuống 14px */
+    margin-bottom: 4px; /* Giảm từ 6px xuống 4px */
+    font-size: 0.85rem; /* Giảm từ 0.9rem xuống 0.85rem */
   }
 }
