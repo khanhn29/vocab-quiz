@@ -24,7 +24,7 @@ Structure: Khái niệm → Cách sử dụng → Ví dụ → Chi tiết thêm
   <title>{{LESSON_TITLE}} - Tiếng Hàn Hyewon</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
   
   <!-- Common CSS -->
   <link rel="stylesheet" href="styles/grammar-common.css">
@@ -35,23 +35,38 @@ Structure: Khái niệm → Cách sử dụng → Ví dụ → Chi tiết thêm
       <span class="back-arrow">←</span>
       <span>Quay lại</span>
     </button>
-    <h1 class="header-title">{{HEADER_TITLE}}</h1>
+    <span class="lesson-title">{{LESSON_FULL_TITLE}}</span>
   </div>
 
-  <div class="container">
-    <div class="lesson-header">
-      <h1 class="lesson-title">{{LESSON_FULL_TITLE}}</h1>
-      <p class="lesson-subtitle">Ngữ Pháp Tiếng Hàn Tổng Hợp Sơ Cấp 1</p>
-    </div>
+  <div class="lesson-header">
+    <p class="lesson-subtitle">Ngữ Pháp Tiếng Hàn Tổng Hợp Sơ Cấp 1</p>
+  </div>
 
-    <!-- Grammar Sections -->
-    {{GRAMMAR_SECTIONS}}
+  <!-- Table of Contents -->
+  <div class="table-of-contents">
+    <h3 class="toc-title">
+      <span class="toc-icon">📚</span>
+      Nội dung bài học
+    </h3>
+    <ul class="toc-list">
+      {{TOC_ITEMS}}
+      <!-- 
+      Ví dụ TOC items:
+      <li><a href="#section-1" class="toc-link">1. Grammar Point 1</a></li>
+      <li><a href="#section-2" class="toc-link">2. Grammar Point 2</a></li>
+      <li><a href="#practice" class="toc-link">📝 Luyện tập</a></li>
+      -->
+    </ul>
+  </div>
+
+  <!-- Grammar Sections -->
+  {{GRAMMAR_SECTIONS}}
     
     <!-- 
     TEMPLATE REFERENCE:
     
     Basic Section:
-    <div class="grammar-section">
+    <div class="grammar-section" id="section-X">
       <h2 class="section-title">
         <span class="section-icon">[ICON]</span>
         [NUMBER]. [GRAMMAR_POINT] - [DESCRIPTION]
@@ -67,8 +82,10 @@ Structure: Khái niệm → Cách sử dụng → Ví dụ → Chi tiết thêm
         </div>
 
         <div class="example-box">
-          <div class="korean-text">[KOREAN_TEXT]</div>
-          <div class="translation">[VIETNAMESE_TEXT]</div>
+          <div class="example-title">💡 Ví dụ:</div>
+          <div class="example-content">
+            <p><span class="korean">[KOREAN_TEXT]</span> - [VIETNAMESE_TEXT]</p>
+          </div>
         </div>
       </div>
       
@@ -76,9 +93,102 @@ Structure: Khái niệm → Cách sử dụng → Ví dụ → Chi tiết thêm
       <!-- Thêm table nếu cần: <table class="number-table"> -->
     </div>
     -->
-  </div>
+
+    <!-- Practice Section -->
+    <div class="practice-section">
+      <h2 class="practice-title">
+        <span class="practice-icon">📝</span>
+        Luyện tập
+      </h2>
+      <p class="practice-description">
+        Bạn đã học xong ngữ pháp {{LESSON_NUMBER}}. Hãy làm bài tập để củng cố kiến thức!
+      </p>
+      <button class="practice-button" onclick="goToExercise()">
+        Làm bài tập ngay
+      </button>
+    </div>
 
   <!-- Common JavaScript -->
   <script src="js/grammar-common.js"></script>
+  <script>
+    function goToExercise() {
+      window.location.href = 'grammar-exercise.html?lesson={{LESSON_ID}}';
+    }
+    
+    function goToIndex() {
+      window.location.href = 'index.html';
+    }
+
+    // Enhanced animations and scroll effects
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.toc-link');
+      const sections = document.querySelectorAll('.grammar-section');
+      
+      // Smooth scroll with offset
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          
+          if (targetElement) {
+            // Calculate offset for fixed header
+            const headerHeight = 90; // Adjust based on header height
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+            
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+      
+      // Intersection Observer for scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+            entry.target.classList.add('animate');
+          }
+        });
+      }, observerOptions);
+
+      // Observe all sections
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+
+      // Add scroll progress indicator
+      const createScrollProgress = () => {
+        const progress = document.createElement('div');
+        progress.className = 'scroll-progress';
+        progress.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 0%;
+          height: 3px;
+          background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+          z-index: 9999;
+          transition: width 0.1s ease;
+        `;
+        document.body.appendChild(progress);
+
+        window.addEventListener('scroll', () => {
+          const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+          progress.style.width = scrolled + '%';
+        });
+      };
+
+      createScrollProgress();
+    });
+  </script>
 </body>
 </html>

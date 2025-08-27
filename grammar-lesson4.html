@@ -9,25 +9,40 @@
   <title>Ngữ pháp Bài 4: 날짜와 요일 - Tiếng Hàn Hyewon</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
   
   <!-- Common CSS -->
   <link rel="stylesheet" href="styles/grammar-common.css">
 </head>
 <body>
-  <button class="back-button" onclick="goToIndex()">
-    <span class="back-arrow">←</span>
-    <span>Quay lại</span>
-  </button>
-
-  <div class="container">
-    <div class="lesson-header">
-      <h1 class="lesson-title">Bài 4: 날짜와 요일 (Ngày và Thứ)</h1>
+  <div class="header-bar">
+    <button class="back-button" onclick="goToIndex()">
+      <span class="back-arrow">←</span>
+      <span>Quay lại</span>
+    </button>
+    <span class="lesson-title">Bài 4: 날짜와 요일 (Ngày và Thứ)</span>
+  </div>
+  
+  <div class="lesson-header">
       <p class="lesson-subtitle">Ngữ Pháp Tiếng Hàn Tổng Hợp Sơ Cấp 1</p>
     </div>
 
+    <!-- Table of Contents -->
+    <div class="table-of-contents">
+      <h3 class="toc-title">
+        <span class="toc-icon">📚</span>
+        Nội dung bài học
+      </h3>
+      <ul class="toc-list">
+        <li><a href="#section-1" class="toc-link">1. Số từ Hán Hàn (한자어 수사)</a></li>
+        <li><a href="#section-2" class="toc-link">2. 와/과 (và) - Trợ từ nối</a></li>
+        <li><a href="#section-3" class="toc-link">3. 에 (vào, vào lúc) - Trợ từ chỉ thời gian</a></li>
+        <li><a href="#practice" class="toc-link">📝 Luyện tập</a></li>
+      </ul>
+    </div>
+
     <!-- Section 1: Số từ Hán Hàn -->
-    <div class="grammar-section">
+    <div class="grammar-section" id="section-1">
       <h2 class="section-title">
         <span class="section-icon">🔢</span>
         1. Số từ Hán Hàn (한자어 수사)
@@ -185,7 +200,7 @@
     </div>
 
     <!-- Section 2: 와/과 (và) -->
-    <div class="grammar-section">
+    <div class="grammar-section" id="section-2">
       <h2 class="section-title">
         <span class="section-icon">🔗</span>
         2. 와/과 (và) - Trợ từ nối
@@ -256,7 +271,7 @@
     </div>
 
     <!-- Section 3: 에 (vào, vào lúc) -->
-    <div class="grammar-section">
+    <div class="grammar-section" id="section-3">
       <h2 class="section-title">
         <span class="section-icon">⏰</span>
         3. 에 (vào, vào lúc) - Trợ từ chỉ thời gian
@@ -348,7 +363,7 @@
     </div>
 
     <!-- Practice Section -->
-    <div class="practice-section">
+    <div class="practice-section" id="practice">
       <h2 class="practice-title">
         <span class="practice-icon">📝</span>
         Luyện tập
@@ -361,7 +376,6 @@
         <span class="arrow">→</span>
       </button>
     </div>
-  </div>
 
   <!-- Common JavaScript -->
   <script src="js/grammar-common.js"></script>
@@ -373,6 +387,77 @@
     function goToExercise() {
       window.location.href = 'grammar-exercise.html';
     }
+
+    // Enhanced animations and scroll effects
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.toc-link');
+      const sections = document.querySelectorAll('.grammar-section');
+      
+      // Smooth scroll with offset
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          
+          if (targetElement) {
+            // Calculate offset for fixed header
+            const headerHeight = 90; // Adjust based on header height
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+            
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+      
+      // Intersection Observer for scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+            entry.target.classList.add('animate');
+          }
+        });
+      }, observerOptions);
+
+      // Observe all sections
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+
+      // Add scroll progress indicator
+      const createScrollProgress = () => {
+        const progress = document.createElement('div');
+        progress.className = 'scroll-progress';
+        progress.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 0%;
+          height: 3px;
+          background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+          z-index: 9999;
+          transition: width 0.1s ease;
+        `;
+        document.body.appendChild(progress);
+
+        window.addEventListener('scroll', () => {
+          const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+          progress.style.width = scrolled + '%';
+        });
+      };
+
+      createScrollProgress();
+    });
   </script>
 </body>
 </html>

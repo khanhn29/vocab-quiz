@@ -9,25 +9,44 @@
   <title>Ngữ pháp Bài 5: 하루 일과 - Tiếng Hàn Hyewon</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
   
   <!-- Common CSS -->
   <link rel="stylesheet" href="styles/grammar-common.css">
 </head>
 <body>
-  <div class="container">
+  <div class="header-bar">
     <button class="back-button" onclick="goToIndex()">
       <span class="back-arrow">←</span>
       <span>Quay lại</span>
     </button>
-    
-    <div class="lesson-header">
-      <h1 class="lesson-title">Bài 5: 하루 일과 (Công Việc Trong Ngày)</h1>
+    <span class="lesson-title">Bài 5: 하루 일과 (Công Việc Trong Ngày)</span>
+  </div>
+  
+  <div class="lesson-header">
       <p class="lesson-subtitle">Ngữ Pháp Tiếng Hàn Tổng Hợp Sơ Cấp 1</p>
     </div>
 
+    <!-- Table of Contents -->
+    <div class="table-of-contents">
+      <h3 class="toc-title">
+        <span class="toc-icon">📚</span>
+        Nội dung bài học
+      </h3>
+      <ul class="toc-list">
+        <li><a href="#section-1" class="toc-link">1. 고유어 수사 (Số từ thuần Hàn)</a></li>
+        <li><a href="#section-2" class="toc-link">2. 수관형사 (1) - Định từ chỉ số</a></li>
+        <li><a href="#section-3" class="toc-link">3. 시간의 '시' (Giờ)</a></li>
+        <li><a href="#section-4" class="toc-link">4. 시간의 '분' (Phút)</a></li>
+        <li><a href="#section-5" class="toc-link">5. -아/어요 (Thể lịch sự hiện tại)</a></li>
+        <li><a href="#section-6" class="toc-link">6. 에 가다 (Đi đến)</a></li>
+        <li><a href="#section-7" class="toc-link">7. 안 (Không) - Phủ định</a></li>
+        <li><a href="#practice" class="toc-link">📝 Luyện tập</a></li>
+      </ul>
+    </div>
+
     <!-- Section 1: 고유어 수사 (Số từ thuần Hàn) -->
-    <div class="grammar-section">
+    <div class="grammar-section" id="section-1">
       <h2 class="section-title">
         <span class="section-icon">🔢</span>
         1. 고유어 수사 (Số từ thuần Hàn)
@@ -95,7 +114,7 @@
     </div>
 
     <!-- Section 2: 수관형사 (Định từ chỉ số) -->
-    <div class="grammar-section">
+    <div class="grammar-section" id="section-2">
       <h2 class="section-title">
         <span class="section-icon">📏</span>
         2. 수관형사 (1) - Định từ chỉ số
@@ -154,7 +173,7 @@
     </div>
 
     <!-- Section 3: 시간의 '시' (Giờ) -->
-    <div class="grammar-section">
+    <div class="grammar-section" id="section-3">
       <h2 class="section-title">
         <span class="section-icon">🕐</span>
         3. 시간의 '시' (Giờ)
@@ -232,7 +251,7 @@
     </div>
 
     <!-- Section 4: 시간의 '분' (Phút) -->
-    <div class="grammar-section">
+    <div class="grammar-section" id="section-4">
       <h2 class="section-title">
         <span class="section-icon">⏰</span>
         4. 시간의 '분' (Phút)
@@ -306,7 +325,7 @@
     </div>
 
     <!-- Section 5: -아/어요 (Thể lịch sự) -->
-    <div class="grammar-section">
+    <div class="grammar-section" id="section-5">
       <h2 class="section-title">
         <span class="section-icon">🗣️</span>
         5. -아/어요 (Thể lịch sự hiện tại)
@@ -388,7 +407,7 @@
     </div>
 
     <!-- Section 6: 에 가다 (Đi đến) -->
-    <div class="grammar-section">
+    <div class="grammar-section" id="section-6">
       <h2 class="section-title">
         <span class="section-icon">🎯</span>
         6. 에 가다 (Đi đến)
@@ -423,7 +442,7 @@
     </div>
 
     <!-- Section 7: 안 (Không) -->
-    <div class="grammar-section">
+    <div class="grammar-section" id="section-7">
       <h2 class="section-title">
         <span class="section-icon">❌</span>
         7. 안 (Không) - Phủ định
@@ -491,7 +510,7 @@
     </div>
 
     <!-- Practice Section -->
-    <div class="practice-section">
+    <div class="practice-section" id="practice">
       <h2 class="practice-title">
         <span class="practice-icon">📝</span>
         Luyện tập
@@ -503,7 +522,6 @@
         Làm bài tập ngay
       </button>
     </div>
-  </div>
 
   <!-- Common JavaScript -->
   <script src="js/grammar-common.js"></script>
@@ -515,6 +533,77 @@
     function goToIndex() {
       window.location.href = 'index.html';
     }
+
+    // Enhanced animations and scroll effects
+    document.addEventListener('DOMContentLoaded', function() {
+      const tocLinks = document.querySelectorAll('.toc-link');
+      const sections = document.querySelectorAll('.grammar-section');
+      
+      // Smooth scroll with offset
+      tocLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          
+          if (targetElement) {
+            // Calculate offset for fixed header
+            const headerHeight = 90; // Adjust based on header height
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+            
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+      
+      // Intersection Observer for scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+            entry.target.classList.add('animate');
+          }
+        });
+      }, observerOptions);
+
+      // Observe all sections
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+
+      // Add scroll progress indicator
+      const createScrollProgress = () => {
+        const progress = document.createElement('div');
+        progress.className = 'scroll-progress';
+        progress.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 0%;
+          height: 3px;
+          background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+          z-index: 9999;
+          transition: width 0.1s ease;
+        `;
+        document.body.appendChild(progress);
+
+        window.addEventListener('scroll', () => {
+          const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+          progress.style.width = scrolled + '%';
+        });
+      };
+
+      createScrollProgress();
+    });
   </script>
 </body>
 </html>
