@@ -422,7 +422,7 @@
 <body>
     <button class="back-button" onclick="goToIndex()">
         <span class="back-arrow">←</span>
-        <span>Quay lại</span>
+        <span>Quay lại<br>trang chủ</span>
     </button>
 
     <div class="container">
@@ -461,46 +461,44 @@
     <script>
         // Tất cả từ vựng được lưu trữ trực tiếp trong ứng dụng
         const vocabularyData = {
-            'l1-v1-jobs': [
+            // Bài 1 - Nghề nghiệp và thông tin cá nhân
+            'l1-jobs': [
                 { "vi": "Học sinh", "han": "학생" },
                 { "vi": "Bác sĩ", "han": "의사" },
                 { "vi": "Dược sĩ", "han": "약사" },
                 { "vi": "Nhân viên công ty", "han": "회사원" },
                 { "vi": "Công chức", "han": "공무원" },
                 { "vi": "Lái xe", "han": "운전기사" },
-                { "vi": "Hướng dẫn viên du lịch (cách 1)", "han": "관광가이드" },
-                { "vi": "Hướng dẫn viên du lịch (cách 2)", "han": "여행안내원" },
+                { "vi": "Hướng dẫn viên du lịch", "han": "관광가이드" },
                 { "vi": "Nội trợ", "han": "주부" },
                 { "vi": "Giáo viên", "han": "선생님" },
                 { "vi": "Nhân viên ngân hàng", "han": "은행원" }
             ],
-            'l1-v2-vocab': [
-                { "vi": "khoa ngữ văn", "han": "국어국문학과" },
+            'l1-personal-info': [
                 { "vi": "quốc tịch", "han": "국적" },
                 { "vi": "vâng", "han": "네" },
                 { "vi": "trường đại học", "han": "대학교" },
                 { "vi": "sinh viên", "han": "대학생" },
-                { "vi": "người (kính ngữ, cách nói kính trọng của 사람)", "han": "분" },
+                { "vi": "người (kính ngữ)", "han": "분" },
+                { "vi": "tên", "han": "이름" },
+                { "vi": "tôi", "han": "저" },
+                { "vi": "điện thoại", "han": "전화" },
+                { "vi": "địa chỉ", "han": "주소" },
+                { "vi": "nghề nghiệp", "han": "직업" }
+            ],
+            'l1-school-terms': [
+                { "vi": "khoa ngữ văn", "han": "국어국문학과" },
                 { "vi": "mẫu, ví dụ", "han": "보기" },
                 { "vi": "người", "han": "사람" },
                 { "vi": "bạn", "han": "씨" },
-                { "vi": "không", "han": "아니요" },
-                { "vi": "ngân hàng", "han": "은행" },
-                { "vi": "này", "han": "이" },
-                { "vi": "tên", "han": "이름" },
                 { "vi": "email, thư điện tử", "han": "이메일" },
-                { "vi": "tôi", "han": "저" },
-                { "vi": "điện thoại", "han": "전화" },
                 { "vi": "của tôi/ tôi", "han": "제" },
-                { "vi": "địa chỉ", "han": "주소" },
-                { "vi": "nghề nghiệp", "han": "직업" },
                 { "vi": "khoa/ bộ môn", "han": "학과" },
                 { "vi": "mã số sinh viên", "han": "학번" },
                 { "vi": "thẻ sinh viên", "han": "학생증" },
-                { "vi": "tiếng Hàn", "han": "한국어" },
-                { "vi": "khoa tiếng Hàn", "han": "한국어과" }
+                { "vi": "tiếng Hàn", "han": "한국어" }
             ],
-            'l1-v3-countries': [
+            'l1-countries': [
                 { "vi": "Hàn Quốc", "han": "한국" },
                 { "vi": "Mỹ", "han": "미국" },
                 { "vi": "Mông Cổ", "han": "몽골" },
@@ -510,15 +508,23 @@
                 { "vi": "Indonesia", "han": "인도네시아" },
                 { "vi": "Đức", "han": "독일" },
                 { "vi": "Malaysia", "han": "말레이시아" },
-                { "vi": "Thái Lan", "han": "태국" },
+                { "vi": "Thái Lan", "han": "태국" }
+            ],
+            'l1-countries-2': [
                 { "vi": "Philipin", "han": "필리핀" },
                 { "vi": "Pháp", "han": "프랑스" },
                 { "vi": "Nhật", "han": "일본" },
                 { "vi": "Úc", "han": "호주" },
                 { "vi": "Nga", "han": "러시아" },
-                { "vi": "Ấn Độ", "han": "인도" }
+                { "vi": "Ấn Độ", "han": "인도" },
+                { "vi": "ngân hàng", "han": "은행" },
+                { "vi": "này", "han": "이" },
+                { "vi": "không", "han": "아니요" },
+                { "vi": "khoa tiếng Hàn", "han": "한국어과" }
             ],
-            'l2-v1-places': [
+
+            // Bài 2 - Địa điểm và trường học
+            'l2-public-places': [
                 {"vi": "trường học", "han": "학교"}, 
                 {"vi": "nhà hát/rạp chiếu phim", "han": "극장"}, 
                 {"vi": "trung tâm thương mại", "han": "백화점"}, 
@@ -528,11 +534,9 @@
                 {"vi": "nhà ăn, nhà hàng", "han": "식당"}, 
                 {"vi": "bệnh viện", "han": "병원"}, 
                 {"vi": "cửa tiệm, cửa hàng", "han": "가게"}, 
-                {"vi": "khách sạn", "han": "호텔"}, 
-                {"vi": "ngân hàng", "han": "은행"}, 
-                {"vi": "văn phòng", "han": "사무실"}
+                {"vi": "khách sạn", "han": "호텔"}
             ],
-            'l2-v2-school': [
+            'l2-school-facilities': [
                 {"vi": "giảng đường, phòng học", "han": "강의실"},
                 {"vi": "phòng học", "han": "교실"},
                 {"vi": "phòng Lab", "han": "랩실"},
@@ -540,13 +544,11 @@
                 {"vi": "phòng sinh hoạt câu lạc bộ", "han": "동아리방"},
                 {"vi": "nhà ăn học sinh", "han": "학생 식당"},
                 {"vi": "phòng vệ sinh", "han": "화장실"},
-                {"vi": "nhà thi đấu thể thao/ nhà thể chất", "han": "체육관"},
+                {"vi": "nhà thi đấu thể thao", "han": "체육관"},
                 {"vi": "phòng hội thảo", "han": "세미나실"},
-                {"vi": "phòng nghỉ", "han": "휴게실"},
-                {"vi": "sân vận động", "han": "운동장"},
-                {"vi": "hiệu sách", "han": "서점"}
+                {"vi": "sân vận động", "han": "운동장"}
             ],
-            'l2-v3-classroom': [
+            'l2-classroom-items': [
                 { "vi": "cái bàn", "han": "책상" },
                 { "vi": "cửa sổ", "han": "창문" },
                 { "vi": "bản đồ", "han": "지도" },
@@ -556,14 +558,22 @@
                 { "vi": "cặp sách", "han": "가방" },
                 { "vi": "từ điển", "han": "사전" },
                 { "vi": "hộp bút", "han": "필통" },
-                { "vi": "máy vi tính", "han": "컴퓨터" },
+                { "vi": "máy vi tính", "han": "컴퓨터" }
+            ],
+            'l2-stationery': [
                 { "vi": "tẩy/ cục tẩy", "han": "지우개" },
                 { "vi": "bút, viết", "han": "펜" },
                 { "vi": "sách", "han": "책" },
                 { "vi": "đồng hồ", "han": "시계" },
-                { "vi": "cửa ra vào", "han": "문" }
+                { "vi": "cửa ra vào", "han": "문" },
+                { "vi": "ngân hàng", "han": "은행" },
+                { "vi": "văn phòng", "han": "사무실" },
+                { "vi": "hiệu sách", "han": "서점" },
+                { "vi": "phòng nghỉ", "han": "휴게실" }
             ],
-            'l3-v1-verbs': [
+
+            // Bài 3 - Động từ và hoạt động
+            'l3-basic-verbs': [
                 { "vi": "đi", "han": "가다" },
                 { "vi": "đến", "han": "오다" },
                 { "vi": "ngủ", "han": "자다" },
@@ -573,16 +583,20 @@
                 { "vi": "đọc", "han": "읽다" },
                 { "vi": "nghe", "han": "듣다" },
                 { "vi": "xem, nhìn", "han": "보다" },
-                { "vi": "làm việc", "han": "일하다" },
+                { "vi": "làm việc", "han": "일하다" }
+            ],
+            'l3-study-verbs': [
                 { "vi": "tự học", "han": "공부하다" },
                 { "vi": "học từ người khác dạy", "han": "배우다" },
                 { "vi": "luyện tập thể thao", "han": "운동하다" },
                 { "vi": "nghỉ ngơi", "han": "쉬다" },
                 { "vi": "gặp gỡ", "han": "만나다" },
                 { "vi": "mua", "han": "사다" },
-                { "vi": "thích", "han": "좋아하다" }
+                { "vi": "thích", "han": "좋아하다" },
+                { "vi": "gọi điện thoại", "han": "전화하다" },
+                { "vi": "đá bóng", "han": "축구를 하다" }
             ],
-            'l3-v2-adjectives': [
+            'l3-adjectives': [
                 { "vi": "to, lớn, cao", "han": "크다" },
                 { "vi": "nhỏ, bé thấp", "han": "작다" },
                 { "vi": "nhiều", "han": "많다" },
@@ -592,49 +606,38 @@
                 { "vi": "thú vị", "han": "재미있다" },
                 { "vi": "không hay, không thú vị", "han": "재미없다" }
             ],
-            'l3-v3-daily': [
+            'l3-food-drink': [
                 { "vi": "trà", "han": "차" },
                 { "vi": "cà phê", "han": "커피" },
                 { "vi": "bánh mì", "han": "빵" },
                 { "vi": "sữa", "han": "우유" },
-                { "vi": "phim", "han": "영화" },
-                { "vi": "âm nhạc", "han": "음악" },
-                { "vi": "báo", "han": "신문" },
-                { "vi": "bạn bè", "han": "친구" },
                 { "vi": "cơm", "han": "밥" },
-                { "vi": "tiền", "han": "돈" }
+                { "vi": "táo", "han": "사과" },
+                { "vi": "kem", "han": "아이스크림" }
             ],
-            'l3-v4-question': [
+            'l3-question-words': [
                 { "vi": "cái gì", "han": "무엇" },
                 { "vi": "đâu", "han": "어디" },
                 { "vi": "ai", "han": "누구" },
                 { "vi": "khi nào, bao giờ", "han": "언제" },
-                { "vi": "áo", "han": "옷" },
-                { "vi": "email, thư điện tử", "han": "이메일" },
-                { "vi": "trên", "han": "위" },
-                { "vi": "gọi điện thoại", "han": "전화하다" },
                 { "vi": "bây giờ", "han": "지금" },
-                { "vi": "đá bóng", "han": "축구를 하다" },
-                { "vi": "quán cà phê", "han": "카페" },
-                { "vi": "câu lạc bộ thể dục thể thao", "han": "헬스클럽" }
+                { "vi": "trên", "han": "위" },
+                { "vi": "rất", "han": "아주" }
             ],
-            'l3-v5-vocab': [
+            'l3-places-activities': [
                 { "vi": "công viên", "han": "공원" },
-                { "vi": "bài hát", "han": "노래" },
-                { "vi": "tòa nhà Đại Hàn", "han": "대한빌딩" },
-                { "vi": "phòng", "han": "방" },
-                { "vi": "táo", "han": "사과" },
+                { "vi": "quán cà phê", "han": "카페" },
+                { "vi": "chợ", "han": "시장" },
+                { "vi": "nội thành, trung tâm thành phố", "han": "시내" },
                 { "vi": "đi dạo", "han": "산책하다" },
                 { "vi": "mua sắm", "han": "쇼핑하다" },
-                { "vi": "nội thành, trung tâm thành phố", "han": "시내" },
-                { "vi": "chợ", "han": "시장" },
                 { "vi": "dùng bữa", "han": "식사하다" },
-                { "vi": "báo", "han": "신문" },
-                { "vi": "kem", "han": "아이스크림" },
-                { "vi": "rất", "han": "아주" },
-                { "vi": "du lịch", "han": "여행" }
+                { "vi": "du lịch", "han": "여행" },
+                { "vi": "câu lạc bộ thể dục thể thao", "han": "헬스클럽" }
             ],
-            'l4-v1-months': [
+
+            // Bài 4 - Thời gian và số đếm
+            'l4-months': [
                 { "vi": "tháng giêng (một)", "han": "일월" },
                 { "vi": "tháng hai", "han": "이월" },
                 { "vi": "tháng ba", "han": "삼월" },
@@ -644,15 +647,17 @@
                 { "vi": "tháng bảy", "han": "칠월" },
                 { "vi": "tháng tám", "han": "팔월" },
                 { "vi": "tháng chín", "han": "구월" },
-                { "vi": "tháng mười", "han": "시월" },
-                { "vi": "tháng mười một", "han": "십일월" },
-                { "vi": "tháng mười hai", "han": "십이월" }
+                { "vi": "tháng mười", "han": "시월" }
             ],
-            'l4-v2-timeUnitsAndDays': [
+            'l4-time-units': [
                 { "vi": "năm", "han": "년" },
                 { "vi": "tháng", "han": "월" },
                 { "vi": "ngày", "han": "일" },
                 { "vi": "giờ", "han": "시" },
+                { "vi": "tháng mười một", "han": "십일월" },
+                { "vi": "tháng mười hai", "han": "십이월" }
+            ],
+            'l4-weekdays': [
                 { "vi": "Chủ nhật", "han": "일요일" },
                 { "vi": "Thứ hai", "han": "월요일" },
                 { "vi": "Thứ ba", "han": "화요일" },
@@ -662,7 +667,7 @@
                 { "vi": "ngày thường (trong tuần)", "han": "평일(주중)" },
                 { "vi": "cuối tuần", "han": "주말" }
             ],
-            'l4-v3-timeRelative': [
+            'l4-relative-time': [
                 { "vi": "hôm kia", "han": "그저께" },
                 { "vi": "hôm qua", "han": "어제" },
                 { "vi": "hôm nay", "han": "오늘" },
@@ -672,40 +677,32 @@
                 { "vi": "tuần này", "han": "이번 주" },
                 { "vi": "tuần sau", "han": "다음주" },
                 { "vi": "tháng trước", "han": "지난 달" },
-                { "vi": "tháng này", "han": "이번달" },
+                { "vi": "tháng này", "han": "이번달" }
+            ],
+            'l4-year-time': [
                 { "vi": "tháng sau", "han": "다음달" },
                 { "vi": "năm trước, năm ngoái", "han": "지난 해 (작년)" },
-                { "vi": "năm nay", "han": "올해 (금년)" }
+                { "vi": "năm nay", "han": "올해 (금년)" },
+                { "vi": "năm sau", "han": "다음해 (내년)" }
             ],
-            'l4-v4-eventsActivities': [
-                { "vi": "năm sau", "han": "다음해 (내년)" },
+            'l4-holidays': [
                 { "vi": "ngày Tết", "han": "설날" },
                 { "vi": "Giáng sinh", "han": "크리스마스" },
                 { "vi": "ngày kỉ niệm chữ Hangeul", "han": "한글날" },
                 { "vi": "ngày lễ", "han": "명절" },
                 { "vi": "tiệc sinh nhật", "han": "생일 파티" },
-                { "vi": "tổ chức tiệc", "han": "파티를 하다" },
+                { "vi": "tổ chức tiệc", "han": "파티를 하다" }
+            ],
+            'l4-academic': [
                 { "vi": "họp, hội nghị", "han": "회의하다" },
                 { "vi": "tốt nghiệp", "han": "졸업하다" },
                 { "vi": "kỳ thi, kỳ kiểm tra", "han": "시험" },
                 { "vi": "kỳ nghỉ", "han": "휴가" },
                 { "vi": "kỳ nghỉ (của học sinh)", "han": "방학" },
-                { "vi": "sự làm thêm", "han": "아르바이트" }
+                { "vi": "sự làm thêm", "han": "아르바이트" },
+                { "vi": "giảng viên", "han": "강사" }
             ],
-            'l4-v5-peopleAndMisc': [
-                { "vi": "giảng viên", "han": "강사" },
-                { "vi": "ngắm, xem", "han": "구경하다" },
-                { "vi": "quán cà phê", "han": "커피숍" },
-                { "vi": "núi", "han": "산" },
-                { "vi": "tầng", "han": "층" },
-                { "vi": "số (phòng)", "han": "호" },
-                { "vi": "bảng kế hoạch", "han": "계획표" },
-                { "vi": "số điện thoại", "han": "전화번호" },
-                { "vi": "sự hướng dẫn", "han": "안내" },
-                { "vi": "đẹp", "han": "아름답다" },
-                { "vi": "và", "han": "그리고" }
-            ],
-            'l4-v6-numbersv0': [
+            'l4-numbers-0-10': [
                 { "vi": "không", "han": "영, 공" },
                 { "vi": "một", "han": "일" },
                 { "vi": "hai", "han": "이" },
@@ -715,22 +712,21 @@
                 { "vi": "sáu", "han": "육" },
                 { "vi": "bảy", "han": "칠" },
                 { "vi": "tám", "han": "팔" },
-                { "vi": "chín", "han": "구" },
+                { "vi": "chín", "han": "구" }
+            ],
+            'l4-numbers-10-90': [
                 { "vi": "mười", "han": "십" },
                 { "vi": "mười một", "han": "십일" },
-                { "vi": "mười hai", "han": "십이" }
-            ],
-            'l4-v7-numbersv1': [
+                { "vi": "mười hai", "han": "십이" },
                 { "vi": "hai mươi", "han": "이십" },
                 { "vi": "ba mươi", "han": "삼십" },
                 { "vi": "bốn mươi", "han": "사십" },
                 { "vi": "năm mươi", "han": "오십" },
                 { "vi": "sáu mươi", "han": "육십" },
                 { "vi": "bảy mươi", "han": "칠십" },
-                { "vi": "tám mươi", "han": "팔십" },
                 { "vi": "chín mươi", "han": "구십" }
             ],
-            'l4-v8-numbersv2': [
+            'l4-big-numbers': [
                 { "vi": "một trăm", "han": "백" },
                 { "vi": "hai trăm", "han": "이백" },
                 { "vi": "một nghìn", "han": "천" },
@@ -741,7 +737,9 @@
                 { "vi": "một trăm triệu", "han": "억" },
                 { "vi": "một tỉ", "han": "십억" }
             ],
-            'l5-v1-timeOfDay': [
+
+            // Bài 5 - Hoạt động hằng ngày
+            'l5-time-of-day': [
                 { "vi": "buổi sáng", "han": "오전" },
                 { "vi": "buổi chiều", "han": "오후" },
                 { "vi": "ban ngày", "han": "낮" },
@@ -751,54 +749,55 @@
                 { "vi": "tối", "han": "저녁" },
                 { "vi": "sáng sớm", "han": "새벽" },
                 { "vi": "giờ", "han": "시" },
-                { "vi": "phút", "han": "분" },
-                { "vi": "giây", "han": "초" }
+                { "vi": "phút", "han": "분" }
             ],
-            'l5-v2-dailyActivities': [
+            'l5-daily-activities': [
                 { "vi": "thức dậy", "han": "일어나다" },
                 { "vi": "đánh răng", "han": "이를 닦다" },
                 { "vi": "rửa mặt", "han": "세수하다" },
-                { "vi": "học", "han": "배우다" },
-                { "vi": "tan tầm", "han": "퇴근하다" },
+                { "vi": "tắm", "han": "샤워하다" },
                 { "vi": "giặt giũ", "han": "세탁하다" },
                 { "vi": "bắt đầu", "han": "시작하다" },
                 { "vi": "dọn vệ sinh", "han": "청소하다" },
                 { "vi": "xong, kết thúc", "han": "끝나다" },
                 { "vi": "chuẩn bị bữa sáng", "han": "아침 준비하다" },
-                { "vi": "tắm", "han": "샤워하다" },
-                { "vi": "ngủ", "han": "자다" },
-                { "vi": "đi lại", "han": "다니다" },
-                { "vi": "đi làm", "han": "출근하다" }
+                { "vi": "đi lại", "han": "다니다" }
             ],
-            'l5-v3-vocabulary': [
-                { "vi": "mùa đông", "han": "겨울" },
-                { "vi": "quê hương", "han": "고향" },
-                { "vi": "sân bay", "han": "공항" },
-                { "vi": "ngày", "han": "날" },
+            'l5-work-study': [
+                { "vi": "học", "han": "배우다" },
+                { "vi": "tan tầm", "han": "퇴근하다" },
+                { "vi": "đi làm", "han": "출근하다" },
+                { "vi": "giờ học, buổi học", "han": "수업" },
+                { "vi": "thi", "han": "시험을 보다" },
+                { "vi": "họp, hội thảo", "han": "회의" },
+                { "vi": "công ty", "han": "회사" },
+                { "vi": "đi làm", "han": "출근" },
+                { "vi": "lái xe", "han": "운전하다" },
+                { "vi": "xuất phát", "han": "출발하다" }
+            ],
+            'l5-family-people': [
                 { "vi": "đàn ông", "han": "남자" },
-                { "vi": "quán karaoke", "han": "노래방" },
+                { "vi": "phụ nữ", "han": "여자" },
+                { "vi": "bố mẹ", "han": "부모님" },
+                { "vi": "nhà", "han": "집" },
+                { "vi": "quê hương", "han": "고향" },
+                { "vi": "ngày", "han": "날" },
+                { "vi": "mùa đông", "han": "겨울" },
                 { "vi": "nhận", "han": "받다" },
                 { "vi": "cơm", "han": "밥" },
-                { "vi": "bố mẹ", "han": "부모님" },
-                { "vi": "giờ học, buổi học", "han": "수업" },
-                { "vi": "bơi lội", "han": "수영" },
-                { "vi": "thi", "han": "시험을 보다" },
-                { "vi": "phụ nữ", "han": "여자" },
-                { "vi": "khoa Ngữ văn Anh", "han": "영문과" },
-                { "vi": "tiếng Anh", "han": "영어" }
+                { "vi": "phụ nữ", "han": "여성" }
             ],
-            'l5-v4-miscellaneous': [
-                { "vi": "lái xe", "han": "운전하다" },
+            'l5-technology': [
                 { "vi": "internet", "han": "인터넷" },
                 { "vi": "nhật kí", "han": "일기" },
                 { "vi": "quán internet", "han": "PC방" },
-                { "vi": "họp, hội thảo", "han": "회의" },
-                { "vi": "công ty", "han": "회사" },
+                { "vi": "quán karaoke", "han": "노래방" },
+                { "vi": "sân bay", "han": "공항" },
+                { "vi": "bơi lội", "han": "수영" },
+                { "vi": "khoa Ngữ văn Anh", "han": "영문과" },
+                { "vi": "tiếng Anh", "han": "영어" },
                 { "vi": "sau, sau khi", "han": "후" },
-                { "vi": "xuất phát", "han": "출발하다" },
-                { "vi": "đi làm", "han": "출근" },
-                { "vi": "nhà", "han": "집" },
-                { "vi": "phụ nữ", "han": "여성" }
+                { "vi": "giây", "han": "초" }
             ]
         };
 
@@ -828,42 +827,51 @@
         let currentAudioPath = "";
         let wrongAnswerCount = 0;
         let correctAnswerCount = 0;
+        let completedWords = new Set(); // Lưu các từ đã hoàn thành cả 2 kiểu
+        let wordProgress = {}; // Theo dõi tiến độ từng từ: {wordIndex: {krVn: false, vnKr: false}}
 
         // Hàm lấy tên bài học từ vocabFile parameter
         function getLessonName(vocabFile) {
             const lessonNames = {
-                // Bài 1
-                'l1-v1-jobs': 'Bài 1 - Phần 1: Nghề nghiệp',
-                'l1-v2-vocab': 'Bài 1 - Phần 2: Từ mới',
-                'l1-v3-countries': 'Bài 1 - Phần 3: Quốc gia',
+                // Bài 1 - Nghề nghiệp và thông tin cá nhân
+                'l1-jobs': 'Bài 1 - Nghề nghiệp',
+                'l1-personal-info': 'Bài 1 - Thông tin cá nhân',
+                'l1-school-terms': 'Bài 1 - Thuật ngữ học đường',
+                'l1-countries': 'Bài 1 - Quốc gia (Phần 1)',
+                'l1-countries-2': 'Bài 1 - Quốc gia (Phần 2)',
                 
-                // Bài 2
-                'l2-v1-places': 'Bài 2 - Phần 1: Nơi chốn',
-                'l2-v2-school': 'Bài 2 - Phần 2: Trang thiết bị trường học',
-                'l2-v3-classroom': 'Bài 2 - Phần 3: Đồ vật trong phòng học',
+                // Bài 2 - Địa điểm và trường học
+                'l2-public-places': 'Bài 2 - Địa điểm công cộng',
+                'l2-school-facilities': 'Bài 2 - Cơ sở vật chất trường học',
+                'l2-classroom-items': 'Bài 2 - Đồ vật trong lớp học',
+                'l2-stationery': 'Bài 2 - Văn phòng phẩm',
                 
-                // Bài 3
-                'l3-v1-verbs': 'Bài 3 - Phần 1: Động từ',
-                'l3-v2-adjectives': 'Bài 3 - Phần 2: Tính từ',
-                'l3-v3-daily': 'Bài 3 - Phần 3: Sinh hoạt hằng ngày',
-                'l3-v4-question': 'Bài 3 - Phần 4: Đại từ nghi vấn',
-                'l3-v5-vocab': 'Bài 3 - Phần 5: Từ mới',
+                // Bài 3 - Động từ và hoạt động
+                'l3-basic-verbs': 'Bài 3 - Động từ cơ bản',
+                'l3-study-verbs': 'Bài 3 - Động từ học tập',
+                'l3-adjectives': 'Bài 3 - Tính từ',
+                'l3-food-drink': 'Bài 3 - Đồ ăn thức uống',
+                'l3-question-words': 'Bài 3 - Từ nghi vấn',
+                'l3-places-activities': 'Bài 3 - Địa điểm và hoạt động',
                 
-                // Bài 4
-                'l4-v1-months': 'Bài 4 - Phần 1: Tháng',
-                'l4-v2-timeUnitsAndDays': 'Bài 4 - Phần 2: Đơn vị thời gian và ngày trong tuần',
-                'l4-v3-timeRelative': 'Bài 4 - Phần 3: Thời gian tương đối',
-                'l4-v4-eventsActivities': 'Bài 4 - Phần 4: Sự kiện và hoạt động',
-                'l4-v5-peopleAndMisc': 'Bài 4 - Phần 5: Con người và từ khác',
-                'l4-v6-numbersv0': 'Bài 4 - Phần 6: Số đếm từ 0-12',
-                'l4-v7-numbersv1': 'Bài 4 - Phần 7: Số đếm từ 20-90',
-                'l4-v8-numbersv2': 'Bài 4 - Phần 8: Số đếm từ 100 trở lên',
+                // Bài 4 - Thời gian và số đếm
+                'l4-months': 'Bài 4 - Tháng trong năm',
+                'l4-time-units': 'Bài 4 - Đơn vị thời gian',
+                'l4-weekdays': 'Bài 4 - Ngày trong tuần',
+                'l4-relative-time': 'Bài 4 - Thời gian tương đối',
+                'l4-year-time': 'Bài 4 - Thời gian theo năm',
+                'l4-holidays': 'Bài 4 - Ngày lễ và sự kiện',
+                'l4-academic': 'Bài 4 - Học tập và công việc',
+                'l4-numbers-0-10': 'Bài 4 - Số đếm 0-10',
+                'l4-numbers-10-90': 'Bài 4 - Số đếm 10-90',
+                'l4-big-numbers': 'Bài 4 - Số lớn',
 
-                //Bài 5
-                'l5-v1-timeOfDay': 'Bài 5 - Phần 1: Thời gian trong ngày',
-                'l5-v2-dailyActivities': 'Bài 5 - Phần 2: Hoạt động hằng ngày',
-                'l5-v3-vocabulary': 'Bài 5 - Phần 3: Từ vựng',
-                'l5-v4-miscellaneous': 'Bài 5 - Phần 4: Từ khác'
+                // Bài 5 - Hoạt động hằng ngày
+                'l5-time-of-day': 'Bài 5 - Thời gian trong ngày',
+                'l5-daily-activities': 'Bài 5 - Hoạt động hằng ngày',
+                'l5-work-study': 'Bài 5 - Công việc và học tập',
+                'l5-family-people': 'Bài 5 - Gia đình và con người',
+                'l5-technology': 'Bài 5 - Công nghệ và giải trí'
             };
             
             return lessonNames[vocabFile] || 'Bài học từ vựng';
@@ -878,13 +886,21 @@
             setupEventListeners();
         }
 
-        // Tạo hàng đợi câu hỏi (mỗi từ xuất hiện 1 lần: chỉ KR->VN)
+        // Tạo hàng đợi câu hỏi thông minh
         function setupQuestionQueue() {
             questionQueue = [];
+            completedWords.clear();
+            wordProgress = {};
             
-            // Chỉ thêm câu hỏi KR->VN (Tiếng Hàn hỏi, Việt trả lời)
-            vocabulary.forEach(word => {
-                questionQueue.push({...word, type: 'kr-vn'}); // Tiếng Hàn hỏi, Việt trả lời
+            // Khởi tạo tiến độ cho từng từ
+            vocabulary.forEach((word, index) => {
+                wordProgress[index] = { krVn: false, vnKr: false };
+            });
+            
+            // Tạo câu hỏi ban đầu (mỗi từ 2 câu: KR->VN và VN->KR)
+            vocabulary.forEach((word, index) => {
+                questionQueue.push({...word, type: 'kr-vn', wordIndex: index}); 
+                questionQueue.push({...word, type: 'vn-kr', wordIndex: index}); 
             });
             
             // Trộn ngẫu nhiên
@@ -892,7 +908,7 @@
             totalQuestions = questionQueue.length;
             currentQuestionIndex = 0;
             
-            console.log('Tổng số câu hỏi:', totalQuestions);
+            console.log('Tổng số câu hỏi ban đầu:', totalQuestions);
             updateQuestionCounter();
         }
 
@@ -918,7 +934,10 @@
                     selectAnswer(optionIndex, currentAnswers[optionIndex]);
                 } else if (event.code === 'Space') {
                     event.preventDefault();
-                    playKoreanWord();
+                    // Chỉ phát âm nếu đã trả lời (nút phát âm đã hiển thị)
+                    if (hasAnswered) {
+                        playKoreanWord();
+                    }
                 }
             });
         }
@@ -927,10 +946,19 @@
         function loadNewQuestion() {
             console.log('Tải câu hỏi mới...');
             
+            // Dừng audio đang phát trước khi chuyển câu
+            stopCurrentAudio();
+            
             // Kiểm tra xem còn câu hỏi không
             if (currentQuestionIndex >= questionQueue.length) {
-                showCompletionMessage();
-                return;
+                // Kiểm tra xem tất cả từ đã hoàn thành chưa
+                if (completedWords.size >= vocabulary.length) {
+                    showCompletionMessage();
+                    return;
+                } else {
+                    // Thêm câu hỏi cho những từ chưa hoàn thành
+                    addIncompleteQuestions();
+                }
             }
             
             // Reset trạng thái
@@ -952,27 +980,41 @@
             // Lấy từ từ queue
             currentQuestion = questionQueue[currentQuestionIndex];
             
-            // Câu hỏi tiếng Hàn -> đáp án tiếng Việt
-            correctAnswer = currentQuestion.vi;
-            
-            // Hiển thị từ tiếng Hàn với nút phát âm
             const vietnameseElement = document.getElementById('vietnameseWord');
-            vietnameseElement.innerHTML = `
-                <button class="sound-btn" onclick="playKoreanWord()" title="Phát âm từ tiếng Hàn: ${currentQuestion.han}">🔊</button>
-                ${currentQuestion.han}
-            `;
             
-            // Tự động phát âm khi tải câu hỏi tiếng Hàn
-            setTimeout(() => {
-                playKoreanWord();
-            }, 500);
+            if (currentQuestion.type === 'kr-vn') {
+                // Câu hỏi tiếng Hàn -> đáp án tiếng Việt
+                correctAnswer = currentQuestion.vi;
+                
+                // Hiển thị từ tiếng Hàn (không có nút phát âm ban đầu)
+                vietnameseElement.innerHTML = currentQuestion.han;
+                
+                // Tự động phát âm khi tải câu hỏi tiếng Hàn
+                setTimeout(() => {
+                    playKoreanWord();
+                }, 500);
+                
+                // Tạo đáp án tiếng Việt
+                const wrongAnswers = getRandomWrongAnswers(correctAnswer, 3, 'vi');
+                currentAnswers = shuffleArray([correctAnswer, ...wrongAnswers]);
+                
+                console.log('Câu hỏi KR->VN:', currentQuestion.han, '- Đáp án:', correctAnswer);
+            } else {
+                // Câu hỏi tiếng Việt -> đáp án tiếng Hàn
+                correctAnswer = currentQuestion.han;
+                
+                // Hiển thị từ tiếng Việt (KHÔNG tự động phát âm để tránh lộ đáp án)
+                vietnameseElement.innerHTML = currentQuestion.vi;
+                
+                // Tạo đáp án tiếng Hàn
+                const wrongAnswers = getRandomWrongAnswers(correctAnswer, 3, 'han');
+                currentAnswers = shuffleArray([correctAnswer, ...wrongAnswers]);
+                
+                console.log('Câu hỏi VN->KR:', currentQuestion.vi, '- Đáp án:', correctAnswer);
+            }
             
-            // Tạo đáp án tiếng Việt
-            const wrongAnswers = getRandomWrongAnswers(correctAnswer, 3, 'vi');
-            currentAnswers = shuffleArray([correctAnswer, ...wrongAnswers]);
-            
-            console.log('Câu hỏi KR->VN:', currentQuestion.han, '- Đáp án:', correctAnswer);
             console.log('Câu thứ:', currentQuestionIndex + 1, '/', totalQuestions);
+            console.log('Từ đã hoàn thành:', completedWords.size, '/', vocabulary.length);
             
             // Cập nhật counter
             updateQuestionCounter();
@@ -988,6 +1030,59 @@
             
             // Chuyển sang câu tiếp theo
             currentQuestionIndex++;
+        }
+
+        // Thêm câu hỏi cho những từ chưa hoàn thành
+        function addIncompleteQuestions() {
+            console.log('Thêm câu hỏi cho từ chưa hoàn thành...');
+            
+            vocabulary.forEach((word, index) => {
+                const progress = wordProgress[index];
+                
+                // Nếu chưa hoàn thành KR->VN
+                if (!progress.krVn) {
+                    questionQueue.push({...word, type: 'kr-vn', wordIndex: index});
+                }
+                
+                // Nếu chưa hoàn thành VN->KR
+                if (!progress.vnKr) {
+                    questionQueue.push({...word, type: 'vn-kr', wordIndex: index});
+                }
+            });
+            
+            // Trộn lại câu hỏi mới
+            const newQuestions = questionQueue.slice(currentQuestionIndex);
+            const shuffledNew = shuffleArray(newQuestions);
+            questionQueue = [...questionQueue.slice(0, currentQuestionIndex), ...shuffledNew];
+            
+            totalQuestions = questionQueue.length;
+            updateQuestionCounter();
+            
+            console.log('Đã thêm câu hỏi. Tổng số câu hỏi:', totalQuestions);
+        }
+
+        // Dừng audio hiện tại
+        function stopCurrentAudio() {
+            const audioPlayer = document.getElementById('audioPlayer');
+            
+            // Dừng audio nếu đang phát
+            if (!audioPlayer.paused) {
+                audioPlayer.pause();
+                audioPlayer.currentTime = 0;
+                console.log('Đã dừng audio hiện tại');
+            }
+            
+            // Dừng text-to-speech nếu đang chạy
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                console.log('Đã dừng text-to-speech');
+            }
+            
+            // Xóa trạng thái playing của nút âm thanh
+            const soundBtn = document.querySelector('.sound-btn');
+            if (soundBtn) {
+                soundBtn.classList.remove('playing');
+            }
         }
 
         // Lấy đáp án sai ngẫu nhiên
@@ -1016,6 +1111,9 @@
                 if (callback) callback();
                 return;
             }
+            
+            // Dừng audio hiện tại trước khi phát audio mới
+            stopCurrentAudio();
             
             const audioPlayer = document.getElementById('audioPlayer');
             const koreanWord = currentQuestion.han; // Luôn phát âm từ tiếng Hàn
@@ -1219,6 +1317,8 @@
             correctAnswerCount = 0;
             wrongAnswerCount = 0;
             hasAnswered = false;
+            completedWords.clear();
+            wordProgress = {};
             
             // Remove results container
             const resultContainers = document.querySelectorAll('.container');
@@ -1251,6 +1351,9 @@
         function selectAnswer(optionIndex, selectedAnswer) {
             if (hasAnswered) return;
             
+            // Dừng audio tự động nếu đang phát
+            stopCurrentAudio();
+            
             hasAnswered = true;
             const isCorrect = selectedAnswer === correctAnswer;
             
@@ -1274,12 +1377,15 @@
                 }
             }
             
-            // Hiển thị feedback
+            // Hiển thị feedback và cập nhật tiến độ
             const feedback = document.getElementById('feedback');
             if (isCorrect) {
                 feedback.textContent = 'Chính xác! 🎉';
                 feedback.className = 'feedback success';
                 correctAnswerCount++;
+                
+                // Cập nhật tiến độ từ
+                updateWordProgress();
                 
                 // Animation cho đáp án đúng
                 document.getElementById('option' + optionIndex).classList.add('correct-animation');
@@ -1287,10 +1393,71 @@
                 feedback.textContent = 'Sai rồi! Đáp án đúng được tô màu xanh.';
                 feedback.className = 'feedback error';
                 wrongAnswerCount++;
+                
+                // Thêm câu hỏi này vào cuối queue để hỏi lại
+                addRetryQuestion();
             }
+            
+            // Hiển thị nút phát âm sau khi trả lời (bất kể đúng hay sai)
+            showAudioButton();
+            
+            // Phát âm từ tiếng Hàn sau khi trả lời (bất kể đúng hay sai)
+            setTimeout(() => {
+                playKoreanWord();
+            }, 800); // Đợi animation hoàn thành
             
             // Enable next button
             document.getElementById('nextBtn').disabled = false;
+        }
+
+        // Hiển thị nút phát âm sau khi trả lời
+        function showAudioButton() {
+            const vietnameseElement = document.getElementById('vietnameseWord');
+            
+            if (currentQuestion.type === 'kr-vn') {
+                // Câu hỏi tiếng Hàn -> thêm nút phát âm
+                vietnameseElement.innerHTML = `
+                    <button class="sound-btn" onclick="playKoreanWord()" title="Phát âm từ tiếng Hàn: ${currentQuestion.han}">🔊</button>
+                    ${currentQuestion.han}
+                `;
+            } else {
+                // Câu hỏi tiếng Việt -> thêm nút phát âm
+                vietnameseElement.innerHTML = `
+                    <button class="sound-btn" onclick="playKoreanWord()" title="Phát âm từ tiếng Hàn: ${currentQuestion.han}">🔊</button>
+                    ${currentQuestion.vi}
+                `;
+            }
+        }
+
+        // Cập nhật tiến độ từ khi trả lời đúng
+        function updateWordProgress() {
+            const wordIndex = currentQuestion.wordIndex;
+            const questionType = currentQuestion.type;
+            
+            if (questionType === 'kr-vn') {
+                wordProgress[wordIndex].krVn = true;
+            } else {
+                wordProgress[wordIndex].vnKr = true;
+            }
+            
+            // Kiểm tra xem từ này đã hoàn thành chưa
+            const progress = wordProgress[wordIndex];
+            if (progress.krVn && progress.vnKr) {
+                completedWords.add(wordIndex);
+                console.log(`Từ ${vocabulary[wordIndex].vi} đã hoàn thành cả 2 kiểu!`);
+            }
+            
+            console.log(`Tiến độ từ ${vocabulary[wordIndex].vi}:`, progress);
+        }
+
+        // Thêm câu hỏi để hỏi lại khi trả lời sai
+        function addRetryQuestion() {
+            // Thêm câu hỏi hiện tại vào cuối queue
+            const retryQuestion = {...currentQuestion};
+            questionQueue.push(retryQuestion);
+            totalQuestions++;
+            
+            console.log('Đã thêm câu hỏi để hỏi lại. Tổng câu hỏi:', totalQuestions);
         }
 
         // Khởi chạy ứng dụng khi tải xong

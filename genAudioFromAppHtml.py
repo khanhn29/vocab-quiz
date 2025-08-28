@@ -86,46 +86,16 @@ class KoreanAudioGenerator:
     def create_directory_structure(self, lesson_key):
         """Tạo cấu trúc thư mục cho lesson"""
         # Chuyển đổi lesson key thành path
-        # l1-v1-jobs -> audio/lesson1/jobs
-        # l2-v3-classroom -> audio/lesson2/classroom
+        # l1-jobs -> audio/vocab/lesson1
+        # l2-classroom -> audio/vocab/lesson2
         
         parts = lesson_key.split('-')
-        if len(parts) >= 3:
+        if len(parts) >= 2:
             lesson_num = parts[0][1:]  # l1 -> 1
-            topic = '-'.join(parts[2:])  # v1-jobs -> jobs, hoặc classroom
-            
-            # Xử lý tên topic
-            topic_mapping = {
-                'v1-jobs': 'jobs',
-                'v2-vocab': 'vocab', 
-                'v3-countries': 'countries',
-                'v1-places': 'places',
-                'v2-school': 'school',
-                'v3-classroom': 'classroom',
-                'v1-verbs': 'verbs',
-                'v2-adjectives': 'adjectives',
-                'v3-daily': 'daily',
-                'v4-question': 'question',
-                'v5-vocab': 'vocab',
-                'v1-months': 'months',
-                'v2-timeUnitsAndDays': 'timeUnitsAndDays',
-                'v3-timeRelative': 'timeRelative',
-                'v4-eventsActivities': 'eventsActivities',
-                'v5-peopleAndMisc': 'peopleAndMisc',
-                'v6-numbersv0': 'numbersv0',
-                'v7-numbersv1': 'numbersv1',
-                'v8-numbersv2': 'numbersv2',
-                'v1-timeOfDay': 'timeOfDay',
-                'v2-dailyActivities': 'dailyActivities',
-                'v3-vocabulary': 'vocabulary',
-                'v4-miscellaneous': 'miscellaneous'
-            }
-            
-            topic_name = topic_mapping.get(f'v{parts[1][1:]}-{parts[2]}', parts[2])
-            output_dir = self.output_base_dir / f"lesson{lesson_num}" / topic_name
+            output_dir = self.output_base_dir / "vocab" / f"lesson{lesson_num}"
         else:
             # Fallback nếu format không đúng
-            output_dir = self.output_base_dir / lesson_key
+            output_dir = self.output_base_dir / "vocab" / lesson_key
         
         output_dir.mkdir(parents=True, exist_ok=True)
         return output_dir
