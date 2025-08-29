@@ -16,39 +16,54 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
             padding: 20px;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.1) 100%);
+            pointer-events: none;
+            z-index: -1;
         }
 
         .back-button {
             position: fixed;
             top: 20px;
             left: 20px;
-            background: linear-gradient(135deg, #6c757d, #495057);
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
             color: white;
             border: none;
-            border-radius: 12px;
-            padding: 12px 16px;
+            border-radius: 15px;
+            padding: 14px 18px;
             font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.3);
             z-index: 1000;
+            backdrop-filter: blur(10px);
         }
 
         .back-button:hover {
-            background: linear-gradient(135deg, #495057, #343a40);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #ee5a52, #de4f4f);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
         }
 
         .back-button:active {
@@ -60,132 +75,195 @@
         }
 
         .container {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-            padding: 40px;
-            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1), 0 8px 32px rgba(0, 0, 0, 0.05);
+            padding: 48px;
+            max-width: 520px;
             width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
         }
 
         .question-counter {
             text-align: center;
             font-size: 1.2rem;
-            font-weight: 600;
-            color: #6c757d;
-            margin-bottom: 20px;
-            padding: 12px 24px;
-            background: #e9ecef;
-            border-radius: 25px;
+            font-weight: 700;
+            color: #4a5568;
+            margin-bottom: 24px;
+            padding: 16px 28px;
+            background: linear-gradient(135deg, #e2e8f0, #f7fafc);
+            border-radius: 30px;
             display: inline-block;
             margin-left: 50%;
             transform: translateX(-50%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-counter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: progress-shine 2s ease-in-out infinite;
+        }
+
+        @keyframes progress-shine {
+            0% { left: -100%; }
+            50%, 100% { left: 100%; }
         }
 
         .vietnamese-word {
             text-align: center;
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1a1a1a;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #2d3748;
             margin-bottom: 40px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            border: 2px solid #e9ecef;
+            padding: 28px;
+            background: linear-gradient(135deg, #f8fafc, #edf2f7);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
             position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .sound-btn {
+        .vietnamese-word:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .audio-button {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: linear-gradient(135deg, #28a745, #20c997);
+            background: linear-gradient(135deg, #48bb78, #38a169);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 45px;
-            height: 45px;
+            width: 54px;
+            height: 54px;
+            font-size: 1.6rem;
             cursor: pointer;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+            box-shadow: 0 4px 20px rgba(72, 187, 120, 0.3);
+            z-index: 10;
+            backdrop-filter: blur(10px);
         }
 
-        .sound-btn:hover {
-            transform: scale(1.1);
-            background: linear-gradient(135deg, #218838, #1fa187);
-            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+        .audio-button:hover {
+            background: linear-gradient(135deg, #38a169, #2f855a);
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 6px 25px rgba(72, 187, 120, 0.4);
         }
 
-        .sound-btn:active {
-            transform: scale(0.95);
+        .audio-button:active {
+            transform: scale(0.95) rotate(-5deg);
         }
 
-        .sound-btn.playing {
-            animation: soundPulse 1s ease-in-out infinite;
+        .audio-button.playing {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            animation: pulse-enhanced 1.5s infinite;
         }
 
-        @keyframes soundPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+        @keyframes pulse-enhanced {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg); 
+                box-shadow: 0 4px 20px rgba(66, 153, 225, 0.3);
+            }
+            50% { 
+                transform: scale(1.08) rotate(3deg); 
+                box-shadow: 0 8px 30px rgba(66, 153, 225, 0.5);
+            }
         }
 
-        .auto-play-info {
-            font-size: 0.85rem;
-            color: #6c757d;
-            margin-top: 10px;
-            font-style: italic;
-            display: none;
+        .audio-button.disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            opacity: 0.6;
         }
+
+        .audio-button.disabled:hover {
+            transform: none;
+            background: #6c757d;
+        }
+
+
 
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 32px;
+            gap: 20px;
+            margin-bottom: 36px;
         }
 
         .option {
             position: relative;
-            background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            padding: 20px;
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border: 2px solid rgba(226, 232, 240, 0.8);
+            border-radius: 16px;
+            padding: 24px;
             font-size: 1.6rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: center;
-            min-height: 80px;
+            min-height: 90px;
             display: flex;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .option:hover:not(.disabled)::before {
+            left: 100%;
         }
 
         .option:hover:not(.disabled) {
-            border-color: #007bff;
-            background: #f8f9ff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+            border-color: #4299e1;
+            background: linear-gradient(135deg, #ebf8ff, #bee3f8);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(66, 153, 225, 0.2);
         }
 
         .option-number {
             position: absolute;
-            top: 8px;
-            left: 12px;
-            background: #6c757d;
+            top: 12px;
+            left: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.85rem;
-            font-weight: 600;
+            font-size: 0.9rem;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
         }
         
         .option-text {
@@ -197,23 +275,27 @@
         }
 
         .option.correct {
-            border-color: #28a745 !important;
-            background: #d4edda !important;
-            color: #155724 !important;
+            border-color: #48bb78 !important;
+            background: linear-gradient(135deg, #f0fff4, #c6f6d5) !important;
+            color: #22543d !important;
+            box-shadow: 0 8px 32px rgba(72, 187, 120, 0.25) !important;
         }
 
         .option.correct .option-number {
-            background: #28a745 !important;
+            background: linear-gradient(135deg, #48bb78, #38a169) !important;
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4) !important;
         }
 
         .option.incorrect {
-            border-color: #dc3545 !important;
-            background: #f8d7da !important;
-            color: #721c24 !important;
+            border-color: #f56565 !important;
+            background: linear-gradient(135deg, #fed7d7, #feb2b2) !important;
+            color: #742a2a !important;
+            box-shadow: 0 8px 32px rgba(245, 101, 101, 0.25) !important;
         }
 
         .option.incorrect .option-number {
-            background: #dc3545 !important;
+            background: linear-gradient(135deg, #f56565, #e53e3e) !important;
+            box-shadow: 0 4px 12px rgba(245, 101, 101, 0.4) !important;
         }
 
         .option.disabled {
@@ -223,18 +305,21 @@
 
         .feedback {
             text-align: center;
-            margin: 20px 0;
-            font-size: 1.1rem;
-            font-weight: 600;
-            min-height: 30px;
+            margin: 24px 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+            min-height: 35px;
+            transition: all 0.3s ease;
         }
 
         .feedback.success {
-            color: #28a745;
+            color: #38a169;
+            text-shadow: 0 2px 4px rgba(56, 161, 105, 0.2);
         }
 
         .feedback.error {
-            color: #dc3545;
+            color: #e53e3e;
+            text-shadow: 0 2px 4px rgba(229, 62, 62, 0.2);
         }
 
         .controls {
@@ -245,105 +330,192 @@
         }
 
         .next-btn {
-            background: #007bff;
+            background: linear-gradient(135deg, #4299e1, #3182ce);
             color: white;
             border: none;
-            border-radius: 8px;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: 600;
+            border-radius: 12px;
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(66, 153, 225, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .next-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
         }
 
         .next-btn:hover:not(:disabled) {
-            background: #0056b3;
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, #3182ce, #2c5282);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(66, 153, 225, 0.4);
+        }
+
+        .next-btn:hover:not(:disabled)::before {
+            left: 100%;
         }
 
         .next-btn:disabled {
-            background: #6c757d;
+            background: linear-gradient(135deg, #a0aec0, #718096);
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
         .dont-know-btn {
             background: transparent;
-            color: #6c757d;
+            color: #718096;
             border: none;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             cursor: pointer;
             text-decoration: underline;
             opacity: 0.7;
-            transition: opacity 0.2s ease;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .dont-know-btn:hover {
             opacity: 1;
+            color: #4a5568;
+            transform: scale(1.05);
         }
 
         .check-mark, .x-mark {
             position: absolute;
-            top: 8px;
-            right: 12px;
-            font-size: 1.2rem;
+            top: 12px;
+            right: 16px;
+            font-size: 1.4rem;
+            font-weight: bold;
         }
 
         .check-mark {
-            color: #28a745;
+            color: #38a169;
+            text-shadow: 0 2px 4px rgba(56, 161, 105, 0.3);
         }
 
         .x-mark {
-            color: #dc3545;
+            color: #e53e3e;
+            text-shadow: 0 2px 4px rgba(229, 62, 62, 0.3);
         }
 
         /* Animation for correct answer */
         .option.correct-animation {
-            animation: correctPulse 0.6s ease-out;
+            animation: correctPulse 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes correctPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); box-shadow: 0 4px 20px rgba(40, 167, 69, 0.3); }
-            100% { transform: scale(1); }
+            0% { 
+                transform: scale(1); 
+                box-shadow: 0 8px 32px rgba(72, 187, 120, 0.25);
+            }
+            50% { 
+                transform: scale(1.08); 
+                box-shadow: 0 16px 50px rgba(72, 187, 120, 0.4);
+            }
+            100% { 
+                transform: scale(1); 
+                box-shadow: 0 8px 32px rgba(72, 187, 120, 0.25);
+            }
         }
 
         /* Completion message styles */
         .lesson-name {
             font-size: 1.1rem;
-            color: #6c757d;
-            margin-top: 16px;
+            color: #718096;
+            margin-top: 20px;
             font-style: italic;
             text-align: center;
+            font-weight: 500;
+        }
+
+        /* Floating particles animation */
+        .container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 255, 198, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        /* Success celebration animation */
+        .success-celebration {
+            animation: celebrate 0.6s ease-out;
+        }
+
+        @keyframes celebrate {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg); 
+            }
+            25% { 
+                transform: scale(1.1) rotate(-5deg); 
+            }
+            75% { 
+                transform: scale(1.1) rotate(5deg); 
+            }
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
             .container {
-                padding: 24px;
+                padding: 32px 24px;
                 margin: 10px;
+                border-radius: 20px;
             }
 
             .vietnamese-word {
-                font-size: 2rem;
+                font-size: 1.8rem;
                 margin-bottom: 32px;
-                padding: 16px;
+                padding: 20px;
+            }
+
+            .audio-button {
+                width: 48px;
+                height: 48px;
+                font-size: 1.4rem;
+                top: 12px;
+                right: 12px;
             }
 
             .options-grid {
-                gap: 12px;
-                margin-bottom: 24px;
+                gap: 16px;
+                margin-bottom: 28px;
             }
 
             .option {
-                padding: 16px;
-                font-size: 1.1rem;
-                min-height: 70px;
+                padding: 20px 16px;
+                font-size: 1.3rem;
+                min-height: 80px;
             }
 
             .controls {
                 flex-direction: column;
-                gap: 16px;
+                gap: 20px;
                 align-items: stretch;
             }
 
@@ -352,68 +524,94 @@
             }
 
             .back-button {
-                top: 15px;
-                left: 15px;
-                padding: 10px 12px;
-                font-size: 0.8rem;
+                top: 16px;
+                left: 16px;
+                padding: 12px 14px;
+                font-size: 0.85rem;
+                border-radius: 12px;
+            }
+
+            .question-counter {
+                font-size: 1.1rem;
+                padding: 14px 24px;
+                margin-bottom: 20px;
             }
         }
 
         @media (max-width: 480px) {
             body {
-                padding: 10px;
+                padding: 12px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             }
 
             .container {
-                padding: 16px;
+                padding: 24px 20px;
                 margin: 0;
+                border-radius: 18px;
             }
 
             .vietnamese-word {
                 font-size: 1.6rem;
-                padding: 12px;
-                margin-bottom: 20px;
+                padding: 16px;
+                margin-bottom: 24px;
+            }
+
+            .audio-button {
+                width: 44px;
+                height: 44px;
+                font-size: 1.3rem;
+                top: 10px;
+                right: 10px;
             }
 
             .options-grid {
                 grid-template-columns: 1fr;
-                gap: 10px;
-                margin-bottom: 20px;
+                gap: 12px;
+                margin-bottom: 24px;
             }
 
             .option {
-                font-size: 1.1rem;
-                padding: 12px;
-                min-height: 56px;
+                font-size: 1.2rem;
+                padding: 16px 12px;
+                min-height: 64px;
+                border-radius: 12px;
             }
 
             .controls {
                 flex-direction: column;
-                gap: 10px;
-                margin-top: 20px;
+                gap: 16px;
+                margin-top: 24px;
             }
 
             .question-counter {
                 font-size: 1rem;
-                padding: 8px 16px;
-                margin-bottom: 16px;
-            }
-
-            .auto-play-info {
-                font-size: 0.75rem;
-                margin-top: 6px;
+                padding: 12px 20px;
+                margin-bottom: 20px;
+                border-radius: 25px;
             }
 
             .back-button {
-                top: 10px;
-                left: 10px;
-                padding: 8px 10px;
-                font-size: 0.75rem;
+                top: 12px;
+                left: 12px;
+                padding: 10px 12px;
+                font-size: 0.8rem;
                 gap: 6px;
+                border-radius: 10px;
             }
 
             .back-arrow {
                 font-size: 0.9rem;
+            }
+
+            .next-btn {
+                padding: 14px 28px;
+                font-size: 1rem;
+                border-radius: 10px;
+            }
+
+            .feedback {
+                font-size: 1.1rem;
+                margin: 20px 0;
             }
         }
 
@@ -455,8 +653,7 @@
         </div>
     </div>
 
-    <!-- Hidden audio element for playing sounds -->
-    <audio id="audioPlayer" preload="none"></audio>
+
     
     <script>
         // Tất cả từ vựng được lưu trữ trực tiếp trong ứng dụng
@@ -803,14 +1000,73 @@
 
         const params = new URLSearchParams(window.location.search);
         const vocabFile = params.get("vocab");
-        const audioPath = params.get("audio") || "audio/lesson1/jobs"; // Default path
+        const audioPath = params.get("audio") || 'audio/vocab/lesson1'; // Default audio path
         
         // Biến global để lưu từ vựng hiện tại
         let vocabulary = [];
+        let currentAudioElement = null; // Để quản lý audio hiện tại
 
         // Hàm quay lại trang index
         function goToIndex() {
             window.location.href = 'index.html';
+        }
+
+        // Hàm phát âm thanh
+        function playAudio() {
+            if (!currentQuestion) return;
+            
+            const audioButton = document.getElementById('audioButton');
+            const koreanWord = currentQuestion.han;
+            
+            // Tạo đường dẫn file audio
+            const audioFile = `${audioPath}/${koreanWord}.mp3`;
+            
+            // Dừng audio hiện tại nếu đang phát
+            if (currentAudioElement) {
+                currentAudioElement.pause();
+                currentAudioElement.currentTime = 0;
+            }
+            
+            // Tạo audio element mới
+            currentAudioElement = new Audio(audioFile);
+            
+            // Xử lý khi bắt đầu phát
+            currentAudioElement.addEventListener('loadstart', () => {
+                if (audioButton) {
+                    audioButton.classList.add('playing');
+                    audioButton.style.pointerEvents = 'none';
+                }
+            });
+            
+            // Xử lý khi phát xong
+            currentAudioElement.addEventListener('ended', () => {
+                if (audioButton) {
+                    audioButton.classList.remove('playing');
+                    audioButton.style.pointerEvents = 'auto';
+                }
+            });
+            
+            // Xử lý lỗi
+            currentAudioElement.addEventListener('error', (e) => {
+                console.warn('Không thể phát file audio:', audioFile);
+                if (audioButton) {
+                    audioButton.classList.remove('playing');
+                    audioButton.style.pointerEvents = 'auto';
+                    audioButton.classList.add('disabled');
+                    setTimeout(() => {
+                        audioButton.classList.remove('disabled');
+                    }, 1000);
+                }
+            });
+            
+            // Phát audio
+            currentAudioElement.play().catch(e => {
+                console.warn('Lỗi phát audio:', e);
+                if (audioButton) {
+                    audioButton.classList.remove('playing');
+                    audioButton.style.pointerEvents = 'auto';
+                }
+            });
         }
     </script>
     <script>
@@ -823,12 +1079,22 @@
         let questionQueue = [];
         let currentQuestionIndex = 0;
         let totalQuestions = 0;
-        let audioSupported = true;
-        let currentAudioPath = "";
         let wrongAnswerCount = 0;
         let correctAnswerCount = 0;
         let completedWords = new Set(); // Lưu các từ đã hoàn thành cả 2 kiểu
         let wordProgress = {}; // Theo dõi tiến độ từng từ: {wordIndex: {krVn: false, vnKr: false}}
+        
+        // Thống kê chi tiết cho trang kết quả
+        let detailedStats = {
+            totalOriginalQuestions: 0, // Tổng câu hỏi gốc (vocabulary.length * 2)
+            totalQuestionsAnswered: 0, // Tổng câu hỏi đã trả lời (bao gồm retry)
+            correctOnFirstTry: 0,      // Số câu trả lời đúng ngay lần đầu
+            retryCount: 0,             // Số câu phải hỏi lại
+            wordAttempts: {},          // Số lần thử mỗi từ: {wordIndex: {krVn: attempts, vnKr: attempts}}
+            difficultWords: [],        // Các từ trả lời sai nhiều lần
+            perfectWords: [],          // Các từ trả lời đúng ngay cả 2 lần
+            masteredWords: 0          // Số từ đã thành thạo (đúng cả 2 kiểu)
+        };
 
         // Hàm lấy tên bài học từ vocabFile parameter
         function getLessonName(vocabFile) {
@@ -880,35 +1146,49 @@
         // Khởi tạo
         function init() {
             console.log('Khởi tạo ứng dụng...');
-            currentAudioPath = audioPath;
             setupQuestionQueue();
             loadNewQuestion();
             setupEventListeners();
         }
 
-        // Tạo hàng đợi câu hỏi thông minh
+        // Tạo hàng đợi câu hỏi theo logic mới: mỗi từ 2 câu, xáo trộn
         function setupQuestionQueue() {
             questionQueue = [];
             completedWords.clear();
             wordProgress = {};
             
-            // Khởi tạo tiến độ cho từng từ
+            // Reset thống kê chi tiết
+            detailedStats = {
+                totalOriginalQuestions: vocabulary.length * 2,
+                totalQuestionsAnswered: 0,
+                correctOnFirstTry: 0,
+                retryCount: 0,
+                wordAttempts: {},
+                difficultWords: [],
+                perfectWords: [],
+                masteredWords: 0
+            };
+            
+            // Khởi tạo tiến độ và attempts cho từng từ
             vocabulary.forEach((word, index) => {
                 wordProgress[index] = { krVn: false, vnKr: false };
+                detailedStats.wordAttempts[index] = { krVn: 0, vnKr: 0 };
             });
             
-            // Tạo câu hỏi ban đầu (mỗi từ 2 câu: KR->VN và VN->KR)
+            // Tạo câu hỏi ban đầu: mỗi từ 2 câu (KR->VN và VN->KR)
             vocabulary.forEach((word, index) => {
-                questionQueue.push({...word, type: 'kr-vn', wordIndex: index}); 
-                questionQueue.push({...word, type: 'vn-kr', wordIndex: index}); 
+                questionQueue.push({...word, type: 'kr-vn', wordIndex: index, isRetry: false}); 
+                questionQueue.push({...word, type: 'vn-kr', wordIndex: index, isRetry: false}); 
             });
             
-            // Trộn ngẫu nhiên
+            // Trộn ngẫu nhiên toàn bộ danh sách câu hỏi
             questionQueue = shuffleArray(questionQueue);
-            totalQuestions = questionQueue.length;
+            totalQuestions = questionQueue.length; // Tổng số câu hỏi gốc = vocabulary.length * 2
             currentQuestionIndex = 0;
             
-            console.log('Tổng số câu hỏi ban đầu:', totalQuestions);
+            console.log('Tổng số câu hỏi gốc:', totalQuestions);
+            console.log('Số từ vựng:', vocabulary.length);
+            console.log('Danh sách câu hỏi đã xáo trộn:', questionQueue.map((q, i) => `${i+1}. ${q.type}: ${q.vi} ↔ ${q.han}`));
             updateQuestionCounter();
         }
 
@@ -932,33 +1212,24 @@
                 } else if (!hasAnswered && event.key >= '1' && event.key <= '4') {
                     const optionIndex = parseInt(event.key) - 1;
                     selectAnswer(optionIndex, currentAnswers[optionIndex]);
-                } else if (event.code === 'Space') {
-                    event.preventDefault();
-                    // Chỉ phát âm nếu đã trả lời (nút phát âm đã hiển thị)
-                    if (hasAnswered) {
-                        playKoreanWord();
-                    }
                 }
             });
         }
 
-        // Tải câu hỏi mới
+        // Tải câu hỏi mới theo logic đơn giản: từng câu một theo thứ tự đã xáo trộn
         function loadNewQuestion() {
             console.log('Tải câu hỏi mới...');
             
-            // Dừng audio đang phát trước khi chuyển câu
-            stopCurrentAudio();
+            // Dừng audio hiện tại nếu đang phát
+            if (currentAudioElement) {
+                currentAudioElement.pause();
+                currentAudioElement.currentTime = 0;
+            }
             
             // Kiểm tra xem còn câu hỏi không
             if (currentQuestionIndex >= questionQueue.length) {
-                // Kiểm tra xem tất cả từ đã hoàn thành chưa
-                if (completedWords.size >= vocabulary.length) {
-                    showCompletionMessage();
-                    return;
-                } else {
-                    // Thêm câu hỏi cho những từ chưa hoàn thành
-                    addIncompleteQuestions();
-                }
+                showCompletionMessage();
+                return;
             }
             
             // Reset trạng thái
@@ -966,6 +1237,13 @@
             document.getElementById('feedback').textContent = '';
             document.getElementById('feedback').className = 'feedback';
             document.getElementById('nextBtn').disabled = true;
+            
+            // Reset audio button (if exists)
+            const audioButton = document.getElementById('audioButton');
+            if (audioButton) {
+                audioButton.classList.remove('playing', 'disabled');
+                audioButton.style.pointerEvents = 'auto';
+            }
             
             // Reset options
             for (let i = 0; i < 4; i++) {
@@ -986,13 +1264,16 @@
                 // Câu hỏi tiếng Hàn -> đáp án tiếng Việt
                 correctAnswer = currentQuestion.vi;
                 
-                // Hiển thị từ tiếng Hàn (không có nút phát âm ban đầu)
-                vietnameseElement.innerHTML = currentQuestion.han;
+                // Hiển thị từ tiếng Hàn với nút audio
+                vietnameseElement.innerHTML = `
+                    ${currentQuestion.han}
+                    <button class="audio-button" id="audioButton" onclick="playAudio()">🔊</button>
+                `;
                 
-                // Tự động phát âm khi tải câu hỏi tiếng Hàn
+                // Tự động phát audio cho câu hỏi KR->VN
                 setTimeout(() => {
-                    playKoreanWord();
-                }, 500);
+                    playAudio();
+                }, 500); // Delay nhỏ để đảm bảo DOM đã render
                 
                 // Tạo đáp án tiếng Việt
                 const wrongAnswers = getRandomWrongAnswers(correctAnswer, 3, 'vi');
@@ -1003,7 +1284,7 @@
                 // Câu hỏi tiếng Việt -> đáp án tiếng Hàn
                 correctAnswer = currentQuestion.han;
                 
-                // Hiển thị từ tiếng Việt (KHÔNG tự động phát âm để tránh lộ đáp án)
+                // Hiển thị từ tiếng Việt (KHÔNG có nút audio)
                 vietnameseElement.innerHTML = currentQuestion.vi;
                 
                 // Tạo đáp án tiếng Hàn
@@ -1014,7 +1295,6 @@
             }
             
             console.log('Câu thứ:', currentQuestionIndex + 1, '/', totalQuestions);
-            console.log('Từ đã hoàn thành:', completedWords.size, '/', vocabulary.length);
             
             // Cập nhật counter
             updateQuestionCounter();
@@ -1030,59 +1310,6 @@
             
             // Chuyển sang câu tiếp theo
             currentQuestionIndex++;
-        }
-
-        // Thêm câu hỏi cho những từ chưa hoàn thành
-        function addIncompleteQuestions() {
-            console.log('Thêm câu hỏi cho từ chưa hoàn thành...');
-            
-            vocabulary.forEach((word, index) => {
-                const progress = wordProgress[index];
-                
-                // Nếu chưa hoàn thành KR->VN
-                if (!progress.krVn) {
-                    questionQueue.push({...word, type: 'kr-vn', wordIndex: index});
-                }
-                
-                // Nếu chưa hoàn thành VN->KR
-                if (!progress.vnKr) {
-                    questionQueue.push({...word, type: 'vn-kr', wordIndex: index});
-                }
-            });
-            
-            // Trộn lại câu hỏi mới
-            const newQuestions = questionQueue.slice(currentQuestionIndex);
-            const shuffledNew = shuffleArray(newQuestions);
-            questionQueue = [...questionQueue.slice(0, currentQuestionIndex), ...shuffledNew];
-            
-            totalQuestions = questionQueue.length;
-            updateQuestionCounter();
-            
-            console.log('Đã thêm câu hỏi. Tổng số câu hỏi:', totalQuestions);
-        }
-
-        // Dừng audio hiện tại
-        function stopCurrentAudio() {
-            const audioPlayer = document.getElementById('audioPlayer');
-            
-            // Dừng audio nếu đang phát
-            if (!audioPlayer.paused) {
-                audioPlayer.pause();
-                audioPlayer.currentTime = 0;
-                console.log('Đã dừng audio hiện tại');
-            }
-            
-            // Dừng text-to-speech nếu đang chạy
-            if ('speechSynthesis' in window) {
-                speechSynthesis.cancel();
-                console.log('Đã dừng text-to-speech');
-            }
-            
-            // Xóa trạng thái playing của nút âm thanh
-            const soundBtn = document.querySelector('.sound-btn');
-            if (soundBtn) {
-                soundBtn.classList.remove('playing');
-            }
         }
 
         // Lấy đáp án sai ngẫu nhiên
@@ -1104,175 +1331,123 @@
             return shuffleArray(wrongAnswers).slice(0, count);
         }
 
-        // Phát âm từ tiếng Hàn bằng file MP3
-        function playKoreanWord(callback) {
-            if (!currentQuestion) {
-                console.log('Không có câu hỏi hiện tại');
-                if (callback) callback();
-                return;
-            }
-            
-            // Dừng audio hiện tại trước khi phát audio mới
-            stopCurrentAudio();
-            
-            const audioPlayer = document.getElementById('audioPlayer');
-            const koreanWord = currentQuestion.han; // Luôn phát âm từ tiếng Hàn
-            const audioFileName = `${koreanWord}.mp3`;
-            const audioUrl = `${currentAudioPath}/${audioFileName}`;
-            
-            console.log('Đang phát file âm thanh:', audioUrl);
-            
-            const soundBtn = document.querySelector('.sound-btn');
-            if (soundBtn) {
-                soundBtn.classList.add('playing');
-            }
-            
-            // Cấu hình audio player
-            audioPlayer.src = audioUrl;
-            audioPlayer.currentTime = 0;
-            
-            // Event listeners cho audio
-            audioPlayer.onloadstart = function() {
-                console.log('Bắt đầu tải file âm thanh');
-            };
-            
-            audioPlayer.oncanplay = function() {
-                console.log('File âm thanh sẵn sàng phát');
-            };
-            
-            audioPlayer.onplay = function() {
-                console.log('Bắt đầu phát âm:', koreanWord);
-            };
-            
-            audioPlayer.onended = function() {
-                console.log('Kết thúc phát âm');
-                if (soundBtn) {
-                    soundBtn.classList.remove('playing');
-                }
-                if (callback) callback();
-            };
-            
-            audioPlayer.onerror = function(event) {
-                console.error('Lỗi phát âm:', event);
-                console.error('Không thể tải file:', audioUrl);
-                if (soundBtn) {
-                    soundBtn.classList.remove('playing');
-                }
-                
-                // Fallback to text-to-speech nếu file không tồn tại
-                console.log('Sử dụng text-to-speech làm phương án dự phòng');
-                fallbackToTTS(koreanWord, callback);
-            };
-            
-            // Phát âm thanh
-            audioPlayer.play().catch(error => {
-                console.error('Không thể phát âm thanh:', error);
-                if (soundBtn) {
-                    soundBtn.classList.remove('playing');
-                }
-                
-                // Fallback to text-to-speech
-                fallbackToTTS(koreanWord, callback);
-            });
-        }
-
-        // Phương án dự phòng: sử dụng text-to-speech
-        function fallbackToTTS(koreanWord, callback) {
-            if (!('speechSynthesis' in window)) {
-                console.log('Trình duyệt không hỗ trợ phát âm');
-                if (callback) callback();
-                return;
-            }
-            
-            speechSynthesis.cancel();
-            
-            const utterance = new SpeechSynthesisUtterance(koreanWord);
-            utterance.lang = 'ko-KR';
-            utterance.rate = 0.8;
-            utterance.pitch = 1.0;
-            utterance.volume = 1.0;
-            
-            utterance.onend = function() {
-                console.log('Kết thúc phát âm TTS');
-                if (callback) callback();
-            };
-            
-            utterance.onerror = function(event) {
-                console.error('Lỗi phát âm TTS:', event.error);
-            };
-            
-            speechSynthesis.speak(utterance);
-        }
-
-        // Cập nhật số đếm câu hỏi
+        // Cập nhật counter về dạng câu hỏi như cũ
         function updateQuestionCounter() {
-            document.getElementById('questionCounter').textContent = 
-                `Câu ${currentQuestionIndex + 1} / ${totalQuestions}`;
+            const questionCounter = document.getElementById('questionCounter');
+            // Hiển thị theo dạng câu hỏi truyền thống
+            questionCounter.textContent = 
+                `Câu ${currentQuestionIndex} / ${totalQuestions}`;
         }
 
         // Hiển thị thông báo hoàn thành
         function showCompletionMessage() {
+            // Tính toán thống kê cuối cùng
+            calculateFinalStats();
+            
             // Hide current quiz container
             const container = document.querySelector('.container');
             container.style.display = 'none';
 
-            // Calculate score percentage
-            const total = totalQuestions;
-            const correct = correctAnswerCount;
-            const scorePercentage = Math.round((correct / total) * 100);
-            const isPerfectScore = correct === total;
+            // Tính điểm dựa trên logic mới
+            const masteredWords = detailedStats.masteredWords;
+            const totalWords = vocabulary.length;
+            const masteryPercentage = Math.round((masteredWords / totalWords) * 100);
             
-            // Choose content based on score
+            const overallAccuracy = detailedStats.totalOriginalQuestions > 0 ? 
+                Math.round((correctAnswerCount / detailedStats.totalOriginalQuestions) * 100) : 0;
+            
+            // Choose content based on mastery
             let resultIcon, resultTitle, resultMessage, resultColor;
             
-            if (isPerfectScore) {
-                // Perfect score - congratulations screen
-                resultIcon = '🎉';
-                resultTitle = 'Xuất sắc!';
-                resultMessage = 'Bạn đã trả lời đúng tất cả các câu hỏi!';
-                resultColor = '#28a745';
-            } else if (scorePercentage >= 80) {
-                // Good score
+            if (masteryPercentage === 100) {
+                if (detailedStats.perfectWords.length === totalWords) {
+                    // Perfect score - tất cả từ đều đúng ngay lần đầu
+                    resultIcon = '🏆';
+                    resultTitle = 'Hoàn hảo!';
+                    resultMessage = 'Bạn đã thành thạo tất cả từ vựng ngay lần đầu tiên! Xuất sắc!';
+                    resultColor = '#FFD700';
+                } else {
+                    // Mastered all but needed some retries
+                    resultIcon = '🎉';
+                    resultTitle = 'Xuất sắc!';
+                    resultMessage = 'Bạn đã thành thạo tất cả từ vựng trong bài học!';
+                    resultColor = '#28a745';
+                }
+            } else if (masteryPercentage >= 80) {
                 resultIcon = '👏';
                 resultTitle = 'Rất tốt!';
-                resultMessage = 'Bạn đã làm rất tốt! Hãy tiếp tục cố gắng!';
+                resultMessage = 'Bạn đã thành thạo hầu hết từ vựng! Hãy ôn tập những từ còn lại.';
                 resultColor = '#17a2b8';
-            } else if (scorePercentage >= 60) {
-                // Average score
+            } else if (masteryPercentage >= 60) {
                 resultIcon = '📚';
                 resultTitle = 'Cần cố gắng thêm!';
-                resultMessage = 'Bạn đã hoàn thành bài học. Hãy ôn tập và thử lại!';
+                resultMessage = 'Bạn đã hiểu được nhiều từ vựng. Hãy ôn tập để nâng cao hơn nữa!';
                 resultColor = '#ffc107';
             } else {
-                // Low score
                 resultIcon = '💪';
                 resultTitle = 'Đừng nản chí!';
-                resultMessage = 'Học tiếng Hàn cần thời gian. Hãy ôn tập và thử lại!';
+                resultMessage = 'Học tiếng Hàn cần thời gian. Hãy ôn tập và thử lại nhé!';
                 resultColor = '#dc3545';
             }
+
+            // Tạo danh sách từ khó theo logic mới
+            const difficultWordsHtml = detailedStats.difficultWords.length > 0 ? `
+                <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px;">
+                    <h4 style="color: #856404; margin: 0 0 10px 0;">📝 Từ cần ôn tập thêm:</h4>
+                    ${detailedStats.difficultWords.map(word => `
+                        <div style="margin: 5px 0; padding: 8px; background: white; border-radius: 4px; border-left: 3px solid #ffc107;">
+                            <strong>${word.vi}</strong> → ${word.han} <span style="color: #6c757d;">(${word.attempts})</span>
+                        </div>
+                    `).join('')}
+                </div>
+            ` : '';
+
+            const perfectWordsHtml = detailedStats.perfectWords.length > 0 ? `
+                <div style="margin-top: 15px; padding: 12px; background: #d1f2eb; border: 1px solid #7dcea0; border-radius: 8px;">
+                    <h4 style="color: #0e6251; margin: 0 0 8px 0;">⭐ Từ thành thạo ngay lần đầu: ${detailedStats.perfectWords.length}/${totalWords}</h4>
+                </div>
+            ` : '';
 
             // Create results container
             const resultsContainer = document.createElement('div');
             resultsContainer.className = 'container';
             resultsContainer.style.animation = 'fadeIn 0.5s ease-in';
             resultsContainer.innerHTML = `
-                <div style="text-align: center; padding: 40px 20px;">
+                <div style="text-align: center; padding: 30px 20px;">
                     <div style="font-size: 4rem; margin-bottom: 20px; animation: bounce 1s ease-in-out;">${resultIcon}</div>
                     <h2 style="color: ${resultColor}; font-size: 2rem; font-weight: 700; margin-bottom: 16px;">${resultTitle}</h2>
                     <div style="color: #6c757d; font-size: 1.1rem; margin-bottom: 8px;">Bạn đã hoàn thành bài học</div>
                     <div style="font-size: 1.3rem; color: #007bff; font-weight: 600; margin-bottom: 24px;">${getLessonName(params.get("vocab"))}</div>
-                    <div style="background: linear-gradient(135deg, ${resultColor}20, ${resultColor}10); border: 2px solid ${resultColor}; border-radius: 16px; padding: 30px; margin: 24px 0;">
-                        <div style="font-size: 3rem; font-weight: bold; color: ${resultColor}; margin-bottom: 10px;">
-                            ${correct}/${total}
+                    
+                    <!-- Kết quả chính -->
+                    <div style="background: linear-gradient(135deg, ${resultColor}20, ${resultColor}10); border: 2px solid ${resultColor}; border-radius: 16px; padding: 25px; margin: 20px 0;">
+                        <div style="font-size: 2.5rem; font-weight: bold; color: ${resultColor}; margin-bottom: 8px;">
+                            ${masteredWords}/${totalWords}
                         </div>
-                        <div style="font-size: 1.5rem; color: ${resultColor}; font-weight: 600; margin-bottom: 10px;">
-                            ${scorePercentage}% chính xác
+                        <div style="font-size: 1.3rem; color: ${resultColor}; font-weight: 600; margin-bottom: 8px;">
+                            ${masteryPercentage}% từ vựng đã thành thạo
                         </div>
-                        <div style="font-size: 1rem; color: #6c757d;">
-                            Bạn đã trả lời đúng ${correct} trên ${total} câu hỏi
+                        <div style="font-size: 0.95rem; color: #6c757d;">
+                            Tỷ lệ chính xác: ${overallAccuracy}% (${correctAnswerCount}/${detailedStats.totalOriginalQuestions} câu)
                         </div>
                     </div>
-                    <p style="font-size: 1.1rem; color: #6c757d; margin-bottom: 32px; line-height: 1.5;">${resultMessage}</p>
+                    
+                    <!-- Thống kê chi tiết theo logic mới -->
+                    <div style="background: #f8f9fa; border-radius: 12px; padding: 20px; margin: 20px 0; text-align: left;">
+                        <h3 style="margin: 0 0 15px 0; color: #495057; text-align: center;">📊 Thống kê chi tiết</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9rem;">
+                            <div>📝 Tổng câu hỏi: <strong>${detailedStats.totalOriginalQuestions}</strong></div>
+                            <div>✅ Câu trả lời đúng: <strong>${correctAnswerCount}</strong></div>
+                            <div>❌ Câu trả lời sai: <strong>${wrongAnswerCount}</strong></div>
+                            <div>⭐ Từ hoàn hảo: <strong>${detailedStats.perfectWords.length}</strong></div>
+                        </div>
+                    </div>
+                    
+                    ${perfectWordsHtml}
+                    ${difficultWordsHtml}
+                    
+                    <p style="font-size: 1.1rem; color: #6c757d; margin: 24px 0 32px 0; line-height: 1.5;">${resultMessage}</p>
+                    
                     <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                         <button onclick="restartLesson()" style="background: #28a745; color: white; border: none; border-radius: 8px; padding: 14px 24px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);">
                             Làm lại bài
@@ -1312,6 +1487,13 @@
 
         // Restart lesson function
         function restartLesson() {
+            // Stop any playing audio
+            if (currentAudioElement) {
+                currentAudioElement.pause();
+                currentAudioElement.currentTime = 0;
+                currentAudioElement = null;
+            }
+            
             // Reset all counters and state
             currentQuestionIndex = 0;
             correctAnswerCount = 0;
@@ -1319,6 +1501,18 @@
             hasAnswered = false;
             completedWords.clear();
             wordProgress = {};
+            
+            // Reset detailed stats
+            detailedStats = {
+                totalOriginalQuestions: 0,
+                totalQuestionsAnswered: 0,
+                correctOnFirstTry: 0,
+                retryCount: 0,
+                wordAttempts: {},
+                difficultWords: [],
+                perfectWords: [],
+                masteredWords: 0
+            };
             
             // Remove results container
             const resultContainers = document.querySelectorAll('.container');
@@ -1337,6 +1531,38 @@
             loadNewQuestion();
         }
 
+        // Tính toán thống kê cuối cùng theo logic mới
+        function calculateFinalStats() {
+            // Tìm các từ khó (trả lời sai ít nhất 1 lần)
+            detailedStats.difficultWords = [];
+            
+            vocabulary.forEach((word, index) => {
+                const attempts = detailedStats.wordAttempts[index];
+                const totalAttempts = attempts.krVn + attempts.vnKr;
+                
+                // Trong logic mới, mỗi từ chỉ hỏi 2 lần (1 KR->VN, 1 VN->KR)
+                // Từ được coi là khó nếu có ít nhất 1 câu trả lời sai (totalAttempts = 0 nghĩa là chưa trả lời)
+                if (totalAttempts < 2 && totalAttempts > 0) {
+                    // Từ này có ít nhất 1 câu trả lời sai
+                    const wrongCount = 2 - totalAttempts; // Số câu trả lời sai
+                    detailedStats.difficultWords.push({
+                        vi: word.vi,
+                        han: word.han,
+                        attempts: `${totalAttempts}/2 đúng`
+                    });
+                }
+            });
+            
+            // Sắp xếp từ khó theo số câu đúng (tăng dần, từ khó nhất lên đầu)
+            detailedStats.difficultWords.sort((a, b) => {
+                const aCorrect = parseInt(a.attempts.split('/')[0]);
+                const bCorrect = parseInt(b.attempts.split('/')[0]);
+                return aCorrect - bCorrect;
+            });
+            
+            console.log('Thống kê cuối cùng:', detailedStats);
+        }
+
         // Trộn mảng
         function shuffleArray(array) {
             const newArray = [...array];
@@ -1347,15 +1573,19 @@
             return newArray;
         }
 
-        // Xử lý khi chọn đáp án
+        // Xử lý khi chọn đáp án theo logic mới: không retry, chỉ thống kê
         function selectAnswer(optionIndex, selectedAnswer) {
             if (hasAnswered) return;
             
-            // Dừng audio tự động nếu đang phát
-            stopCurrentAudio();
-            
             hasAnswered = true;
             const isCorrect = selectedAnswer === correctAnswer;
+            const wordIndex = currentQuestion.wordIndex;
+            const questionType = currentQuestion.type;
+            const isRetry = currentQuestion.isRetry || false;
+            
+            // Cập nhật thống kê
+            detailedStats.totalQuestionsAnswered++;
+            detailedStats.wordAttempts[wordIndex][questionType]++;
             
             // Hiển thị kết quả cho từng option
             for (let i = 0; i < 4; i++) {
@@ -1384,52 +1614,58 @@
                 feedback.className = 'feedback success';
                 correctAnswerCount++;
                 
+                // Nếu trả lời đúng ngay lần đầu (không phải retry)
+                if (!isRetry && detailedStats.wordAttempts[wordIndex][questionType] === 1) {
+                    detailedStats.correctOnFirstTry++;
+                }
+                
                 // Cập nhật tiến độ từ
                 updateWordProgress();
                 
                 // Animation cho đáp án đúng
                 document.getElementById('option' + optionIndex).classList.add('correct-animation');
             } else {
-                feedback.textContent = 'Sai rồi! Đáp án đúng được tô màu xanh.';
+                feedback.textContent = 'Sai rồi! Cố lên nhé!';
                 feedback.className = 'feedback error';
                 wrongAnswerCount++;
                 
-                // Thêm câu hỏi này vào cuối queue để hỏi lại
-                addRetryQuestion();
+                if (!isRetry) {
+                    detailedStats.retryCount++;
+                }
+                
+                // Không thêm câu hỏi retry nữa theo logic mới
             }
             
-            // Hiển thị nút phát âm sau khi trả lời (bất kể đúng hay sai)
-            showAudioButton();
-            
-            // Phát âm từ tiếng Hàn sau khi trả lời (bất kể đúng hay sai)
-            setTimeout(() => {
-                playKoreanWord();
-            }, 800); // Đợi animation hoàn thành
+            // Xử lý audio sau khi trả lời
+            handlePostAnswerAudio();
             
             // Enable next button
             document.getElementById('nextBtn').disabled = false;
         }
-
-        // Hiển thị nút phát âm sau khi trả lời
-        function showAudioButton() {
+        
+        // Hàm xử lý audio sau khi trả lời
+        function handlePostAnswerAudio() {
             const vietnameseElement = document.getElementById('vietnameseWord');
             
             if (currentQuestion.type === 'kr-vn') {
-                // Câu hỏi tiếng Hàn -> thêm nút phát âm
-                vietnameseElement.innerHTML = `
-                    <button class="sound-btn" onclick="playKoreanWord()" title="Phát âm từ tiếng Hàn: ${currentQuestion.han}">🔊</button>
-                    ${currentQuestion.han}
-                `;
+                // Câu hỏi KR->VN: Phát lại audio
+                setTimeout(() => {
+                    playAudio();
+                }, 800); // Delay để người dùng thấy kết quả trước
             } else {
-                // Câu hỏi tiếng Việt -> thêm nút phát âm
+                // Câu hỏi VN->KR: Hiển thị nút audio và phát âm thanh
                 vietnameseElement.innerHTML = `
-                    <button class="sound-btn" onclick="playKoreanWord()" title="Phát âm từ tiếng Hàn: ${currentQuestion.han}">🔊</button>
                     ${currentQuestion.vi}
+                    <button class="audio-button" id="audioButton" onclick="playAudio()">🔊</button>
                 `;
+                
+                setTimeout(() => {
+                    playAudio();
+                }, 800); // Delay để người dùng thấy kết quả trước
             }
         }
 
-        // Cập nhật tiến độ từ khi trả lời đúng
+        // Cập nhật tiến độ từ khi trả lời đúng theo logic mới
         function updateWordProgress() {
             const wordIndex = currentQuestion.wordIndex;
             const questionType = currentQuestion.type;
@@ -1443,21 +1679,22 @@
             // Kiểm tra xem từ này đã hoàn thành chưa
             const progress = wordProgress[wordIndex];
             if (progress.krVn && progress.vnKr) {
-                completedWords.add(wordIndex);
-                console.log(`Từ ${vocabulary[wordIndex].vi} đã hoàn thành cả 2 kiểu!`);
+                if (!completedWords.has(wordIndex)) {
+                    completedWords.add(wordIndex);
+                    detailedStats.masteredWords++;
+                    
+                    // Kiểm tra xem có phải từ perfect không (cả 2 kiểu đều đúng lần đầu)
+                    // Trong logic mới, mỗi từ chỉ hỏi 1 lần mỗi kiểu, nên chỉ cần kiểm tra attempts = 1
+                    const attempts = detailedStats.wordAttempts[wordIndex];
+                    if (attempts.krVn === 1 && attempts.vnKr === 1) {
+                        detailedStats.perfectWords.push(vocabulary[wordIndex]);
+                    }
+                    
+                    console.log(`Từ ${vocabulary[wordIndex].vi} đã thành thạo!`);
+                }
             }
             
             console.log(`Tiến độ từ ${vocabulary[wordIndex].vi}:`, progress);
-        }
-
-        // Thêm câu hỏi để hỏi lại khi trả lời sai
-        function addRetryQuestion() {
-            // Thêm câu hỏi hiện tại vào cuối queue
-            const retryQuestion = {...currentQuestion};
-            questionQueue.push(retryQuestion);
-            totalQuestions++;
-            
-            console.log('Đã thêm câu hỏi để hỏi lại. Tổng câu hỏi:', totalQuestions);
         }
 
         // Khởi chạy ứng dụng khi tải xong
