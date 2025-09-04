@@ -301,25 +301,22 @@ class QuizManager {
     // Handle audio after answering
     handlePostAnswerAudio() {
         const vietnameseElement = document.getElementById('vietnameseWord');
+        const audioButton = `<button class="audio-button" id="audioButton" onclick="playAudio()">🔊</button>`;
         
         if (this.currentQuestion.type === 'kr-vn') {
-            // For KR->VN, show Vietnamese with audio
-            setTimeout(() => {
-                vietnameseElement.innerHTML = `
-                    ${this.currentQuestion.vi}
-                    <button class="audio-button" id="audioButton" onclick="playAudio()">🔊</button>
-                `;
-                window.audioManager.playAudio(this.currentQuestion.han);
-            }, 800);
+            // Với câu hỏi KR->VN, giữ nguyên từ tiếng Hàn
+            vietnameseElement.innerHTML = `
+                ${this.currentQuestion.han}
+                ${audioButton}
+            `;
+            window.audioManager.playAudio(this.currentQuestion.han);
         } else {
-            // For VN->KR, show Korean with audio
-            setTimeout(() => {
-                vietnameseElement.innerHTML = `
-                    ${this.currentQuestion.han}
-                    <button class="audio-button" id="audioButton" onclick="playAudio()">🔊</button>
-                `;
-                window.audioManager.playAudio(this.currentQuestion.han);
-            }, 800);
+            // Với câu hỏi VN->KR, giữ nguyên nghĩa tiếng Việt và thêm nút audio
+            vietnameseElement.innerHTML = `
+                ${this.currentQuestion.vi}
+                ${audioButton}
+            `;
+            window.audioManager.playAudio(this.currentQuestion.han);
         }
     }
 
