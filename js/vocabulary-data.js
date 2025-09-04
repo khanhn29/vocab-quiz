@@ -273,18 +273,6 @@ const vocabularyData = {
         { "vi": "nam giới", "han": "남성" },
         { "vi": "phụ nữ", "han": "여성" }
     ],
-    // Alias for l5-family-people (for shorter URL)
-    'l5-fa': [
-        { "vi": "gia đình", "han": "가족" },
-        { "vi": "bố", "han": "아버지" },
-        { "vi": "mẹ", "han": "어머니" },
-        { "vi": "anh trai", "han": "형" },
-        { "vi": "chị gái", "han": "누나" },
-        { "vi": "em trai", "han": "남동생" },
-        { "vi": "em gái", "han": "여동생" },
-        { "vi": "nam giới", "han": "남성" },
-        { "vi": "phụ nữ", "han": "여성" }
-    ],
     'l5-technology': [
         { "vi": "điện thoại di động", "han": "휴대폰" },
         { "vi": "internet", "han": "인터넷" },

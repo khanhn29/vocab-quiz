@@ -37,21 +37,28 @@ class KoreanAudioGenerator:
             # Lấy phần JSON và xử lý để có thể parse
             vocab_str = match.group(1)
             
-            # Chuyển đổi JavaScript object thành JSON hợp lệ
+            # Chuyển đổi JavaScript object thành JSON hợp lệ một cách tốt hơn
+            # Xử lý comments trước
+            vocab_str = re.sub(r'//.*?$', '', vocab_str, flags=re.MULTILINE)
+            
             # Thay thế single quotes bằng double quotes cho keys
             vocab_str = re.sub(r"'([^']*)':", r'"\1":', vocab_str)
-            # Thay thế single quotes bằng double quotes cho values
-            vocab_str = re.sub(r':\s*"([^"]*)"', r': "\1"', vocab_str)
-            # Xử lý object trong array
-            vocab_str = re.sub(r'{\s*"vi":', r'{"vi":', vocab_str)
-            vocab_str = re.sub(r'"han":\s*"([^"]*)"', r'"han": "\1"', vocab_str)
+            
+            # Xử lý trailing comma
+            vocab_str = re.sub(r',(\s*[}\]])', r'\1', vocab_str)
             
             try:
                 vocabulary_data = json.loads(vocab_str)
                 logger.info(f"Đã trích xuất thành công {len(vocabulary_data)} bộ từ vựng")
+                
+                # Log thông tin chi tiết
+                total_words = sum(len(words) for words in vocabulary_data.values())
+                logger.info(f"Tổng số từ vựng: {total_words}")
+                
                 return vocabulary_data
             except json.JSONDecodeError as e:
                 logger.error(f"Lỗi parse JSON: {e}")
+                logger.error(f"JSON string preview: {vocab_str[:500]}...")
                 # Fallback: parse thủ công
                 return self._manual_parse_vocabulary(content)
                 
@@ -71,17 +78,18 @@ class KoreanAudioGenerator:
         lessons = re.findall(lesson_pattern, content, re.DOTALL)
         
         for lesson_key, lesson_content in lessons:
-            words = []
-            # Tìm tất cả các từ trong lesson
-            word_pattern = r'{\s*"vi":\s*"([^"]+)",\s*"han":\s*"([^"]+)"\s*}'
-            word_matches = re.findall(word_pattern, lesson_content)
-            
-            for vi, han in word_matches:
-                words.append({"vi": vi, "han": han})
-            
-            if words:
-                vocabulary_data[lesson_key] = words
-                logger.info(f"Lesson {lesson_key}: {len(words)} từ")
+            if lesson_key.startswith('l') and '-' in lesson_key:  # Filter lesson keys
+                words = []
+                # Tìm tất cả các từ trong lesson
+                word_pattern = r'{\s*"vi":\s*"([^"]+)",\s*"han":\s*"([^"]+)"\s*}'
+                word_matches = re.findall(word_pattern, lesson_content)
+                
+                for vi, han in word_matches:
+                    words.append({"vi": vi, "han": han})
+                
+                if words:
+                    vocabulary_data[lesson_key] = words
+                    logger.info(f"Lesson {lesson_key}: {len(words)} từ")
         
         return vocabulary_data
     
@@ -183,6 +191,31 @@ class KoreanAudioGenerator:
         
         logger.info(f"Hoàn thành! Đã tạo {total_success}/{total_words} file audio")
 
+    async def generate_specific_lesson(self, lesson_keys):
+        """Tạo audio cho các lesson cụ thể"""
+        vocabulary_data = self.extract_vocabulary_data()
+        if not vocabulary_data:
+            logger.error("Không thể trích xuất dữ liệu từ vựng")
+            return
+        
+        # Filter theo lesson keys
+        filtered_data = {k: v for k, v in vocabulary_data.items() if k in lesson_keys}
+        
+        if not filtered_data:
+            logger.error(f"Không tìm thấy lesson nào trong: {lesson_keys}")
+            return
+        
+        total_words = sum(len(words) for words in filtered_data.values())
+        logger.info(f"Tạo audio cho {len(filtered_data)} lessons, {total_words} từ")
+        
+        # Xử lý từng lesson
+        total_success = 0
+        for lesson_key, words in filtered_data.items():
+            success_count = await self.process_lesson(lesson_key, words)
+            total_success += success_count
+        
+        logger.info(f"Hoàn thành! Đã tạo {total_success}/{total_words} file audio")
+
 async def main():
     # Cấu hình
     vocab_js_file = "js/vocabulary-data.js"  # Đường dẫn tới file vocabulary-data.js
@@ -196,7 +229,30 @@ async def main():
     
     # Tạo generator và chạy
     generator = KoreanAudioGenerator(vocab_js_file, output_dir)
-    await generator.generate_all_audio()
+    
+    # Cho phép chọn lesson cụ thể
+    print("Tùy chọn:")
+    print("1. Tạo audio cho tất cả lessons")
+    print("2. Tạo audio cho lesson cụ thể")
+    
+    choice = input("Chọn (1/2): ").strip()
+    
+    if choice == "2":
+        print("\nCác lesson có sẵn:")
+        vocabulary_data = generator.extract_vocabulary_data()
+        if vocabulary_data:
+            for i, key in enumerate(vocabulary_data.keys(), 1):
+                word_count = len(vocabulary_data[key])
+                print(f"{i}. {key} ({word_count} từ)")
+            
+            lesson_input = input("\nNhập lesson keys (cách nhau bởi dấu phẩy): ").strip()
+            lesson_keys = [key.strip() for key in lesson_input.split(',')]
+            
+            await generator.generate_specific_lesson(lesson_keys)
+        else:
+            print("Không thể đọc dữ liệu từ vựng")
+    else:
+        await generator.generate_all_audio()
 
 if __name__ == "__main__":
     print("Chương trình tạo audio tiếng Hàn từ file vocabulary-data.js")
