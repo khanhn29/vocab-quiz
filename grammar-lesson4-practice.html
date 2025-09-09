@@ -293,7 +293,8 @@
                 });
             }
 
-            function handleWordSelection(wordBtn) {
+            // Move these functions to global scope for onclick access
+            window.handleWordSelection = function(wordBtn) {
                 if (hasAnswered) return; // Prevent changes after answering
 
                 const blanks = sentenceContainer.querySelectorAll('.blank');
@@ -304,9 +305,9 @@
                     emptyBlank.dataset.selectedWord = wordBtn.textContent;
                     wordBtn.disabled = true;
                 }
-            }
+            };
             
-            function handleBlankClick(clickedBlank) {
+            window.handleBlankClick = function(clickedBlank) {
                 if (hasAnswered) return; // Prevent changes after answering
 
                 const selectedWord = clickedBlank.dataset.selectedWord;
@@ -323,7 +324,7 @@
                     clickedBlank.textContent = '';
                     delete clickedBlank.dataset.selectedWord;
                 }
-            }
+            };
 
             function playCurrentQuestionAudio() {
                 if (!currentQuestion) return;
@@ -384,17 +385,9 @@
                 const wordBtns = wordBank.querySelectorAll('.word-btn');
                 wordBtns.forEach(btn => btn.disabled = true);
 
-                // Play correct pronunciation
+                // Play correct pronunciation using audio manager
                 setTimeout(() => {
-                    if (currentQuestion && currentQuestion.id) {
-                        const audioPath = `audio/sentences/${currentQuestion.id}.mp3`;
-                        playAudioFile(audioPath).catch(() => {
-                            // Fallback to text-to-speech
-                            if (currentQuestion.completeSentence) {
-                                playTextToSpeech(currentQuestion.completeSentence);
-                            }
-                        });
-                    }
+                    playCurrentQuestionAudio();
                 }, 1000);
             }
 

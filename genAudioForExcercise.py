@@ -59,7 +59,7 @@ async def process_html_file(html_file):
     for qid, sentence in sentences:
         for gender, voice in VOICES.items():
             out_dir = os.path.join(AUDIO_BASE_DIR, gender)
-            out_file = os.path.join(out_dir, f"{lesson_code}_{qid}.mp3")
+            out_file = os.path.join(out_dir, f"{qid}.mp3")
             if os.path.exists(out_file):
                 print(f"[SKIP] {out_file} already exists.")
                 continue

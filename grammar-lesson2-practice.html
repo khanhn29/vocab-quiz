@@ -222,14 +222,8 @@
                 feedbackEl.style.display = 'none';
                 explanationEl.style.display = 'none';
 
-                // Show and setup audio button
-                replayAudioBtn.style.display = 'block';
-                replayAudioBtn.onclick = playCurrentQuestionAudio;
-                
-                // Auto-play audio for new question
-                setTimeout(() => {
-                    playCurrentQuestionAudio();
-                }, 500);
+                // Hide audio button initially - only show after answering
+                replayAudioBtn.style.display = 'none';
             }
 
             function buildSentence() {
@@ -253,7 +247,8 @@
                 ).join('');
             }
 
-            function handleWordSelection(wordBtn) {
+            // Move these functions to global scope for onclick access
+            window.handleWordSelection = function(wordBtn) {
                 if (hasAnswered) return;
                 
                 const word = wordBtn.textContent;
@@ -265,9 +260,9 @@
                     emptyBlank.textContent = word;
                     wordBtn.disabled = true;
                 }
-            }
+            };
             
-            function handleBlankClick(clickedBlank) {
+            window.handleBlankClick = function(clickedBlank) {
                 if (hasAnswered) return;
                 
                 const word = clickedBlank.textContent.trim();
@@ -280,7 +275,7 @@
                     }
                     clickedBlank.textContent = '';
                 }
-            }
+            };
 
             function playCurrentQuestionAudio() {
                 if (!currentQuestion) return;
@@ -294,14 +289,14 @@
                 
                 const blanks = document.querySelectorAll('.blank');
                 const userAnswers = Array.from(blanks).map(blank => blank.textContent.trim());
-                const correctAnswers = currentQuestion.solution;
+                const correctSolution = currentQuestion.solution;
                 
                 hasAnswered = true;
                 
                 let isCorrect = true;
                 blanks.forEach((blank, index) => {
                     const userAnswer = blank.textContent.trim();
-                    const correctAnswer = correctAnswers[index];
+                    const correctAnswer = correctSolution[index];
                     
                     if (userAnswer === correctAnswer) {
                         blank.classList.add('correct');
@@ -334,9 +329,18 @@
                 checkBtn.style.display = 'none';
                 nextBtn.style.display = 'inline-block';
                 
+                // Show audio button and setup click handler
+                replayAudioBtn.style.display = 'block';
+                replayAudioBtn.onclick = playCurrentQuestionAudio;
+                
                 // Disable word buttons
                 const wordBtns = document.querySelectorAll('.word-btn');
                 wordBtns.forEach(btn => btn.disabled = true);
+                
+                // Auto-play audio after answering
+                setTimeout(() => {
+                    playCurrentQuestionAudio();
+                }, 500);
                 
                 // Setup next button
                 nextBtn.onclick = () => {
