@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <script src="analytics.js"></script>
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Bài tập Ngữ pháp Bài 5 - Tiếng Hàn Hyewon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Common CSS -->
+    <link rel="stylesheet" href="css/grammar-common.css">
+    <link rel="stylesheet" href="css/grammar-exercise.css">
+</head>
+<body>
+    <div class="header-bar">
+        <button class="back-button" onclick="goToIndex()">
+            <span class="back-arrow">←</span>
+            <span>Quay lại</span>
+        </button>
+        <span id="lesson-name" class="lesson-title">Bài 5: 하루 일과 (Công Việc Trong Ngày)</span>
+    </div>
+
+    <div id="quiz-container" class="main-container text-center">
+        <div id="question-counter" class="question-counter">Câu 1/10</div>
+        <div class="question-container">
+            <button id="replay-audio-btn" style="display: none;">🔊</button>
+            <div id="sentence-container" class="korean-text sentence-text leading-loose">
+            </div>
+        </div>
+        <div id="word-bank" class="word-bank"></div>
+        <div class="controls">
+            <button id="check-btn" class="btn btn-primary">Kiểm tra</button>
+            <button id="next-btn" class="btn btn-primary">Câu tiếp theo</button>
+        </div>
+        <div id="feedback" class="feedback" style="display: none;"></div>
+        <div id="explanation" class="explanation" style="display: none;"></div>
+    </div>
+
+    <!-- Common JavaScript -->
+    <script src="js/grammar-common.js"></script>
+    <script src="js/grammar-audio-manager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load voices for speech synthesis
+            if ('speechSynthesis' in window) {
+                // Load voices
+                let voices = window.speechSynthesis.getVoices();
+                
+                // If voices are not loaded yet, wait for the voiceschanged event
+                if (voices.length === 0) {
+                    window.speechSynthesis.addEventListener('voiceschanged', function() {
+                        voices = window.speechSynthesis.getVoices();
+                        console.log('Available voices loaded:', voices.filter(v => v.lang.startsWith('ko')).length, 'Korean voices');
+                    });
+                } else {
+                    console.log('Available voices:', voices.filter(v => v.lang.startsWith('ko')).length, 'Korean voices');
+                }
+            }
+
+            // --- DOM ELEMENTS ---
+            const lessonName = document.getElementById('lesson-name');
+            const questionCounter = document.getElementById('question-counter');
+            const sentenceContainer = document.getElementById('sentence-container');
+            const wordBank = document.getElementById('word-bank');
+            const checkBtn = document.getElementById('check-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const feedbackEl = document.getElementById('feedback');
+            const explanationEl = document.getElementById('explanation');
+            const replayAudioBtn = document.getElementById('replay-audio-btn');
+
+            // --- APP STATE ---
+            let currentExercises = [];
+            let currentQuestion = null;
+            let hasAnswered = false;
+            let currentQuestionIndex = 0;
+            let totalQuestions = 0;
+            let correctAnswers = 0; // Track correct answers count
+            let isRetake = false; // Track if this is a retake
+
+            // Lesson 5 Exercise data
+            const exerciseData = {
+                title: "Bài 5: 하루 일과 (Công Việc Trong Ngày)",
+                exercises: [
+                    {
+                        id: "lesson5_q1",
+                        template: "__ 시에 일어나요.",
+                        translation: "Tôi thức dậy lúc 7 giờ",
+                        choices: ["일곱", "칠", "세븐", "여덟"],
+                        solution: ["일곱"],
+                        completeSentence: "일곱 시에 일어나요",
+                        explanation: "Khi nói về giờ, ta dùng số từ thuần Hàn. 일곱 = 7. 시 = giờ."
+                    },
+                    {
+                        id: "lesson5_q2",
+                        template: "아침 여덟 시 __ 분에 출근해요.",
+                        translation: "Tôi đi làm lúc 8 giờ 30 phút sáng",
+                        choices: ["삼십", "서른", "삼", "오"],
+                        solution: ["삼십"],
+                        completeSentence: "아침 여덟 시 삼십 분에 출근해요",
+                        explanation: "Khi nói về phút, ta dùng số từ Hán-Triều. 삼십 = 30. 분 = phút."
+                    },
+                    {
+                        id: "lesson5_q3",
+                        template: "점심을 열두 시에 __.",
+                        translation: "Tôi ăn trưa lúc 12 giờ",
+                        choices: ["먹어요", "먹다", "먹습니다", "먹어"],
+                        solution: ["먹어요"],
+                        completeSentence: "점심을 열두 시에 먹어요",
+                        explanation: "먹다 (ăn) + 어요 = 먹어요. Đây là thể lịch sự hiện tại."
+                    },
+                    {
+                        id: "lesson5_q4",
+                        template: "회사__ 가요.",
+                        translation: "Tôi đi đến công ty",
+                        choices: ["에", "에서", "를", "과"],
+                        solution: ["에"],
+                        completeSentence: "회사에 가요",
+                        explanation: "에 là trợ từ chỉ địa điểm đến. 회사에 가다 = đi đến công ty."
+                    },
+                    {
+                        id: "lesson5_q5",
+                        template: "오늘은 학교에 __ 가요.",
+                        translation: "Hôm nay tôi không đi học",
+                        choices: ["안", "못", "잘", "또"],
+                        solution: ["안"],
+                        completeSentence: "오늘은 학교에 안 가요",
+                        explanation: "안 là từ phủ định đặt trước động từ. 안 가요 = không đi."
+                    },
+                    {
+                        id: "lesson5_q6",
+                        template: "저녁에 __ 시에 집에 와요.",
+                        translation: "Tối tôi về nhà lúc 6 giờ",
+                        choices: ["여섯", "육", "엿", "여덜"],
+                        solution: ["여섯"],
+                        completeSentence: "저녁에 여섯 시에 집에 와요",
+                        explanation: "여섯 = 6 (số từ thuần Hàn). Khi nói giờ ta dùng số từ thuần Hàn."
+                    },
+                    {
+                        id: "lesson5_q7",
+                        template: "__ 개 샀어요.",
+                        translation: "Tôi đã mua 3 cái",
+                        choices: ["세", "셋", "삼", "석"],
+                        solution: ["세"],
+                        completeSentence: "세 개 샀어요",
+                        explanation: "Khi đếm đồ vật, ta dùng số từ thuần Hàn dạng định từ. 셋 → 세 (trước danh từ)."
+                    },
+                    {
+                        id: "lesson5_q8",
+                        template: "밤 열한 시에 __.",
+                        translation: "Tôi ngủ lúc 11 giờ tối",
+                        choices: ["자요", "자다", "잡니다", "잠"],
+                        solution: ["자요"],
+                        completeSentence: "밤 열한 시에 자요",
+                        explanation: "자다 (ngủ) → 자요 (thể lịch sự). 열한 = 11 (số thuần Hàn)."
+                    },
+                    {
+                        id: "lesson5_q9",
+                        template: "수업이 아홉 시 __ 분에 시작해요.",
+                        translation: "Lớp học bắt đầu lúc 9 giờ 15 phút",
+                        choices: ["십오", "열다섯", "오", "십"],
+                        solution: ["십오"],
+                        completeSentence: "수업이 아홉 시 십오 분에 시작해요",
+                        explanation: "십오 = 15 (số Hán-Triều). Khi nói phút ta dùng số Hán-Triều."
+                    },
+                    {
+                        id: "lesson5_q10",
+                        template: "아침을 __ 먹어요.",
+                        translation: "Tôi không ăn sáng",
+                        choices: ["안", "잘", "많이", "조금"],
+                        solution: ["안"],
+                        completeSentence: "아침을 안 먹어요",
+                        explanation: "안 + 동사 = phủ định. 안 먹어요 = không ăn."
+                    }
+                ]
+            };
+
+            /**
+             * Initialize the quiz
+             */
+            function initializeQuiz() {
+                // Check if this is a retake (from localStorage or URL parameter)
+                const params = new URLSearchParams(window.location.search);
+                isRetake = localStorage.getItem('lesson_lesson5_completed') === 'true' || 
+                          params.get('retake') === 'true';
+
+                currentExercises = [...exerciseData.exercises];
+                totalQuestions = currentExercises.length;
+                currentQuestionIndex = 1;
+                correctAnswers = 0; // Reset correct answers count
+                
+                // If this is a retake, shuffle the questions randomly
+                if (isRetake) {
+                    currentExercises = shuffleArray(currentExercises);
+                    console.log('Làm lại bài - Câu hỏi được xáo trộn ngẫu nhiên');
+                } else {
+                    console.log('Lần đầu làm bài - Câu hỏi theo thứ tự');
+                }
+                
+                // Update question counter
+                updateQuestionCounter();
+
+                // Track page view
+                if (typeof trackPageView === 'function') {
+                    trackPageView('Grammar Exercise Lesson 5', '/grammar-exercise-lesson5.html');
+                }
+
+                loadNextQuestion();
+            }
+
+            function updateQuestionCounter() {
+                questionCounter.textContent = `Câu ${currentQuestionIndex}/${totalQuestions}`;
+            }
+
+            function loadNextQuestion() {
+                feedbackEl.style.display = 'none';
+                explanationEl.style.display = 'none';
+                replayAudioBtn.style.display = 'none'; // Ẩn nút phát lại khi tải câu mới
+                checkBtn.style.display = 'inline-block';
+                nextBtn.disabled = true; // Disable next button until check is clicked
+                hasAnswered = false;
+
+                // Get current question based on index (no random selection)
+                currentQuestion = currentExercises[currentQuestionIndex - 1];
+                
+                // Set global reference for audio manager
+                window.currentQuestion = currentQuestion;
+
+                // Update question counter
+                updateQuestionCounter();
+
+                // Update button text based on current question index
+                if (currentQuestionIndex === totalQuestions) {
+                    nextBtn.textContent = 'Kết thúc';
+                } else {
+                    nextBtn.textContent = 'Câu tiếp theo';
+                }
+
+                // Clear and rebuild sentence container
+                sentenceContainer.innerHTML = '';
+                
+                // Add translation
+                const translationDiv = document.createElement('div');
+                translationDiv.className = 'translation-text';
+                translationDiv.textContent = currentQuestion.translation;
+                sentenceContainer.appendChild(translationDiv);
+
+                // Parse template and create sentence
+                const sentenceDiv = document.createElement('div');
+                sentenceDiv.className = 'sentence-text';
+                
+                const parts = currentQuestion.template.split('__');
+                
+                for (let i = 0; i < parts.length; i++) {
+                    if (parts[i]) {
+                        const textNode = document.createTextNode(parts[i]);
+                        sentenceDiv.appendChild(textNode);
+                    }
+                    
+                    // Add blank after each part except the last one
+                    if (i < parts.length - 1) {
+                        const blank = document.createElement('span');
+                        blank.className = 'blank';
+                        blank.onclick = () => handleBlankClick(blank);
+                        sentenceDiv.appendChild(blank);
+                    }
+                }
+                
+                sentenceContainer.appendChild(sentenceDiv);
+
+                // Build word bank
+                buildWordBank();
+
+                // Hide next button and show check button
+                nextBtn.style.display = 'none';
+                checkBtn.style.display = 'inline-block';
+            }
+
+            function buildWordBank() {
+                wordBank.innerHTML = '';
+                
+                // Shuffle choices for each question
+                const shuffledChoices = [...currentQuestion.choices].sort(() => Math.random() - 0.5);
+                
+                shuffledChoices.forEach(choice => {
+                    const btn = document.createElement('button');
+                    btn.className = 'word-btn';
+                    btn.textContent = choice;
+                    btn.onclick = () => handleWordSelection(btn);
+                    wordBank.appendChild(btn);
+                });
+            }
+
+            function handleWordSelection(wordBtn) {
+                if (hasAnswered) return; // Prevent changes after answering
+
+                const blanks = sentenceContainer.querySelectorAll('.blank');
+                const emptyBlank = Array.from(blanks).find(blank => !blank.textContent || blank.textContent === '?');
+                
+                if (emptyBlank) {
+                    emptyBlank.textContent = wordBtn.textContent;
+                    emptyBlank.dataset.selectedWord = wordBtn.textContent;
+                    wordBtn.disabled = true;
+                }
+            }
+            
+            function handleBlankClick(clickedBlank) {
+                if (hasAnswered) return; // Prevent changes after answering
+
+                const selectedWord = clickedBlank.dataset.selectedWord;
+                if (selectedWord) {
+                    // Re-enable the word button
+                    const wordBtns = wordBank.querySelectorAll('.word-btn');
+                    wordBtns.forEach(btn => {
+                        if (btn.textContent === selectedWord && btn.disabled) {
+                            btn.disabled = false;
+                        }
+                    });
+                    
+                    // Clear the blank
+                    clickedBlank.textContent = '';
+                    delete clickedBlank.dataset.selectedWord;
+                }
+            }
+
+            function playCurrentQuestionAudio() {
+                if (!currentQuestion) return;
+                
+                // Use the new grammar audio manager with dual voice support
+                window.grammarAudioManager.playQuestionAudio(currentQuestion.id);
+            }
+
+            function checkAnswers() {
+                if (hasAnswered) return;
+
+                const blanks = sentenceContainer.querySelectorAll('.blank');
+                const userAnswers = Array.from(blanks).map(blank => blank.textContent || '');
+                
+                // Check if all blanks are filled
+                if (userAnswers.some(answer => !answer || answer === '?')) {
+                    alert('Vui lòng điền đầy đủ các chỗ trống!');
+                    return;
+                }
+                
+                hasAnswered = true;
+                
+                // Check correctness
+                const isCorrect = JSON.stringify(userAnswers) === JSON.stringify(currentQuestion.solution);
+                
+                // Update UI based on correctness
+                blanks.forEach((blank, index) => {
+                    const isBlankCorrect = userAnswers[index] === currentQuestion.solution[index];
+                    blank.classList.add(isBlankCorrect ? 'correct' : 'incorrect');
+                });
+                
+                // Show feedback
+                feedbackEl.style.display = 'block';
+                if (isCorrect) {
+                    feedbackEl.className = 'feedback success';
+                    feedbackEl.textContent = '🎉 Chính xác! Tuyệt vời!';
+                    correctAnswers++;
+                } else {
+                    feedbackEl.className = 'feedback error';
+                    feedbackEl.innerHTML = `❌ Chưa đúng. Đáp án: <strong>${currentQuestion.completeSentence}</strong>`;
+                }
+                
+                // Show explanation
+                if (currentQuestion.explanation) {
+                    explanationEl.style.display = 'block';
+                    explanationEl.innerHTML = `<h4>💡 Giải thích:</h4><p>${currentQuestion.explanation}</p>`;
+                }
+                
+                // Hide check button, show next button
+                checkBtn.style.display = 'none';
+                nextBtn.style.display = 'inline-block';
+                nextBtn.disabled = false;
+                
+                // Show replay audio button
+                replayAudioBtn.style.display = 'block';
+                
+                // Disable all word buttons
+                const wordBtns = wordBank.querySelectorAll('.word-btn');
+                wordBtns.forEach(btn => btn.disabled = true);
+
+                // Play correct pronunciation
+                setTimeout(() => {
+                    if (currentQuestion && currentQuestion.id) {
+                        const audioPath = `audio/sentences/${currentQuestion.id}.mp3`;
+                        playAudioFile(audioPath).catch(() => {
+                            // Fallback to text-to-speech
+                            if (currentQuestion.completeSentence) {
+                                playTextToSpeech(currentQuestion.completeSentence);
+                            }
+                        });
+                    }
+                }, 1000);
+            }
+
+            function showResultsPage() {
+                const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+                const passed = percentage >= 70;
+
+                // Track completion
+                if (typeof trackEvent === 'function') {
+                    trackEvent('Grammar Exercise Lesson 5', 'Complete', `Score: ${percentage}%`);
+                }
+
+                // Save completion status
+                if (passed) {
+                    localStorage.setItem('lesson_lesson5_completed', 'true');
+                }
+
+                // Create results content
+                document.getElementById('quiz-container').innerHTML = `
+                    <div class="results-content">
+                        <div class="completion-icon" style="font-size: 4rem; margin-bottom: 20px;">
+                            ${passed ? '🎉' : '📚'}
+                        </div>
+                        <h2 style="color: #667eea; margin-bottom: 15px; font-size: 1.8rem;">
+                            ${passed ? 'Chúc mừng!' : 'Hãy cố gắng thêm!'}
+                        </h2>
+                        <div style="font-size: 1.2rem; margin-bottom: 25px;">
+                            <div style="color: #333; margin-bottom: 10px;">
+                                Kết quả: <strong style="color: ${passed ? '#28a745' : '#dc3545'};">${correctAnswers}/${totalQuestions}</strong>
+                            </div>
+                            <div style="color: #667eea; font-weight: 600; font-size: 1.5rem;">
+                                ${percentage}%
+                            </div>
+                        </div>
+                        
+                        ${passed ? 
+                            '<div style="color: #28a745; margin-bottom: 25px; font-weight: 500;">✅ Bạn đã hoàn thành xuất sắc bài tập này!</div>' : 
+                            '<div style="color: #dc3545; margin-bottom: 25px; font-weight: 500;">📖 Hãy ôn lại lý thuyết và thử lại!</div>'
+                        }
+                        
+                        <div class="results-actions" style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                            <button onclick="restartLesson()" class="btn btn-primary" style="min-width: 120px;">
+                                🔄 Làm lại
+                            </button>
+                            <button onclick="goToIndex()" class="btn btn-secondary" style="min-width: 120px;">
+                                🏠 Trang chủ
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // --- EVENT LISTENERS ---
+            checkBtn.addEventListener('click', checkAnswers);
+            replayAudioBtn.addEventListener('click', playCurrentQuestionAudio);
+            nextBtn.addEventListener('click', function() {
+                if (currentQuestionIndex < totalQuestions) {
+                    currentQuestionIndex++;
+                    loadNextQuestion();
+                } else {
+                    showResultsPage();
+                }
+            });
+
+            // --- INITIALIZE QUIZ ---
+            initializeQuiz();
+        });
+
+        function goToIndex() {
+            window.location.href = 'index.html';
+        }
+
+        function restartLesson() {
+            const params = new URLSearchParams(window.location.search);
+            params.set('retake', 'true');
+            window.location.href = window.location.pathname + '?' + params.toString();
+        }
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+    </script>
+</body>
+</html>

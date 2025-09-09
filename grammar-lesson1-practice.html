@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <script src="analytics.js"></script>
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Bài tập Ngữ pháp Bài 1 - Tiếng Hàn Hyewon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Common CSS -->
+    <link rel="stylesheet" href="css/grammar-common.css">
+    <link rel="stylesheet" href="css/grammar-exercise.css">
+</head>
+<body>
+    <div class="header-bar">
+        <button class="back-button" onclick="goToIndex()">
+            <span class="back-arrow">←</span>
+            <span>Quay lại</span>
+        </button>
+        <span id="lesson-name" class="lesson-title">Bài 1: Giới thiệu</span>
+    </div>
+
+    <div id="quiz-container" class="main-container text-center">
+        <div id="question-counter" class="question-counter">Câu 1/10</div>
+        <div class="question-container">
+            <button id="replay-audio-btn" style="display: none;">🔊</button>
+            <div id="sentence-container" class="korean-text sentence-text leading-loose">
+            </div>
+        </div>
+        <div id="word-bank" class="word-bank"></div>
+        <div class="controls">
+            <button id="check-btn" class="btn btn-primary">Kiểm tra</button>
+            <button id="next-btn" class="btn btn-primary">Câu tiếp theo</button>
+        </div>
+        <div id="feedback" class="feedback" style="display: none;"></div>
+        <div id="explanation" class="explanation" style="display: none;"></div>
+    </div>
+
+    <!-- Common JavaScript -->
+    <script src="js/grammar-common.js"></script>
+    <script src="js/grammar-audio-manager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load voices for speech synthesis
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.getVoices();
+                window.speechSynthesis.onvoiceschanged = function() {
+                    window.speechSynthesis.getVoices();
+                };
+            }
+
+            // --- DOM ELEMENTS ---
+            const lessonName = document.getElementById('lesson-name');
+            const questionCounter = document.getElementById('question-counter');
+            const sentenceContainer = document.getElementById('sentence-container');
+            const wordBank = document.getElementById('word-bank');
+            const checkBtn = document.getElementById('check-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const feedbackEl = document.getElementById('feedback');
+            const explanationEl = document.getElementById('explanation');
+            const replayAudioBtn = document.getElementById('replay-audio-btn');
+
+            // --- APP STATE ---
+            let currentExercises = [];
+            let currentQuestion = null;
+            let hasAnswered = false;
+            let currentQuestionIndex = 0;
+            let totalQuestions = 0;
+            let correctAnswers = 0; // Track correct answers count
+            let isRetake = false; // Track if this is a retake
+
+            // Lesson 1 Exercise data
+            const exerciseData = {
+                title: "Bài 1: Giới thiệu",
+                exercises: [
+                    {
+                        id: "lesson1_q1",
+                        template: "저는 ___ 입니다.",
+                        translation: "Tôi là học sinh",
+                        choices: ["학생", "선생님", "의사", "회사원"],
+                        solution: ["학생"],
+                        completeSentence: "저는 학생입니다",
+                        explanation: "학생 = học sinh. 입니다 là dạng lịch sự của động từ 'là'."
+                    },
+                    {
+                        id: "lesson1_q2",
+                        template: "제 이름___ 김민수입니다.",
+                        translation: "Tên tôi là Kim Min Soo",
+                        choices: ["은", "는", "이", "가"],
+                        solution: ["은"],
+                        completeSentence: "제 이름은 김민수입니다",
+                        explanation: "이름 kết thúc bằng phụ âm ㅁ → dùng 은."
+                    },
+                    {
+                        id: "lesson1_q3",
+                        template: "선생님___ 한국 사람입니다.",
+                        translation: "Giáo viên là người Hàn Quốc",
+                        choices: ["은", "는", "이", "가"],
+                        solution: ["은"],
+                        completeSentence: "선생님은 한국 사람입니다",
+                        explanation: "선생님 kết thúc bằng phụ âm ㅁ → dùng 은."
+                    },
+                    {
+                        id: "lesson1_q4",
+                        template: "저___ 의사입니다.",
+                        translation: "Tôi là bác sĩ",
+                        choices: ["은", "는", "이", "가"],
+                        solution: ["는"],
+                        completeSentence: "저는 의사입니다",
+                        explanation: "저 kết thúc bằng nguyên âm ㅓ → dùng 는."
+                    },
+                    {
+                        id: "lesson1_q5",
+                        template: "학생___?",
+                        translation: "Có phải là học sinh không?",
+                        choices: ["입니다", "입니까", "아닙니다", "됩니다"],
+                        solution: ["입니까"],
+                        completeSentence: "학생입니까?",
+                        explanation: "입니까 là dạng nghi vấn lịch sự của 입니다."
+                    },
+                    {
+                        id: "lesson1_q6",
+                        template: "아니요, 학생이 ___.",
+                        translation: "Không, không phải học sinh",
+                        choices: ["입니다", "입니까", "아닙니다", "됩니다"],
+                        solution: ["아닙니다"],
+                        completeSentence: "아니요, 학생이 아닙니다",
+                        explanation: "아닙니다 được dùng để phủ định một cách lịch sự."
+                    },
+                    {
+                        id: "lesson1_q7",
+                        template: "누나___ 회사원입니다.",
+                        translation: "Chị gái là nhân viên công ty",
+                        choices: ["은", "는", "이", "가"],
+                        solution: ["는"],
+                        completeSentence: "누나는 회사원입니다",
+                        explanation: "누나 kết thúc bằng nguyên âm ㅏ → dùng 는."
+                    },
+                    {
+                        id: "lesson1_q8",
+                        template: "이분___ 선생님입니다.",
+                        translation: "Người này là giáo viên",
+                        choices: ["은", "는", "이", "가"],
+                        solution: ["은"],
+                        completeSentence: "이분은 선생님입니다",
+                        explanation: "이분 kết thúc bằng phụ âm ㄴ → dùng 은."
+                    },
+                    {
+                        id: "lesson1_q9",
+                        template: "네, ___입니다.",
+                        translation: "Vâng, đúng vậy (là học sinh)",
+                        choices: ["학생", "선생님", "의사", "간호사"],
+                        solution: ["학생"],
+                        completeSentence: "네, 학생입니다",
+                        explanation: "네 = vâng. Đây là cách trả lời khẳng định khi được hỏi 학생입니까?"
+                    },
+                    {
+                        id: "lesson1_q10",
+                        template: "저는 ___ 사람입니다.",
+                        translation: "Tôi là người Việt Nam",
+                        choices: ["한국", "일본", "베트남", "중국"],
+                        solution: ["베트남"],
+                        completeSentence: "저는 베트남 사람입니다",
+                        explanation: "베트남 = Việt Nam. 베트남 사람 = người Việt Nam."
+                    }
+                ]
+            };
+
+            /**
+             * Initialize the quiz
+             */
+            function initializeQuiz() {
+                // Check if this is a retake (from localStorage or URL parameter)
+                const params = new URLSearchParams(window.location.search);
+                isRetake = localStorage.getItem('lesson_lesson1_completed') === 'true' || 
+                          params.get('retake') === 'true';
+                
+                currentExercises = [...exerciseData.exercises];
+                totalQuestions = currentExercises.length;
+                
+                // Shuffle exercises for variety
+                if (isRetake || Math.random() > 0.5) {
+                    currentExercises = shuffleArray(currentExercises);
+                }
+                
+                loadNextQuestion();
+            }
+
+            function updateQuestionCounter() {
+                questionCounter.textContent = `Câu ${currentQuestionIndex + 1}/${totalQuestions}`;
+            }
+
+            function loadNextQuestion() {
+                if (currentQuestionIndex >= totalQuestions) {
+                    showResultsPage();
+                    return;
+                }
+
+                currentQuestion = currentExercises[currentQuestionIndex];
+                hasAnswered = false;
+                
+                // Set global reference for audio manager
+                window.currentQuestion = currentQuestion;
+
+                // Update counter
+                updateQuestionCounter();
+
+                // Build sentence with blanks
+                buildSentence();
+                
+                // Build word bank
+                buildWordBank();
+
+                // Reset buttons
+                checkBtn.style.display = 'inline-block';
+                nextBtn.style.display = 'none';
+                
+                // Hide feedback and explanation
+                feedbackEl.style.display = 'none';
+                explanationEl.style.display = 'none';
+
+                // Show and setup audio button
+                replayAudioBtn.style.display = 'block';
+                replayAudioBtn.onclick = playCurrentQuestionAudio;
+                
+                // Auto-play audio for new question
+                setTimeout(() => {
+                    playCurrentQuestionAudio();
+                }, 500);
+            }
+
+            function buildSentence() {
+                const template = currentQuestion.template;
+                const translation = currentQuestion.translation;
+                
+                // Create sentence with blanks
+                let sentenceHtml = template.replace(/_+/g, '<span class="blank" onclick="handleBlankClick(this)"></span>');
+                
+                sentenceContainer.innerHTML = `
+                    <div class="korean-text sentence-text">${sentenceHtml}</div>
+                    <div class="translation-text">${translation}</div>
+                `;
+            }
+
+            function buildWordBank() {
+                const choices = shuffleArray([...currentQuestion.choices]);
+                
+                wordBank.innerHTML = choices.map(choice => 
+                    `<button class="word-btn korean-text" onclick="handleWordSelection(this)">${choice}</button>`
+                ).join('');
+            }
+
+            // Move these functions to global scope
+            window.handleWordSelection = function(wordBtn) {
+                if (hasAnswered) return;
+                
+                const word = wordBtn.textContent;
+                const blanks = document.querySelectorAll('.blank');
+                
+                // Find first empty blank
+                const emptyBlank = Array.from(blanks).find(blank => !blank.textContent.trim());
+                if (emptyBlank) {
+                    emptyBlank.textContent = word;
+                    wordBtn.disabled = true;
+                }
+            };
+            
+            window.handleBlankClick = function(clickedBlank) {
+                if (hasAnswered) return;
+                
+                const word = clickedBlank.textContent.trim();
+                if (word) {
+                    // Return word to word bank
+                    const wordBtns = document.querySelectorAll('.word-btn');
+                    const matchingBtn = Array.from(wordBtns).find(btn => btn.textContent === word && btn.disabled);
+                    if (matchingBtn) {
+                        matchingBtn.disabled = false;
+                    }
+                    clickedBlank.textContent = '';
+                }
+            };
+
+            function playCurrentQuestionAudio() {
+                if (!currentQuestion) return;
+                
+                // Use the new grammar audio manager with dual voice support
+                window.grammarAudioManager.playQuestionAudio(currentQuestion.id);
+            }
+
+            function checkAnswers() {
+                if (hasAnswered) return;
+                
+                const blanks = document.querySelectorAll('.blank');
+                const userAnswers = Array.from(blanks).map(blank => blank.textContent.trim());
+                const correctAnswers = currentQuestion.solution;
+                
+                hasAnswered = true;
+                
+                let isCorrect = true;
+                blanks.forEach((blank, index) => {
+                    const userAnswer = blank.textContent.trim();
+                    const correctAnswer = correctAnswers[index];
+                    
+                    if (userAnswer === correctAnswer) {
+                        blank.classList.add('correct');
+                    } else {
+                        blank.classList.add('incorrect');
+                        isCorrect = false;
+                    }
+                });
+                
+                // Show feedback
+                feedbackEl.style.display = 'block';
+                if (isCorrect) {
+                    feedbackEl.textContent = '정답입니다! (Chính xác!)';
+                    feedbackEl.className = 'feedback success';
+                    correctAnswers++;
+                } else {
+                    feedbackEl.textContent = '틀렸습니다. (Sai rồi.)';
+                    feedbackEl.className = 'feedback error';
+                }
+                
+                // Show explanation
+                explanationEl.style.display = 'block';
+                explanationEl.innerHTML = `
+                    <h4>Giải thích:</h4>
+                    <p><strong>Câu đúng:</strong> <span class="korean">${currentQuestion.completeSentence}</span></p>
+                    <p>${currentQuestion.explanation}</p>
+                `;
+                
+                // Update buttons
+                checkBtn.style.display = 'none';
+                nextBtn.style.display = 'inline-block';
+                
+                // Disable word buttons
+                const wordBtns = document.querySelectorAll('.word-btn');
+                wordBtns.forEach(btn => btn.disabled = true);
+                
+                // Setup next button
+                nextBtn.onclick = () => {
+                    currentQuestionIndex++;
+                    loadNextQuestion();
+                };
+            }
+
+            function showResultsPage() {
+                const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+                const passed = percentage >= 70;
+                
+                // Save completion status
+                if (passed) {
+                    localStorage.setItem('lesson_lesson1_completed', 'true');
+                }
+                
+                sentenceContainer.innerHTML = `
+                    <div class="results-content">
+                        <div class="completion-icon">${passed ? '🎉' : '📚'}</div>
+                        <h2>${passed ? 'Chúc mừng!' : 'Cần ôn tập thêm'}</h2>
+                        <p class="results-score">Điểm số: ${correctAnswers}/${totalQuestions} (${percentage}%)</p>
+                        <p class="results-message">
+                            ${passed ? 
+                                'Bạn đã hoàn thành xuất sắc bài tập ngữ pháp Bài 1!' : 
+                                'Hãy ôn tập lại lý thuyết và thử lại nhé!'
+                            }
+                        </p>
+                        <div class="results-actions" style="display: flex; gap: 15px; justify-content: center; margin-top: 25px; flex-wrap: wrap;">
+                            <button class="btn btn-primary" onclick="restartLesson()">Làm lại</button>
+                            <button class="btn btn-secondary" onclick="goToIndex()">Về trang chủ</button>
+                            ${passed ? '<button class="btn btn-primary" onclick="window.location.href=\'grammar-lesson1-theory.html\'">Xem lý thuyết</button>' : ''}
+                        </div>
+                    </div>
+                `;
+                
+                // Hide other elements
+                wordBank.style.display = 'none';
+                document.querySelector('.controls').style.display = 'none';
+                feedbackEl.style.display = 'none';
+                explanationEl.style.display = 'none';
+                replayAudioBtn.style.display = 'none';
+                questionCounter.style.display = 'none';
+            }
+
+            // --- EVENT LISTENERS ---
+            checkBtn.addEventListener('click', checkAnswers);
+            initializeQuiz();
+        });
+
+        function goToIndex() {
+            window.location.href = 'index.html';
+        }
+
+        function restartLesson() {
+            window.location.reload();
+        }
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+    </script>
+</body>
+</html>

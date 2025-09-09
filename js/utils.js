@@ -58,7 +58,7 @@ function getUrlParams() {
     const params = new URLSearchParams(window.location.search);
     return {
         vocab: params.get("vocab"),
-        audio: params.get("audio") || 'audio/vocab/lesson1'
+        audio: params.get("audio") || 'audio/vocab/female/lesson1' // Default to female voice
     };
 }
 

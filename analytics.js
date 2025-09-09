@@ -74,11 +74,12 @@
     };
 
     // Track audio play events
-    window.trackAudioPlay = function(koreanWord, vocabFile) {
+    window.trackAudioPlay = function(koreanWord, vocabFile, voiceType = 'unknown') {
         if (typeof gtag === 'function') {
             gtag('event', 'audio_play', {
                 korean_word: koreanWord,
                 vocab_file: vocabFile,
+                voice_type: voiceType, // Track whether it's male or female voice
                 audio_type: 'korean_pronunciation'
             });
         }

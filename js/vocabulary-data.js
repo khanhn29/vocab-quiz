@@ -1,5 +1,5 @@
 // Vocabulary Data Module
-// Extracted from app.html
+// Extracted from vocab-quiz.html
 
 const vocabularyData = {
     // Bài 1 - Nghề nghiệp và thông tin cá nhân
