@@ -13,6 +13,226 @@
   
   <!-- Common CSS -->
   <link rel="stylesheet" href="css/grammar-common.css">
+  
+  <!-- Simple styles for Section 5 consistency -->
+  <style>
+    /* Simple consistent styles for Section 5 */
+    .conjugation-overview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .overview-item {
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .overview-item:hover {
+      border-color: #667eea;
+      transform: translateY(-1px);
+    }
+
+    .case-num {
+      background: #667eea;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .case-pattern {
+      font-weight: 600;
+      color: #2d3748;
+      font-size: 14px;
+      line-height: 1.2;
+      text-align: left;
+    }
+
+    .case-pattern strong {
+      color: #667eea;
+      display: block;
+      margin-bottom: 2px;
+      font-size: 13px;
+    }
+
+    .simple-rules {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .simple-rule {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 4px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .simple-rule:last-child {
+      border-bottom: none;
+    }
+
+    .rule-condition {
+      flex: 1;
+      font-weight: 500;
+      color: #4a5568;
+    }
+
+    .rule-arrow {
+      color: #667eea;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .rule-result {
+      background: #667eea;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .verb-examples-simple {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .verb-pair {
+      padding: 10px 12px;
+      background: #f7fafc;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 500;
+      color: #2d3748;
+      transition: all 0.3s ease;
+    }
+
+    .verb-pair:hover {
+      border-color: #667eea;
+      background: #edf2f7;
+    }
+
+    .special-rules {
+      margin-top: 12px;
+    }
+
+    .special-rules p {
+      margin: 8px 0;
+      padding: 8px 12px;
+      background: #fff5f5;
+      border-left: 4px solid #f56565;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .summary-simple {
+      margin-top: 12px;
+    }
+
+    .summary-line {
+      padding: 8px 0;
+      font-size: 16px;
+      color: white;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .summary-line:last-child {
+      border-bottom: none;
+    }
+
+    /* Mobile optimization */
+    @media (max-width: 768px) {
+      .conjugation-overview {
+        grid-template-columns: 1fr;
+      }
+      
+      .verb-examples-simple {
+        grid-template-columns: 1fr;
+      }
+      
+      .simple-rule {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+        padding: 8px 0;
+      }
+      
+      .rule-arrow {
+        transform: rotate(90deg);
+      }
+    }
+
+    /* Section 7 specific styles */
+    .example-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .positive, .negative {
+      text-align: center;
+      padding: 8px;
+    }
+
+    .positive {
+      background: #f0fff4;
+      border-radius: 6px;
+      border: 1px solid #c6f6d5;
+    }
+
+    .negative {
+      background: #fef5e7;
+      border-radius: 6px;
+      border: 1px solid #fed7aa;
+    }
+
+    .label {
+      display: block;
+      font-weight: 600;
+      font-size: 14px;
+      color: #4a5568;
+      margin-bottom: 8px;
+    }
+
+    .korean {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      color: #2d3748;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .meaning {
+      font-size: 14px;
+      color: #718096;
+    }
+  </style>
 </head>
 <body>
   <div class="header-bar">
@@ -328,80 +548,145 @@
     <div class="grammar-section" id="section-5">
       <h2 class="section-title">
         <span class="section-icon">🗣️</span>
-        5. -아/어요 (Thể lịch sự hiện tại)
+        5. CÁCH CHIA ĐUÔI CÂU - Thể lịch sự
       </h2>
 
-      <h3 class="point-title">a. Khái niệm</h3>
+      <h3 class="point-title">📌 Khái niệm</h3>
       <p class="point-description">
-        -아/어요 là thể lịch sự được sử dụng để biểu hiện hành động ở hiện tại hoặc tương lai một cách trang trọng.
+        Thể lịch sự trong tiếng Hàn có <strong>4 trường hợp chính</strong> để chia đuôi câu tùy theo loại từ và nguyên âm cuối.
       </p>
       
       <div class="rule-box">
-        <div class="rule-title">📝 Quy tắc chia:</div>
-        <div class="conjugation-rules">
-          <div class="rule-item">
-            <span class="condition">Nếu nguyên âm cuối là ㅏ, ㅗ:</span>
-            <span class="result">+ 아요</span>
+        <div class="rule-title">📝 4 TRƯỜNG HỢP CHÍNH:</div>
+        <div class="conjugation-overview">
+          <div class="overview-item">
+            <span class="case-num">1</span>
+            <span class="case-pattern">
+              <strong>Danh từ "LÀ"</strong><br>
+              N + 이에요/예요
+            </span>
           </div>
-          <div class="rule-item">
-            <span class="condition">Các nguyên âm khác:</span>
-            <span class="result">+ 어요</span>
+          <div class="overview-item">
+            <span class="case-num">2</span>
+            <span class="case-pattern">
+              <strong>Nhóm "ㅏ, ㅗ"</strong><br>
+              V/A + 아요
+            </span>
           </div>
-          <div class="rule-item">
-            <span class="condition">Động từ có 하:</span>
-            <span class="result">하 → 해요</span>
+          <div class="overview-item">
+            <span class="case-num">3</span>
+            <span class="case-pattern">
+              <strong>Đặc biệt "하다"</strong><br>
+              하다 → 해요
+            </span>
+          </div>
+          <div class="overview-item">
+            <span class="case-num">4</span>
+            <span class="case-pattern">
+              <strong>Còn lại "어요"</strong><br>
+              V/A + 어요
+            </span>
           </div>
         </div>
       </div>
 
-      <div class="conjugation-examples">
-        <h4>🔄 Ví dụ chia động từ:</h4>
-        <div class="verb-grid">
-          <div class="verb-item">
-            <span class="base">가다</span>
-            <span class="arrow">→</span>
-            <span class="conjugated">가요</span>
-            <span class="meaning">đi</span>
+      <!-- Case 1 -->
+      <h3 class="point-title">🟢 TRƯỜNG HỢP 1: N + 이에요/예요</h3>
+      <p class="point-description">이다 (là)</p>
+      
+      <div class="rule-box">
+        <div class="rule-title">📋 Quy tắc:</div>
+        <div class="simple-rules">
+          <div class="simple-rule">
+            <span class="rule-condition">• Có phụ âm cuối (받침)</span>
+            <span class="rule-arrow">→</span>
+            <span class="rule-result">+ 이에요</span>
           </div>
-          <div class="verb-item">
-            <span class="base">오다</span>
-            <span class="arrow">→</span>
-            <span class="conjugated">와요</span>
-            <span class="meaning">đến</span>
-          </div>
-          <div class="verb-item">
-            <span class="base">먹다</span>
-            <span class="arrow">→</span>
-            <span class="conjugated">먹어요</span>
-            <span class="meaning">ăn</span>
-          </div>
-          <div class="verb-item">
-            <span class="base">자다</span>
-            <span class="arrow">→</span>
-            <span class="conjugated">자요</span>
-            <span class="meaning">ngủ</span>
-          </div>
-          <div class="verb-item">
-            <span class="base">공부하다</span>
-            <span class="arrow">→</span>
-            <span class="conjugated">공부해요</span>
-            <span class="meaning">học</span>
-          </div>
-          <div class="verb-item">
-            <span class="base">일어나다</span>
-            <span class="arrow">→</span>
-            <span class="conjugated">일어나요</span>
-            <span class="meaning">thức dậy</span>
+          <div class="simple-rule">
+            <span class="rule-condition">• Không có phụ âm cuối</span>
+            <span class="rule-arrow">→</span>
+            <span class="rule-result">+ 예요</span>
           </div>
         </div>
       </div>
 
       <div class="example-box">
-        <div class="example-title">💡 Ví dụ trong câu:</div>
+        <div class="example-title">💡 Ví dụ:</div>
         <div class="example-content">
-          <p><span class="korean">아침에 일곱 시에 <strong>일어나요</strong>.</span> - Tôi thức dậy lúc 7 giờ sáng.</p>
-          <p><span class="korean">점심을 열두 시에 <strong>먹어요</strong>.</span> - Tôi ăn trưa lúc 12 giờ.</p>
-          <p><span class="korean">밤에 열한 시에 <strong>자요</strong>.</span> - Tôi ngủ lúc 11 giờ tối.</p>
+          <p><span class="korean">선생님 → <strong>선생님이에요</strong></span> (là giáo viên)</p>
+          <p><span class="korean">의사 → <strong>의사예요</strong></span> (là bác sĩ)</p>
+          <p><span class="korean">토마토 → <strong>토마토예요</strong></span> (là cà chua)</p>
+          <p><span class="korean">라면 → <strong>라면이에요</strong></span> (là mì tôm)</p>
+        </div>
+      </div>
+
+      <!-- Case 2 -->
+      <h3 class="point-title">🟢 TRƯỜNG HỢP 2: V/A + 아요</h3>
+      <p class="point-description">Động/tính từ có nguyên âm ㅏ hoặc ㅗ → + 아요</p>
+      
+      <div class="example-box">
+        <div class="example-title">💡 Ví dụ cơ bản:</div>
+        <div class="verb-examples-simple">
+          <div class="verb-pair">작다 → <strong>작아요</strong> (nhỏ)</div>
+          <div class="verb-pair">좋다 → <strong>좋아요</strong> (tốt)</div>
+          <div class="verb-pair">많다 → <strong>많아요</strong> (nhiều)</div>
+          <div class="verb-pair">받다 → <strong>받아요</strong> (nhận)</div>
+        </div>
+      </div>
+
+      <div class="rule-box">
+        <div class="rule-title">⚠️ Lưu ý đặc biệt:</div>
+        <div class="special-rules">
+          <p><strong>• Trùng lặp → Lược bớt:</strong> 가다 → 가요, 자다 → 자요</p>
+          <p><strong>• Thu gọn nguyên âm:</strong> 보다 → 봐요, 오다 → 와요</p>
+        </div>
+      </div>
+
+      <!-- Case 3 -->
+      <h3 class="point-title">🟢 TRƯỜNG HỢP 3: 하다 → 해요</h3>
+      <p class="point-description">Với động từ 하다 → 해요</p>
+      
+      <div class="example-box">
+        <div class="example-title">💡 Ví dụ:</div>
+        <div class="verb-examples-simple">
+          <div class="verb-pair">공부하다 → <strong>공부해요</strong> (học)</div>
+          <div class="verb-pair">좋아하다 → <strong>좋아해요</strong> (thích)</div>
+          <div class="verb-pair">이해하다 → <strong>이해해요</strong> (hiểu)</div>
+          <div class="verb-pair">건강하다 → <strong>건강해요</strong> (khỏe)</div>
+        </div>
+      </div>
+
+      <!-- Case 4 -->
+      <h3 class="point-title">🟢 TRƯỜNG HỢP 4: V/A + 어요</h3>
+      <p class="point-description">Động/tính từ kết thúc bằng nguyên âm khác (ㅜ, ㅓ, ㅐ, ㅣ, ㅡ...) → + 어요</p>
+      
+      <div class="example-box">
+        <div class="example-title">💡 Ví dụ cơ bản:</div>
+        <div class="verb-examples-simple">
+          <div class="verb-pair">먹다 → <strong>먹어요</strong> (ăn)</div>
+          <div class="verb-pair">읽다 → <strong>읽어요</strong> (đọc)</div>
+          <div class="verb-pair">열다 → <strong>열어요</strong> (mở)</div>
+          <div class="verb-pair">늦다 → <strong>늦어요</strong> (muộn)</div>
+        </div>
+      </div>
+
+      <div class="rule-box">
+        <div class="rule-title">🔸 Trường hợp đặc biệt:</div>
+        <div class="special-rules">
+          <p><strong>• ㅐ: giữ nguyên</strong> → 매다 → 매요, 보내다 → 보내요</p>
+          <p><strong>• ㅣ + 어요 → ㅕ요</strong> → 마시다 → 마셔요</p>
+          <p><strong>• ㅜ + 어요 → 워요</strong> → 배우다 → 배워요, 주다 → 줘요</p>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="rule-box" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <div class="rule-title" style="color: white;">🔑 TỔNG KẾT NHANH:</div>
+        <div class="summary-simple">
+          <div class="summary-line"><strong>1.</strong> N + 이에요/예요 (có/không có 받침)</div>
+          <div class="summary-line"><strong>2.</strong> V/A + 아요 (ㅏ, ㅗ)</div>
+          <div class="summary-line"><strong>3.</strong> 하다 → 해요 (đặc biệt)</div>
+          <div class="summary-line"><strong>4.</strong> V/A + 어요 (các nguyên âm còn lại)</div>
         </div>
       </div>
     </div>
