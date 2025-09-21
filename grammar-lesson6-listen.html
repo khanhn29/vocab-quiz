@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <script src="analytics.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài 6 - Luyện nghe - Tiếng Hàn Hyewon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/grammar-common.css">
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .header-bar {
+            background-color: #4a69bd;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            margin-right: 1rem;
+        }
+
+        .back-arrow {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .lesson-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .lesson-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .sentence-container {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .sentence-container:hover {
+            transform: translateY(-2px);
+        }
+
+        .korean-text {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem;
+            background-color: #f8f9ff;
+            border: 2px solid #e8eaf6;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 1.3em;
+            gap: 1rem;
+            line-height: 1.6;
+        }
+
+        .korean-text span {
+            flex: 1;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .play-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        .vietnamese-text {
+            padding: 1.2rem;
+            background-color: #fff;
+            border: 2px solid #e3f2fd;
+            border-radius: 8px;
+            display: none;
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #37474f;
+            margin-top: 1rem;
+        }
+
+        .toggle-meaning {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-meaning:hover {
+            background-color: #1976D2;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 0 0.8rem;
+            }
+
+            .sentence-container {
+                padding: 1rem;
+                margin: 1rem 0;
+            }
+
+            .korean-text {
+                font-size: 1.1em;
+                padding: 1rem;
+            }
+
+            .play-button {
+                width: 40px;
+                height: 40px;
+                padding: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-bar">
+        <button class="back-button" onclick="goToIndex()">
+            <span class="back-arrow">←</span>
+            <span>Quay lại</span>
+        </button>
+        <span class="lesson-title">Bài 6: Luyện nghe - Cuối tuần</span>
+    </div>
+
+    <div class="container">
+        <div class="lesson-header">
+            <h1>Hội thoại tiếng Hàn về Cuối tuần</h1>
+            <p>Luyện nghe và hiểu hội thoại thông qua các tình huống thực tế</p>
+        </div>
+
+        <div class="sentence-container" data-audio-id="lesson6_1">
+            <div class="korean-text">
+                <span>주말 잘 보냈어요?</span>
+                <button class="play-button" onclick="playAudio('lesson6_1')">▶</button>
+            </div>
+            <div class="vietnamese-text">Bạn đã có một cuối tuần vui vẻ chứ?</div>
+            <button class="toggle-meaning" onclick="toggleMeaning(this)">Hiện/Ẩn nghĩa</button>
+        </div>
+
+        <div class="sentence-container" data-audio-id="lesson6_2">
+            <div class="korean-text">
+                <span>네, 잘 보냈어요.</span>
+                <button class="play-button" onclick="playAudio('lesson6_2')">▶</button>
+            </div>
+            <div class="vietnamese-text">Vâng, tôi đã có một thời gian vui vẻ.</div>
+            <button class="toggle-meaning" onclick="toggleMeaning(this)">Hiện/Ẩn nghĩa</button>
+        </div>
+
+        <div class="sentence-container" data-audio-id="lesson6_3">
+            <div class="korean-text">
+                <span>무엇을 했어요?</span>
+                <button class="play-button" onclick="playAudio('lesson6_3')">▶</button>
+            </div>
+            <div class="vietnamese-text">Bạn đã làm gì?</div>
+            <button class="toggle-meaning" onclick="toggleMeaning(this)">Hiện/Ẩn nghĩa</button>
+        </div>
+
+        <div class="sentence-container" data-audio-id="lesson6_4">
+            <div class="korean-text">
+                <span>지리산에 다녀왔어요.</span>
+                <button class="play-button" onclick="playAudio('lesson6_4')">▶</button>
+            </div>
+            <div class="vietnamese-text">Tôi đã đến núi Jiri.</div>
+            <button class="toggle-meaning" onclick="toggleMeaning(this)">Hiện/Ẩn nghĩa</button>
+        </div>
+
+        <div class="sentence-container" data-audio-id="lesson6_5">
+            <div class="korean-text">
+                <span>등산을 좋아해요? 저도 등산을 좋아해요.</span>
+                <button class="play-button" onclick="playAudio('lesson6_5')">▶</button>
+            </div>
+            <div class="vietnamese-text">Bạn có thích đi bộ đường dài không? Tôi cũng thích đi bộ đường dài.</div>
+            <button class="toggle-meaning" onclick="toggleMeaning(this)">Hiện/Ẩn nghĩa</button>
+        </div>
+
+        <div class="sentence-container" data-audio-id="lesson6_6">
+            <div class="korean-text">
+                <span>다음 주에 설악산에 갑니다.<br>히엔 씨도 같이 갑시다.</span>
+                <button class="play-button" onclick="playAudio('lesson6_6')">▶</button>
+            </div>
+            <div class="vietnamese-text">Tôi sẽ đến Mt. Seorak vào tuần tới.<br>Hiền, chúng ta cùng đi nhé.</div>
+            <button class="toggle-meaning" onclick="toggleMeaning(this)">Hiện/Ẩn nghĩa</button>
+        </div>
+    </div>
+
+    <script>
+        let lastVoice = 'female'; // Keep track of last played voice
+        let isPlaying = false;
+
+        function playAudio(audioId) {
+            if (isPlaying) return; // Prevent multiple plays at once
+
+            isPlaying = true;
+            const button = document.querySelector(`[onclick="playAudio('${audioId}')"]`);
+            button.innerHTML = '⏳'; // Show loading state
+            
+            // Toggle between male and female voices
+            const voice = lastVoice === 'female' ? 'male' : 'female';
+            const audio = new Audio(`audio/listen/lesson6/${voice}/${audioId}.mp3`);
+            
+            audio.onplay = () => {
+                button.innerHTML = '🔊'; // Show playing state
+            };
+            
+            audio.onended = () => {
+                button.innerHTML = '▶'; // Reset to play icon
+                isPlaying = false;
+            };
+
+            audio.onerror = () => {
+                button.innerHTML = '▶'; // Reset to play icon
+                isPlaying = false;
+                alert('Không thể phát audio. Vui lòng thử lại.');
+            };
+
+            audio.play();
+            lastVoice = voice;
+        }
+
+        function toggleMeaning(button) {
+            const container = button.parentElement;
+            const meaningDiv = container.querySelector('.vietnamese-text');
+            const isHidden = meaningDiv.style.display === 'none' || meaningDiv.style.display === '';
+            
+            meaningDiv.style.display = isHidden ? 'block' : 'none';
+            button.innerHTML = isHidden ? 'Ẩn nghĩa' : 'Hiện nghĩa';
+        }
+
+        function goToIndex() {
+            window.location.href = 'index.html';
+        }
+
+        // Add smooth scroll animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const containers = document.querySelectorAll('.sentence-container');
+            
+            // Add fade-in animation on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            containers.forEach(container => {
+                container.style.opacity = '0';
+                container.style.transform = 'translateY(20px)';
+                container.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(container);
+            });
+        });
+    </script>
+</body>
+</html>
