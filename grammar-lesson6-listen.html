@@ -88,36 +88,37 @@
             font-size: 1.3em;
             gap: 1rem;
             line-height: 1.6;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .korean-text:hover {
+            background-color: #f0f3ff;
         }
 
         .korean-text span {
             flex: 1;
             font-family: 'Noto Sans KR', sans-serif;
+            cursor: pointer;
         }
 
-        .play-button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 0.8rem 1.2rem;
+            .play-icon {
+            color: #4CAF50;
+            font-size: 1.5em;
             cursor: pointer;
-            font-size: 1.1em;
             transition: all 0.2s ease;
             flex-shrink: 0;
-            width: 48px;
-            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 32px;
+            height: 32px;
         }
 
-        .play-button:hover {
-            background-color: #45a049;
-            transform: scale(1.05);
-        }
-
-        .vietnamese-text {
+        .play-icon:hover {
+            transform: scale(1.1);
+            color: #45a049;
+        }        .vietnamese-text {
             padding: 1.2rem;
             background-color: #fff;
             border: 2px solid #e3f2fd;
@@ -186,54 +187,54 @@
         </div>
 
         <div class="sentence-container" data-audio-id="lesson6_1">
-            <div class="korean-text">
+            <div class="korean-text" onclick="playAudio('lesson6_1')">
                 <span>주말 잘 보냈어요?</span>
-                <button class="play-button" onclick="playAudio('lesson6_1')">▶</button>
+                <div class="play-icon">▶</div>
             </div>
             <div class="vietnamese-text">Bạn đã có một cuối tuần vui vẻ chứ?</div>
             <button class="toggle-meaning" onclick="toggleMeaning(this)">Hiện/Ẩn nghĩa</button>
         </div>
 
         <div class="sentence-container" data-audio-id="lesson6_2">
-            <div class="korean-text">
+            <div class="korean-text" onclick="playAudio('lesson6_2')">
                 <span>네, 잘 보냈어요.</span>
-                <button class="play-button" onclick="playAudio('lesson6_2')">▶</button>
+                <div class="play-icon">▶</div>
             </div>
             <div class="vietnamese-text">Vâng, tôi đã có một thời gian vui vẻ.</div>
             <button class="toggle-meaning" onclick="toggleMeaning(this)">Hiện/Ẩn nghĩa</button>
         </div>
 
         <div class="sentence-container" data-audio-id="lesson6_3">
-            <div class="korean-text">
+            <div class="korean-text" onclick="playAudio('lesson6_3')">
                 <span>무엇을 했어요?</span>
-                <button class="play-button" onclick="playAudio('lesson6_3')">▶</button>
+                <div class="play-icon">▶</div>
             </div>
             <div class="vietnamese-text">Bạn đã làm gì?</div>
             <button class="toggle-meaning" onclick="toggleMeaning(this)">Hiện/Ẩn nghĩa</button>
         </div>
 
         <div class="sentence-container" data-audio-id="lesson6_4">
-            <div class="korean-text">
+            <div class="korean-text" onclick="playAudio('lesson6_4')">
                 <span>지리산에 다녀왔어요.</span>
-                <button class="play-button" onclick="playAudio('lesson6_4')">▶</button>
+                <div class="play-icon">▶</div>
             </div>
             <div class="vietnamese-text">Tôi đã đến núi Jiri.</div>
             <button class="toggle-meaning" onclick="toggleMeaning(this)">Hiện/Ẩn nghĩa</button>
         </div>
 
         <div class="sentence-container" data-audio-id="lesson6_5">
-            <div class="korean-text">
+            <div class="korean-text" onclick="playAudio('lesson6_5')">
                 <span>등산을 좋아해요? 저도 등산을 좋아해요.</span>
-                <button class="play-button" onclick="playAudio('lesson6_5')">▶</button>
+                <div class="play-icon">▶</div>
             </div>
             <div class="vietnamese-text">Bạn có thích đi bộ đường dài không? Tôi cũng thích đi bộ đường dài.</div>
             <button class="toggle-meaning" onclick="toggleMeaning(this)">Hiện/Ẩn nghĩa</button>
         </div>
 
         <div class="sentence-container" data-audio-id="lesson6_6">
-            <div class="korean-text">
+            <div class="korean-text" onclick="playAudio('lesson6_6')">
                 <span>다음 주에 설악산에 갑니다.<br>히엔 씨도 같이 갑시다.</span>
-                <button class="play-button" onclick="playAudio('lesson6_6')">▶</button>
+                <div class="play-icon">▶</div>
             </div>
             <div class="vietnamese-text">Tôi sẽ đến Mt. Seorak vào tuần tới.<br>Hiền, chúng ta cùng đi nhé.</div>
             <button class="toggle-meaning" onclick="toggleMeaning(this)">Hiện/Ẩn nghĩa</button>
@@ -248,24 +249,25 @@
             if (isPlaying) return; // Prevent multiple plays at once
 
             isPlaying = true;
-            const button = document.querySelector(`[onclick="playAudio('${audioId}')"]`);
-            button.innerHTML = '⏳'; // Show loading state
+            const container = document.querySelector(`[data-audio-id="${audioId}"]`);
+            const playIcon = container.querySelector('.play-icon');
+            playIcon.innerHTML = '⏳'; // Show loading state
             
             // Toggle between male and female voices
             const voice = lastVoice === 'female' ? 'male' : 'female';
             const audio = new Audio(`audio/listen/lesson6/${voice}/${audioId}.mp3`);
             
             audio.onplay = () => {
-                button.innerHTML = '🔊'; // Show playing state
+                playIcon.innerHTML = '🔊'; // Show playing state
             };
             
             audio.onended = () => {
-                button.innerHTML = '▶'; // Reset to play icon
+                playIcon.innerHTML = '▶'; // Reset to play icon
                 isPlaying = false;
             };
 
             audio.onerror = () => {
-                button.innerHTML = '▶'; // Reset to play icon
+                playButton.innerHTML = '▶'; // Reset to play icon
                 isPlaying = false;
                 alert('Không thể phát audio. Vui lòng thử lại.');
             };
