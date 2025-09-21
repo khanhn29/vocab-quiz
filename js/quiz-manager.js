@@ -337,9 +337,8 @@ class QuizManager {
         if (progress.krVn && progress.vnKr) {
             this.completedWords.add(wordIndex);
             
-            // Check if both were answered correctly on first try
-            const attempts = this.detailedStats.wordAttempts[wordIndex];
-            if (attempts.krVn === 1 && attempts.vnKr === 1) {
+            // Add to perfect words when both types are correct
+            if (!this.detailedStats.perfectWords.some(w => w.han === this.vocabulary[wordIndex].han)) {
                 this.detailedStats.perfectWords.push(this.vocabulary[wordIndex]);
             }
         }

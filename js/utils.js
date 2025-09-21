@@ -38,11 +38,19 @@ function getLessonName(vocabFile) {
         'l4-big-numbers': 'Bài 4 - Số lớn',
 
         // Bài 5 - Hoạt động hằng ngày
+        'l5-korean-numbers': 'Bài 5 - Số thuần Hàn',
         'l5-time-of-day': 'Bài 5 - Thời gian trong ngày',
         'l5-daily-activities': 'Bài 5 - Hoạt động hằng ngày',
         'l5-work-study': 'Bài 5 - Công việc và học tập',
         'l5-family-people': 'Bài 5 - Gia đình và con người',
-        'l5-technology': 'Bài 5 - Công nghệ và giải trí'
+        'l5-technology': 'Bài 5 - Công nghệ và giải trí',
+
+        // Bài 6 - Cuối tuần
+        'l6-weekend-activities': 'Bài 6 - Hoạt động cuối tuần',
+        'l6-food-items': 'Bài 6 - Đồ ăn thức uống',
+        'l6-nature-animals': 'Bài 6 - Thiên nhiên và động vật',
+        'l6-music-movies': 'Bài 6 - Âm nhạc và phim ảnh',
+        'l6-sports-clothing': 'Bài 6 - Thể thao và quần áo'
     };
     
     return lessonNames[vocabFile] || 'Bài học từ vựng';

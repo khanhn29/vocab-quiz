@@ -235,6 +235,18 @@ const vocabularyData = {
     ],
 
     // Bài 5 - Hoạt động hằng ngày
+    'l5-korean-numbers': [
+        { "vi": "một*", "han": "하나" },
+        { "vi": "hai*", "han": "둘" },
+        { "vi": "ba*", "han": "셋" },
+        { "vi": "bốn*", "han": "넷" },
+        { "vi": "năm", "han": "다섯" },
+        { "vi": "sáu", "han": "여섯" },
+        { "vi": "bảy", "han": "일곱" },
+        { "vi": "tám", "han": "여덟" },
+        { "vi": "chín", "han": "아홉" },
+        { "vi": "mười", "han": "열" }
+    ],
     'l5-time-of-day': [
         { "vi": "giờ", "han": "시" },
         { "vi": "phút", "han": "분" },
@@ -278,6 +290,69 @@ const vocabularyData = {
         { "vi": "internet", "han": "인터넷" },
         { "vi": "email", "han": "이메일" },
         { "vi": "game", "han": "게임" }
+    ],
+
+    //Bài 6: Cuối tuần
+    'l6-weekend-activities': [
+        { "vi": "leo núi", "han": "등산하다" },
+        { "vi": "xem phim", "han": "영화를 보다" },
+        { "vi": "vận động", "han": "운동하다" },
+        { "vi": "mua sắm", "han": "쇼핑하다" },
+        { "vi": "cắm trại", "han": "캠핑하다" },
+        { "vi": "bơi", "han": "수영하다" },
+        { "vi": "đi dạo bộ", "han": "산책하다" },
+        { "vi": "nghỉ", "han": "쉬다" },
+        { "vi": "đi dã ngoại", "han": "소풍가다" },
+        { "vi": "đọc sách", "han": "책을 읽다" },
+        { "vi": "gặp bạn", "han": "친구를 만나다" }
+    ],
+    'l6-food-items': [
+        { "vi": "món Galbi (sườn nướng)", "han": "갈비" },
+        { "vi": "món Kimbap (cơm cuộn lá kim)", "han": "김밥" },
+        { "vi": "canh tương", "han": "된장찌개" },
+        { "vi": "mì gói", "han": "라면" },
+        { "vi": "món Bulgogi", "han": "불고기" },
+        { "vi": "hoa quả", "han": "과일" },
+        { "vi": "quả dâu", "han": "딸기" },
+        { "vi": "quả lê", "han": "배" },
+        { "vi": "quả nho", "han": "포도" },
+        { "vi": "nấu ăn", "han": "요리하다" }
+    ],
+    'l6-nature-animals': [
+        { "vi": "con chó", "han": "개" },
+        { "vi": "con mèo", "han": "고양이" },
+        { "vi": "động vật", "han": "동물" },
+        { "vi": "chim", "han": "새" },
+        { "vi": "cây", "han": "나무" },
+        { "vi": "biển", "han": "바다" },
+        { "vi": "câu cá", "han": "낚시" },
+        { "vi": "mệt nhọc", "han": "피곤하다" },
+        { "vi": "nhiều", "han": "많이" },
+        { "vi": "trải qua", "han": "보내다" }
+    ],
+    'l6-music-movies': [
+        { "vi": "ca sĩ", "han": "가수" },
+        { "vi": "phim truyện, phim truyền hình", "han": "드라마" },
+        { "vi": "phim kinh dị", "han": "공포 영화" },
+        { "vi": "phim hành động", "han": "액션 영화" },
+        { "vi": "quà tặng", "han": "선물" },
+        { "vi": "ghét", "han": "싫어하다" },
+        { "vi": "rất", "han": "아주" },
+        { "vi": "sớm", "han": "일찍" },
+        { "vi": "nhảy múa", "han": "춤을 추다" },
+        { "vi": "đánh, chơi (cầu)", "han": "치다" }
+    ],
+    'l6-sports-clothing': [
+        { "vi": "môn đánh gôn", "han": "골프" },
+        { "vi": "bóng rổ", "han": "농구" },
+        { "vi": "bóng chuyền", "han": "배구" },
+        { "vi": "bóng chày", "han": "야구" },
+        { "vi": "bóng đá", "han": "축구" },
+        { "vi": "quần vợt", "han": "테니스" },
+        { "vi": "mũ, nón", "han": "모자" },
+        { "vi": "quần", "han": "바지" },
+        { "vi": "vay", "han": "치마" },
+        { "vi": "giặt đồ", "han": "빨래하다" }
     ]
 };
 
