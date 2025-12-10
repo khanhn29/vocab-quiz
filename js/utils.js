@@ -50,7 +50,20 @@ function getLessonName(vocabFile) {
         'l6-food-items': 'Bài 6 - Đồ ăn thức uống',
         'l6-nature-animals': 'Bài 6 - Thiên nhiên và động vật',
         'l6-music-movies': 'Bài 6 - Âm nhạc và phim ảnh',
-        'l6-sports-clothing': 'Bài 6 - Thể thao và quần áo'
+        'l6-sports-clothing': 'Bài 6 - Thể thao và quần áo',
+
+        // Bài 7 - Danh từ chỉ đơn vị
+        'l7-korean-numbers-units': 'Bài 7 - Số thuần Hàn với đơn vị',
+        'l7-unit-counters': 'Bài 7 - Danh từ chỉ đơn vị',
+        'l7-clothing-food': 'Bài 7 - Quần áo và thực phẩm',
+        'l7-shopping-items': 'Bài 7 - Mua sắm',
+
+        // Bài 8 - Nhà hàng
+        'l8-korean-food': 'Bài 8 - Món ăn Hàn Quốc',
+        'l8-taste': 'Bài 8 - Mùi vị',
+        'l8-restaurant': 'Bài 8 - Quán ăn',
+        'l8-new-words-1': 'Bài 8 - Từ mới (Phần 1)',
+        'l8-new-words-2': 'Bài 8 - Từ mới (Phần 2)'
     };
     
     return lessonNames[vocabFile] || 'Bài học từ vựng';

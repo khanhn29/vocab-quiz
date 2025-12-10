@@ -353,6 +353,138 @@ const vocabularyData = {
         { "vi": "quần", "han": "바지" },
         { "vi": "vay", "han": "치마" },
         { "vi": "giặt đồ", "han": "빨래하다" }
+    ],
+
+    // Bài 7 - Danh từ chỉ đơn vị
+    'l7-korean-numbers-units': [
+        { "vi": "một", "han": "하나" },
+        { "vi": "hai", "han": "둘" },
+        { "vi": "ba", "han": "셋" },
+        { "vi": "bốn", "han": "네" },
+        { "vi": "năm", "han": "다섯" },
+        { "vi": "hai mươi", "han": "스물" },
+        { "vi": "hai mươi mốt", "han": "스물하나" },
+        { "vi": "nhiều", "han": "여러" }
+    ],
+    'l7-unit-counters': [
+        { "vi": "cái", "han": "개" },
+        { "vi": "người", "han": "명/사람" },
+        { "vi": "con", "han": "마리" },
+        { "vi": "chén, cốc, ly", "han": "잔" },
+        { "vi": "chiếc", "han": "대" },
+        { "vi": "bình", "han": "병" },
+        { "vi": "đôi", "han": "켤레" },
+        { "vi": "quyển", "han": "권" },
+        { "vi": "trang", "han": "장" }
+    ],
+    'l7-clothing-food': [
+        { "vi": "hoa quả", "han": "과일" },
+        { "vi": "quần", "han": "바지" },
+        { "vi": "rau", "han": "채소" },
+        { "vi": "váy", "han": "치마" },
+        { "vi": "thức uống", "han": "음료수" },
+        { "vi": "giày", "han": "신발" },
+        { "vi": "quần áo", "han": "옷" },
+        { "vi": "mũ", "han": "모자" }
+    ],
+    'l7-shopping-items': [
+        { "vi": "bánh quy", "han": "과자" },
+        { "vi": "quả quýt", "han": "귤" },
+        { "vi": "thiết kế", "han": "디자인" },
+        { "vi": "siêu thị nhỏ", "han": "마트" },
+        { "vi": "xoài", "han": "망고" },
+        { "vi": "cửa hàng văn phòng phẩm", "han": "문구점" },
+        { "vi": "cá", "han": "생선" },
+        { "vi": "hiệu sách", "han": "서점" },
+        { "vi": "hạ giá", "han": "세일" },
+        { "vi": "sách tiểu thuyết", "han": "소설책" },
+        { "vi": "dưa hấu", "han": "수박" },
+        { "vi": "khu bán hàng điện tử", "han": "전자상가" },
+        { "vi": "nước hoa quả, sinh tố", "han": "주스" },
+        { "vi": "máy ảnh", "han": "카메라" },
+        { "vi": "áo sơ mi", "han": "티셔츠" },
+        { "vi": "hộp bút", "han": "필통" },
+        { "vi": "điện thoại thông minh", "han": "스마트폰" }
+    ],
+
+    // Bài 8 - Nhà hàng
+    'l8-korean-food': [
+        { "vi": "cơm", "han": "밥" },
+        { "vi": "canh", "han": "국" },
+        { "vi": "kim chi", "han": "김치" },
+        { "vi": "món Bulgogi", "han": "불고기" },
+        { "vi": "canh tương, canh Doen-jang", "han": "된장찌개" },
+        { "vi": "món Bibimbap (cơm trộn)", "han": "비빔밥" },
+        { "vi": "món Naeng-myeon (mì lạnh)", "han": "냉면" },
+        { "vi": "bánh tteok", "han": "떡" },
+        { "vi": "mì gói", "han": "라면" },
+        { "vi": "món thịt ba chỉ nướng", "han": "삼겹살" },
+        { "vi": "canh kim chi", "han": "김치찌개" },
+        { "vi": "súp sườn bò", "han": "갈비탕" },
+        { "vi": "gà tần sâm", "han": "삼계탕" },
+        { "vi": "cơm chiên, cơm rang", "han": "볶음밥" },
+        { "vi": "món Galbi (sườn nướng)", "han": "갈비" },
+        { "vi": "mì, bún", "han": "국수" }
+    ],
+    'l8-taste': [
+        { "vi": "ngon", "han": "맛있다" },
+        { "vi": "không ngon", "han": "맛없다" },
+        { "vi": "ngọt", "han": "달다" },
+        { "vi": "đắng", "han": "쓰다" },
+        { "vi": "mặn", "han": "짜다" },
+        { "vi": "chua", "han": "시다" },
+        { "vi": "cay", "han": "맵다" },
+        { "vi": "nhạt", "han": "싱겁다" }
+    ],
+    'l8-restaurant': [
+        { "vi": "thìa, muỗng", "han": "숟가락" },
+        { "vi": "đũa", "han": "젓가락" },
+        { "vi": "thực đơn", "han": "메뉴" },
+        { "vi": "cốc, ly", "han": "컵" },
+        { "vi": "bàn ăn", "han": "테이블" },
+        { "vi": "người phục vụ nhà hàng", "han": "종업원" },
+        { "vi": "khách", "han": "손님" },
+        { "vi": "chỗ được hút thuốc lá", "han": "흡연석" },
+        { "vi": "chỗ cấm hút thuốc lá", "han": "금연석" },
+        { "vi": "hoá đơn", "han": "영수증" },
+        { "vi": "gọi món", "han": "주문하다" },
+        { "vi": "tính toán, tính tiền", "han": "계산하다" },
+        { "vi": "phiếu tính tiền", "han": "계산서" },
+        { "vi": "suất ăn", "han": "인분" }
+    ],
+    'l8-new-words-1': [
+        { "vi": "cà tím", "han": "가지" },
+        { "vi": "ớt", "han": "고추" },
+        { "vi": "vì vậy", "han": "그래서" },
+        { "vi": "chờ đợi", "han": "기다리다" },
+        { "vi": "chồng", "han": "남편" },
+        { "vi": "trà xanh", "han": "녹차" },
+        { "vi": "thêm, nữa, càng", "han": "더" },
+        { "vi": "dùng bữa", "han": "드시다" },
+        { "vi": "chanh", "han": "레몬" },
+        { "vi": "làm, tạo nên", "han": "만들다" },
+        { "vi": "một cách ngon lành", "han": "맛있게" },
+        { "vi": "nước", "han": "물" },
+        { "vi": "chai, bình", "han": "병" },
+        { "vi": "món ăn phụ", "han": "반찬" },
+        { "vi": "bình thường", "han": "보통" }
+    ],
+    'l8-new-words-2': [
+        { "vi": "bánh mì", "han": "빵" },
+        { "vi": "muối", "han": "소금" },
+        { "vi": "ngồi", "han": "앉다" },
+        { "vi": "xin mời", "han": "어서" },
+        { "vi": "ở đây", "han": "여기" },
+        { "vi": "nhiều, vài", "han": "여러" },
+        { "vi": "thức ăn", "han": "음식" },
+        { "vi": "trà sâm", "han": "인삼차" },
+        { "vi": "chỉ một lát", "han": "잠깐만" },
+        { "vi": "một chút", "han": "좀" },
+        { "vi": "cho", "han": "주다" },
+        { "vi": "cuối tuần", "han": "주말" },
+        { "vi": "bánh kem", "han": "케이크" },
+        { "vi": "đặc biệt", "han": "특히" },
+        { "vi": "luôn luôn, thường xuyên", "han": "항상" }
     ]
 };
 
