@@ -485,6 +485,81 @@ const vocabularyData = {
         { "vi": "bánh kem", "han": "케이크" },
         { "vi": "đặc biệt", "han": "특히" },
         { "vi": "luôn luôn, thường xuyên", "han": "항상" }
+    ],
+
+    // Bài 9 - Nhà và phương hướng
+    'l9-directions-positions': [
+        { "vi": "trên", "han": "위" },
+        { "vi": "dưới", "han": "아래" },
+        { "vi": "trong", "han": "안" },
+        { "vi": "ngoài", "han": "밖" },
+        { "vi": "bên cạnh", "han": "옆" },
+        { "vi": "giữa", "han": "사이" },
+        { "vi": "trước", "han": "앞" },
+        { "vi": "sau", "han": "뒤" },
+        { "vi": "bên trái", "han": "왼쪽" },
+        { "vi": "bên phải", "han": "오른쪽" },
+        { "vi": "hai phía", "han": "양쪽" },
+        { "vi": "đối diện", "han": "건너편/맞은편" },
+        { "vi": "thẳng", "han": "똑바로/쭉" },
+        { "vi": "đông", "han": "동" },
+        { "vi": "tây", "han": "서" },
+        { "vi": "nam", "han": "남" },
+        { "vi": "bắc", "han": "북" }
+    ],
+    'l9-housing': [
+        { "vi": "nhà riêng", "han": "주택" },
+        { "vi": "nhà chung cư", "han": "아파트" },
+        { "vi": "nhà tập thể", "han": "연립주택" },
+        { "vi": "phòng học", "han": "공부방" },
+        { "vi": "phòng khách", "han": "거실" },
+        { "vi": "phòng ngủ chính", "han": "안방" },
+        { "vi": "phòng ngủ", "han": "침실" },
+        { "vi": "bếp", "han": "부엌" },
+        { "vi": "nhà vệ sinh", "han": "화장실" },
+        { "vi": "phòng giặt đồ", "han": "세탁실" },
+        { "vi": "ban công", "han": "베란다" },
+        { "vi": "lối vào, cổng vào", "han": "현관" }
+    ],
+    'l9-furniture': [
+        { "vi": "giường", "han": "침대" },
+        { "vi": "tủ sách", "han": "책장" },
+        { "vi": "tủ quần áo", "han": "옷장" },
+        { "vi": "sa-lông, ghế sofa", "han": "소파" },
+        { "vi": "bàn", "han": "탁자" },
+        { "vi": "bàn ăn", "han": "식탁" },
+        { "vi": "bàn trang điểm", "han": "화장대" },
+        { "vi": "bàn trà", "han": "다정자" }
+    ],
+    'l9-places': [
+        { "vi": "sở cảnh sát", "han": "경찰서" },
+        { "vi": "tiệm giặt ủi", "han": "세탁소" },
+        { "vi": "viện bảo tàng", "han": "박물관" },
+        { "vi": "siêu thị nhỏ, cửa hàng tạp hóa", "han": "슈퍼마켓" },
+        { "vi": "trạm xăng", "han": "주유소" },
+        { "vi": "trạm xe buýt", "han": "버스 정류장" },
+        { "vi": "tiệm bánh", "han": "빵집" },
+        { "vi": "tiệm bán hoa", "han": "꽃집" },
+        { "vi": "tiệm cắt tóc nam", "han": "이발소" },
+        { "vi": "tiệm làm tóc nữ", "han": "미용실" }
+    ],
+    'l9-new-words': [
+        { "vi": "ký túc xá", "han": "기숙사" },
+        { "vi": "căn hộ khép kín", "han": "단독주택" },
+        { "vi": "phức tạp", "han": "복잡하다" },
+        { "vi": "bất tiện", "han": "불편하다" },
+        { "vi": "sử dụng, dùng", "han": "사용하다" },
+        { "vi": "internet", "han": "인터넷" },
+        { "vi": "vườn", "han": "정원" },
+        { "vi": "sống, trải qua", "han": "지내다" },
+        { "vi": "hầm, dưới lòng đất", "han": "지하" },
+        { "vi": "thân thiện, tử tế", "han": "친절하다" },
+        { "vi": "tiện lợi", "han": "편리하다" },
+        { "vi": "thoải mái", "han": "편하다" },
+        { "vi": "tiền thuê nhà trọ", "han": "하숙비" },
+        { "vi": "nhà trọ", "han": "하숙집" },
+        { "vi": "khách sạn", "han": "호텔" },
+        { "vi": "một mình", "han": "혼자" }
     ]
 };
 

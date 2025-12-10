@@ -63,7 +63,14 @@ function getLessonName(vocabFile) {
         'l8-taste': 'Bài 8 - Mùi vị',
         'l8-restaurant': 'Bài 8 - Quán ăn',
         'l8-new-words-1': 'Bài 8 - Từ mới (Phần 1)',
-        'l8-new-words-2': 'Bài 8 - Từ mới (Phần 2)'
+        'l8-new-words-2': 'Bài 8 - Từ mới (Phần 2)',
+
+        // Bài 9 - Nhà và phương hướng
+        'l9-directions-positions': 'Bài 9 - Phương hướng và vị trí',
+        'l9-housing': 'Bài 9 - Nhà cửa',
+        'l9-furniture': 'Bài 9 - Đồ gia dụng',
+        'l9-places': 'Bài 9 - Nơi chốn',
+        'l9-new-words': 'Bài 9 - Từ mới'
     };
     
     return lessonNames[vocabFile] || 'Bài học từ vựng';
